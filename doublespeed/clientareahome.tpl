@@ -9,7 +9,13 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-orbitron font-bold text-white mb-2">
-                            Welcome back, <span class="glow-text">{$clientsdetails.firstname}</span>
+                            Welcome back, <span class="glow-text">
+                                {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
+                                    {$clientsdetails.firstname}
+                                {else}
+                                    User
+                                {/if}
+                            </span>
                         </h1>
                         <p class="text-text-light">
                             Manage your hosting services, domains, and support tickets from your dashboard.
@@ -17,7 +23,13 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="w-16 h-16 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center">
-                            <span class="text-dark-bg font-bold text-xl">{$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}</span>
+                            <span class="text-dark-bg font-bold text-xl">
+                                {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
+                                    {$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}
+                                {else}
+                                    U
+                                {/if}
+                            </span>
                         </div>
                     </div>
                 </div>
