@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  body {
+    @apply bg-dark-bg text-text-white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-neon-green text-dark-bg font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-glow-green hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-electric-blue text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-glow-blue hover:scale-105;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-neon-green text-neon-green font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:bg-neon-green hover:text-dark-bg hover:shadow-glow-green;
+  }
+  
+  .card-dark {
+    @apply bg-dark-surface border border-gray-700 rounded-lg p-6 transition-all duration-300 hover:border-neon-green hover:shadow-glow-green;
+  }
+  
+  .input-dark {
+    @apply bg-dark-surface border border-gray-600 text-white placeholder-text-light rounded-lg px-4 py-3 focus:border-neon-green focus:ring-2 focus:ring-neon-green focus:ring-opacity-50 transition-all duration-300;
+  }
+  
+  .glow-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-neon-green to-electric-blue;
+  }
+  
+  .tech-border {
+    position: relative;
+  }
+  
+  .tech-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    background: linear-gradient(45deg, #00FF88, #007BFF, #9B59B6) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, #121212 0%, #1A1A1A 50%, #2A2A2A 100%);
+  }
+  
+  .pricing-card {
+    @apply bg-dark-surface border border-gray-700 rounded-xl p-8 relative overflow-hidden transition-all duration-300;
+  }
+  
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+    transition: left 0.5s;
+  }
+  
+  .pricing-card:hover::before {
+    left: 100%;
+  }
+  
+  .pricing-card:hover {
+    @apply border-neon-green shadow-glow-green transform scale-105;
+  }
+}
