@@ -39,19 +39,39 @@
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{if isset($numactiveservices)}{$numactiveservices}{else}0{/if}</div>
+                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">
+                    {if isset($stats.numactiveservices)}{$stats.numactiveservices}
+                    {elseif isset($numactiveservices)}{$numactiveservices}
+                    {elseif isset($clientstats.productsnumactive)}{$clientstats.productsnumactive}
+                    {else}0{/if}
+                </div>
                 <div class="text-text-light text-sm">Active Services</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-electric-blue mb-2">{if isset($numdomains)}{$numdomains}{else}0{/if}</div>
+                <div class="text-3xl font-orbitron font-bold text-electric-blue mb-2">
+                    {if isset($stats.numdomains)}{$stats.numdomains}
+                    {elseif isset($numdomains)}{$numdomains}
+                    {elseif isset($clientstats.numdomains)}{$clientstats.numdomains}
+                    {else}0{/if}
+                </div>
                 <div class="text-text-light text-sm">Domains</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-cyber-purple mb-2">{if isset($numtickets)}{$numtickets}{else}0{/if}</div>
+                <div class="text-3xl font-orbitron font-bold text-cyber-purple mb-2">
+                    {if isset($stats.numtickets)}{$stats.numtickets}
+                    {elseif isset($numtickets)}{$numtickets}
+                    {elseif isset($clientstats.numtickets)}{$clientstats.numtickets}
+                    {else}0{/if}
+                </div>
                 <div class="text-text-light text-sm">Open Tickets</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{if isset($numunpaidinvoices)}{$numunpaidinvoices}{else}0{/if}</div>
+                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">
+                    {if isset($stats.numunpaidinvoices)}{$stats.numunpaidinvoices}
+                    {elseif isset($numunpaidinvoices)}{$numunpaidinvoices}
+                    {elseif isset($clientstats.numunpaidinvoices)}{$clientstats.numunpaidinvoices}
+                    {else}0{/if}
+                </div>
                 <div class="text-text-light text-sm">Unpaid Invoices</div>
             </div>
         </div>
@@ -68,15 +88,17 @@
                     </a>
                 </div>
                 
-                {if $services}
+                {if $services || $clientsstats.products}
                     <div class="space-y-4">
-                        {foreach from=$services item=service name=services}
+                        {assign var="serviceList" value=$services}
+                        {if !$serviceList && isset($clientsstats.products)}{assign var="serviceList" value=$clientsstats.products}{/if}
+                        {foreach from=$serviceList item=service name=services}
                             {if $smarty.foreach.services.index < 3}
                                 <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">{$service.product}</h3>
-                                            <p class="text-text-light text-sm">{$service.domain}</p>
+                                            <h3 class="text-white font-medium">{$service.product|default:$service.name}</h3>
+                                            <p class="text-text-light text-sm">{$service.domain|default:$service.dedicatedip}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
@@ -86,7 +108,7 @@
                                                 {$service.status}
                                             </span>
                                             <div class="text-text-light text-sm mt-1">
-                                                Next Due: {$service.nextduedate}
+                                                Next Due: {$service.nextduedate|default:$service.nextdue}
                                             </div>
                                         </div>
                                     </div>
@@ -114,15 +136,17 @@
                     </a>
                 </div>
                 
-                {if $invoices}
+                {if $invoices || $recentinvoices}
                     <div class="space-y-4">
-                        {foreach from=$invoices item=invoice name=invoices}
+                        {assign var="invoiceList" value=$invoices}
+                        {if !$invoiceList && isset($recentinvoices)}{assign var="invoiceList" value=$recentinvoices}{/if}
+                        {foreach from=$invoiceList item=invoice name=invoices}
                             {if $smarty.foreach.invoices.index < 3}
                                 <div class="bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">Invoice #{$invoice.id}</h3>
-                                            <p class="text-text-light text-sm">{$invoice.datedue}</p>
+                                            <h3 class="text-white font-medium">Invoice #{$invoice.id|default:$invoice.invoicenum}</h3>
+                                            <p class="text-text-light text-sm">{$invoice.datedue|default:$invoice.duedate}</p>
                                         </div>
                                         <div class="text-right">
                                             <div class="text-white font-medium">{$invoice.total}</div>
@@ -157,15 +181,17 @@
                     </a>
                 </div>
                 
-                {if $tickets}
+                {if $tickets || $supporttickets}
                     <div class="space-y-4">
-                        {foreach from=$tickets item=ticket name=tickets}
+                        {assign var="ticketList" value=$tickets}
+                        {if !$ticketList && isset($supporttickets)}{assign var="ticketList" value=$supporttickets}{/if}
+                        {foreach from=$ticketList item=ticket name=tickets}
                             {if $smarty.foreach.tickets.index < 3}
                                 <div class="bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">#{$ticket.tid} - {$ticket.subject}</h3>
-                                            <p class="text-text-light text-sm">{$ticket.lastreply}</p>
+                                            <h3 class="text-white font-medium">#{$ticket.tid|default:$ticket.id} - {$ticket.subject|default:$ticket.title}</h3>
+                                            <p class="text-text-light text-sm">{$ticket.lastreply|default:$ticket.lastupdate}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
