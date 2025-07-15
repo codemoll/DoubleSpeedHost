@@ -1,4 +1,4 @@
-{include file="$template/header.tpl"}
+{capture name="oauth_content"}
 
 <div class="min-h-screen bg-dark-bg flex items-center justify-center px-4">
     <div class="max-w-lg w-full text-center">
@@ -60,4 +60,6 @@
     </div>
 </div>
 
-{include file="$template/footer.tpl"}
+{/capture}
+
+{include file="$template/oauth/layout.tpl" content=$smarty.capture.oauth_content}
