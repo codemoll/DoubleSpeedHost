@@ -90,10 +90,20 @@
                                         {/if}
                                     </span>
                                 </button>
-                                <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-dark-surface ring-1 ring-gray-700 hidden" id="user-menu">
+                                <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-dark-surface ring-1 ring-gray-700 hidden" id="user-menu">
                                     <div class="py-1">
                                         <a href="{$WEB_ROOT}/clientarea.php" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Dashboard</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Profile</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Account Details</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=users" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">User Management</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Contacts</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Account Security</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Email History</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Your Profile</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=changepw" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Change Password</a>
+                                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Security Settings</a>
+                                        <div class="border-t border-gray-700 my-1"></div>
                                         <a href="{$WEB_ROOT}/logout.php" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Logout</a>
                                     </div>
                                 </div>
@@ -127,7 +137,27 @@
                 <a href="{$WEB_ROOT}/domainchecker.php" class="nav-link-mobile">Domains</a>
                 <a href="{$WEB_ROOT}/knowledgebase.php" class="nav-link-mobile">Support</a>
                 <a href="{$WEB_ROOT}/contact.php" class="nav-link-mobile">Contact</a>
-                {if not $loggedin}
+                {if $loggedin}
+                    <div class="pt-4 pb-3 border-t border-gray-700">
+                        <div class="px-3 pb-3">
+                            <div class="text-base font-medium text-white">
+                                {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
+                                    {$clientsdetails.firstname}
+                                {else}
+                                    User
+                                {/if}
+                            </div>
+                        </div>
+                        <a href="{$WEB_ROOT}/clientarea.php" class="nav-link-mobile">Dashboard</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="nav-link-mobile">Account Details</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=users" class="nav-link-mobile">User Management</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="nav-link-mobile">Contacts</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="nav-link-mobile">Account Security</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="nav-link-mobile">Email History</a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=changepw" class="nav-link-mobile">Change Password</a>
+                        <a href="{$WEB_ROOT}/logout.php" class="nav-link-mobile">Logout</a>
+                    </div>
+                {else}
                     <div class="pt-4 pb-3 border-t border-gray-700">
                         <a href="{$WEB_ROOT}/clientarea.php" class="nav-link-mobile">Login</a>
                         <a href="{$WEB_ROOT}/register.php" class="nav-link-mobile">Register</a>
@@ -137,7 +167,39 @@
         </div>
     </nav>
     
+    <!-- Dashboard Navigation Breadcrumb (for client area pages) -->
+    {if $loggedin && $filename neq 'clientareahome'}
+        <div class="bg-dark-surface border-b border-gray-800 pt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-4">
+                        <li>
+                            <div>
+                                <a href="{$WEB_ROOT}/clientarea.php" class="text-text-light hover:text-neon-green transition-colors duration-300">
+                                    <svg class="w-5 h-5 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                                    </svg>
+                                    Dashboard
+                                </a>
+                            </div>
+                        </li>
+                        {if $pagetitle neq 'Client Area'}
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="ml-4 text-sm font-medium text-white">{$pagetitle}</span>
+                                </div>
+                            </li>
+                        {/if}
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    {/if}
+    
     <!-- Main Content -->
-    <main class="pt-16">
+    <main class="{if $loggedin && $filename neq 'clientareahome'}pt-0{else}pt-16{/if}">
 
         

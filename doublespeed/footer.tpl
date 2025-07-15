@@ -1,6 +1,7 @@
     </main>
     
     <!-- Footer -->
+    <footer id="main-footer" class="bg-dark-bg-alt border-t border-gray-800 mt-16">
     <footer class="bg-dark-bg-alt border-t border-gray-800 mt-16">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -128,6 +129,16 @@
     </button>
     
     <style>
+    /* Ensure footer appears only once on mobile */
+    #main-footer:not(:first-of-type) {
+        display: none !important;
+    }
+    
+    /* Prevent footer duplication */
+    body footer:nth-of-type(n+2) {
+        display: none !important;
+    }
+    
     .social-link {
         @apply text-text-light hover:text-neon-green transition-all duration-300 p-2 rounded-lg hover:bg-dark-surface hover:shadow-glow-green;
     }
