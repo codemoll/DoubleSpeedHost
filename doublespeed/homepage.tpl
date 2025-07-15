@@ -16,7 +16,7 @@
                 <span class="text-white">Host</span>
             </h1>
             <p class="text-xl md:text-2xl text-text-light mb-8 max-w-3xl mx-auto leading-relaxed">
-                {if $templatefile.herosubtitle}
+                {if isset($templatefile) && is_array($templatefile) && $templatefile.herosubtitle}
                     {$templatefile.herosubtitle}
                 {else}
                     Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support.

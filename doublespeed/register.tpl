@@ -49,7 +49,7 @@
                                 First Name <span class="text-red-400">*</span>
                             </label>
                             <input id="firstname" name="firstname" type="text" required 
-                                   value="{$clientsdetails.firstname}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}{$clientsdetails.firstname}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your first name">
                         </div>
@@ -59,7 +59,7 @@
                                 Last Name <span class="text-red-400">*</span>
                             </label>
                             <input id="lastname" name="lastname" type="text" required 
-                                   value="{$clientsdetails.lastname}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.lastname)}{$clientsdetails.lastname}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your last name">
                         </div>
@@ -69,7 +69,7 @@
                                 Email Address <span class="text-red-400">*</span>
                             </label>
                             <input id="email" name="email" type="email" required 
-                                   value="{$clientsdetails.email}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.email)}{$clientsdetails.email}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your email address">
                         </div>
@@ -79,7 +79,7 @@
                                 Phone Number
                             </label>
                             <input id="phonenumber" name="phonenumber" type="tel" 
-                                   value="{$clientsdetails.phonenumber}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.phonenumber)}{$clientsdetails.phonenumber}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your phone number">
                         </div>
@@ -101,7 +101,7 @@
                                 Address <span class="text-red-400">*</span>
                             </label>
                             <input id="address1" name="address1" type="text" required 
-                                   value="{$clientsdetails.address1}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.address1)}{$clientsdetails.address1}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your street address">
                         </div>
@@ -111,7 +111,7 @@
                                 City <span class="text-red-400">*</span>
                             </label>
                             <input id="city" name="city" type="text" required 
-                                   value="{$clientsdetails.city}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.city)}{$clientsdetails.city}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your city">
                         </div>
@@ -121,7 +121,7 @@
                                 State/Province
                             </label>
                             <input id="state" name="state" type="text" 
-                                   value="{$clientsdetails.state}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.state)}{$clientsdetails.state}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your state/province">
                         </div>
@@ -131,7 +131,7 @@
                                 Postal Code <span class="text-red-400">*</span>
                             </label>
                             <input id="postcode" name="postcode" type="text" required 
-                                   value="{$clientsdetails.postcode}"
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.postcode)}{$clientsdetails.postcode}{/if}"
                                    class="input-dark w-full focus:shadow-glow-green" 
                                    placeholder="Enter your postal code">
                         </div>
@@ -144,7 +144,7 @@
                                     class="input-dark w-full focus:shadow-glow-green">
                                 <option value="">Select your country</option>
                                 {foreach $countries as $countrycode => $countryname}
-                                    <option value="{$countrycode}" {if $countrycode eq $clientsdetails.country}selected{/if}>
+                                    <option value="{$countrycode}" {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.country) && $countrycode eq $clientsdetails.country}selected{/if}>
                                         {$countryname}
                                     </option>
                                 {/foreach}

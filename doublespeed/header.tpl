@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{$WEB_ROOT}/index.php" class="flex items-center space-x-3">
-                        {if $templatefile.logourl}
+                        {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
                             <img src="{$templatefile.logourl}" alt="{$companyname}" class="h-8 w-auto">
                         {else}
                             <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded"></div>
@@ -74,9 +74,21 @@
                                 <button type="button" class="flex items-center text-sm rounded-full text-text-light hover:text-white focus:outline-none focus:ring-2 focus:ring-neon-green" id="user-menu-button">
                                     <span class="sr-only">Open user menu</span>
                                     <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center">
-                                        <span class="text-dark-bg font-medium text-sm">{$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}</span>
+                                        <span class="text-dark-bg font-medium text-sm">
+                                            {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
+                                                {$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}
+                                            {else}
+                                                U
+                                            {/if}
+                                        </span>
                                     </div>
-                                    <span class="ml-2">{$clientsdetails.firstname}</span>
+                                    <span class="ml-2">
+                                        {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
+                                            {$clientsdetails.firstname}
+                                        {else}
+                                            User
+                                        {/if}
+                                    </span>
                                 </button>
                                 <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-dark-surface ring-1 ring-gray-700 hidden" id="user-menu">
                                     <div class="py-1">

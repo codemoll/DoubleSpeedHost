@@ -8,7 +8,7 @@
                 <!-- Company Info -->
                 <div class="col-span-1 lg:col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        {if $templatefile.logourl}
+                        {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
                             <img src="{$templatefile.logourl}" alt="{$companyname}" class="h-8 w-auto">
                         {else}
                             <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded"></div>
@@ -76,7 +76,7 @@
             <div class="mt-8 pt-8 border-t border-gray-800">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="text-text-light text-sm">
-                        {if $templatefile.footertext}
+                        {if isset($templatefile) && is_array($templatefile) && $templatefile.footertext}
                             {$templatefile.footertext}
                         {else}
                             © {$date_year} {$companyname}. All rights reserved. Powered by cutting-edge technology.
@@ -93,7 +93,7 @@
                 <div class="mt-6 pt-6 border-t border-gray-800">
                     <div class="flex flex-col md:flex-row justify-between items-center text-sm text-text-light">
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
-                            {if $templatefile.supportphone}
+                            {if isset($templatefile) && is_array($templatefile) && $templatefile.supportphone}
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 mr-2 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
@@ -101,7 +101,7 @@
                                     <span>{$templatefile.supportphone}</span>
                                 </div>
                             {/if}
-                            {if $templatefile.supportemail}
+                            {if isset($templatefile) && is_array($templatefile) && $templatefile.supportemail}
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 mr-2 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
