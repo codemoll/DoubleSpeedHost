@@ -162,32 +162,3 @@
         }
         </style>
         
-        <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-        
-        // User menu toggle
-        if (document.getElementById('user-menu-button')) {
-            document.getElementById('user-menu-button').addEventListener('click', function() {
-                document.getElementById('user-menu').classList.toggle('hidden');
-            });
-        }
-        
-        // Close menus when clicking outside
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileButton = document.getElementById('mobile-menu-button');
-            const userMenu = document.getElementById('user-menu');
-            const userButton = document.getElementById('user-menu-button');
-            
-            if (!mobileButton.contains(event.target) && !mobileMenu.contains(event.target)) {
-                mobileMenu.classList.add('hidden');
-            }
-            
-            if (userButton && userMenu && !userButton.contains(event.target) && !userMenu.contains(event.target)) {
-                userMenu.classList.add('hidden');
-            }
-        });
-        </script>
