@@ -63,7 +63,7 @@
             <div class="card-dark">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-xl font-orbitron font-semibold text-white">Your Services</h2>
-                    <a href="{$WEB_ROOT}/clientarea.php?action=services" class="text-neon-green hover:text-electric-blue transition-colors duration-300 text-sm">
+                    <a href="{$WEB_ROOT}/clientarea.php?action=products" class="text-neon-green hover:text-electric-blue transition-colors duration-300 text-sm">
                         View All →
                     </a>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="space-y-4">
                         {foreach from=$services item=service name=services}
                             {if $smarty.foreach.services.index < 3}
-                                <div class="bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                     <div class="flex items-center justify-between">
                                         <div>
                                             <h3 class="text-white font-medium">{$service.product}</h3>
@@ -90,7 +90,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             {/if}
                         {/foreach}
                     </div>

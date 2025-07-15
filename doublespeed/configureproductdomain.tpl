@@ -129,18 +129,24 @@
                                 </div>
                             </div>
                             
-                            {if isset($domainregperiods)}
-                                <div>
-                                    <label class="block text-sm font-medium text-text-light mb-2">
-                                        Registration Period
-                                    </label>
-                                    <select name="regperiod" class="select-dark">
+                            <div>
+                                <label class="block text-sm font-medium text-text-light mb-2">
+                                    Registration Period
+                                </label>
+                                <select name="regperiod" class="select-dark">
+                                    {if isset($domainregperiods) && $domainregperiods}
                                         {foreach from=$domainregperiods item=period key=years}
-                                            <option value="{$years}">{$years} Year{if $years > 1}s{/if} - {$period}</option>
+                                            <option value="{$years}">{$years} Year{if $years > 1}s{/if}{if $period} - {$period}{/if}</option>
                                         {/foreach}
-                                    </select>
-                                </div>
-                            {/if}
+                                    {else}
+                                        <option value="1">1 Year</option>
+                                        <option value="2">2 Years</option>
+                                        <option value="3">3 Years</option>
+                                        <option value="5">5 Years</option>
+                                        <option value="10">10 Years</option>
+                                    {/if}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
