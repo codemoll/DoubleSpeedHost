@@ -177,6 +177,12 @@
     });
     </script>
     
+    <!-- WHMCS Template JavaScript Files -->
+    <script src="{$WEB_ROOT}/templates/{$template}/js/scripts.min.js"></script>
+    <script src="{$WEB_ROOT}/templates/{$template}/js/whmcs.js"></script>
+    <script src="{$WEB_ROOT}/templates/{$template}/js/twitter.js"></script>
+    <script src="{$WEB_ROOT}/templates/{$template}/js/theme.js"></script>
+    
     {$footeroutput}
 </body>
 </html>
