@@ -1,0 +1,91 @@
+{include file="$template/header.tpl"}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-dark-surface rounded-lg shadow-xl border border-gray-700 p-6">
+            <h1 class="text-3xl font-orbitron font-bold text-white mb-6">User Profile</h1>
+            
+            {if $errormessage}
+                <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
+                    <div class="flex">
+                        <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="text-red-200 text-sm">
+                            {$errormessage}
+                        </div>
+                    </div>
+                </div>
+            {/if}
+            
+            <form method="post" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">First Name</label>
+                        <input type="text" name="firstname" value="{$user.firstname}" class="input-dark w-full">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">Last Name</label>
+                        <input type="text" name="lastname" value="{$user.lastname}" class="input-dark w-full">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-light mb-2">Email Address</label>
+                    <input type="email" name="email" value="{$user.email}" class="input-dark w-full">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-light mb-2">Phone Number</label>
+                    <input type="text" name="phone" value="{$user.phone}" class="input-dark w-full">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">Company</label>
+                        <input type="text" name="company" value="{$user.company}" class="input-dark w-full">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">Job Title</label>
+                        <input type="text" name="jobtitle" value="{$user.jobtitle}" class="input-dark w-full">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-light mb-2">Address</label>
+                    <textarea name="address" rows="3" class="input-dark w-full">{$user.address}</textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">City</label>
+                        <input type="text" name="city" value="{$user.city}" class="input-dark w-full">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">State</label>
+                        <input type="text" name="state" value="{$user.state}" class="input-dark w-full">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-light mb-2">Postal Code</label>
+                        <input type="text" name="postcode" value="{$user.postcode}" class="input-dark w-full">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-text-light mb-2">Country</label>
+                    <select name="country" class="input-dark w-full">
+                        {foreach $countries as $countrycode => $countryname}
+                            <option value="{$countrycode}" {if $user.country == $countrycode}selected{/if}>
+                                {$countryname}
+                            </option>
+                        {/foreach}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{include file="$template/footer.tpl"}
