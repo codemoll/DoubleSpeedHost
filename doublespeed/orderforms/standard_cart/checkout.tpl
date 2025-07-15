@@ -128,14 +128,88 @@
                         
                     {elseif $step == 3}
                         <!-- Step 3: Checkout -->
-                        <div class="bg-dark-surface rounded-xl border border-gray-700 p-6">
-                            <h2 class="text-2xl font-bold text-white mb-6">
-                                <i class="fas fa-credit-card mr-2 text-cyber-purple"></i>
-                                Checkout
-                            </h2>
-                            <!-- Checkout form content would go here -->
-                            <p class="text-gray-400">Checkout form implementation...</p>
-                        </div>
+                        <form action="{$WEB_ROOT}/cart.php" method="post" id="checkout-form">
+                            <input type="hidden" name="a" value="checkout">
+                            
+                            <!-- Payment Method Selection -->
+                            <div class="bg-dark-surface rounded-xl border border-gray-700 p-6 mb-6">
+                                <h2 class="text-2xl font-bold text-white mb-6">
+                                    <i class="fas fa-credit-card mr-2 text-cyber-purple"></i>
+                                    Payment Method
+                                </h2>
+                                
+                                <div class="space-y-4">
+                                    <!-- Credit Card Payment Option -->
+                                    {include file="$template/orderforms/standard_cart/payment/card/select.tpl"}
+                                    
+                                    <!-- Bank Transfer Payment Option -->
+                                    {include file="$template/orderforms/standard_cart/payment/bank/select.tpl"}
+                                </div>
+                            </div>
+                            
+                            <!-- Payment Details Form (Dynamic based on selected method) -->
+                            <div id="payment-details-container">
+                                <!-- Credit Card Form (shown by default) -->
+                                <div id="card-payment-form" class="payment-form {if $selectedpaymentmethod != 'creditcard' && $selectedpaymentmethod != 'card'}hidden{/if}">
+                                    {include file="$template/orderforms/standard_cart/payment/card/inputs.tpl"}
+                                </div>
+                                
+                                <!-- Bank Transfer Form -->
+                                <div id="bank-payment-form" class="payment-form {if $selectedpaymentmethod != 'bank'}hidden{/if}">
+                                    {include file="$template/orderforms/standard_cart/payment/bank/inputs.tpl"}
+                                </div>
+                            </div>
+                            
+                            <!-- Billing Address -->
+                            <div class="mb-6">
+                                {include file="$template/orderforms/standard_cart/payment/billing-address.tpl"}
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="bg-dark-surface rounded-xl border border-gray-700 p-6 mb-6">
+                                <h3 class="text-lg font-semibold text-white mb-4">
+                                    <i class="fas fa-file-contract mr-2 text-electric-blue"></i>
+                                    Terms and Conditions
+                                </h3>
+                                
+                                <div class="space-y-4">
+                                    <label class="flex items-start space-x-3">
+                                        <input type="checkbox" name="agree_terms" value="1" required
+                                               class="mt-1 text-neon-green bg-dark-bg border-gray-600 rounded focus:ring-neon-green">
+                                        <span class="text-sm text-gray-300">
+                                            I have read and agree to the 
+                                            <a href="{$WEB_ROOT}/legal.php?page=terms" target="_blank" class="text-neon-green hover:text-electric-blue transition-colors underline">
+                                                Terms of Service
+                                            </a>
+                                            and 
+                                            <a href="{$WEB_ROOT}/legal.php?page=privacy" target="_blank" class="text-neon-green hover:text-electric-blue transition-colors underline">
+                                                Privacy Policy
+                                            </a>
+                                            <span class="text-red-400">*</span>
+                                        </span>
+                                    </label>
+                                    
+                                    <label class="flex items-start space-x-3">
+                                        <input type="checkbox" name="agree_newsletter" value="1"
+                                               class="mt-1 text-electric-blue bg-dark-bg border-gray-600 rounded focus:ring-electric-blue">
+                                        <span class="text-sm text-gray-300">
+                                            I would like to receive promotional emails about new services and offers
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="bg-cyber-purple text-white font-bold py-4 px-12 rounded-lg text-lg hover:shadow-cyber-purple/50 hover:shadow-lg transition-all duration-300 relative overflow-hidden group">
+                                    <span class="relative z-10">
+                                        <i class="fas fa-lock mr-2"></i>
+                                        Complete Order
+                                    </span>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-cyber-purple to-electric-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                                </button>
+                            </div>
+                        </form>
                         
                     {else}
                         <!-- Step 4: Order Complete -->
@@ -154,37 +228,111 @@
 
                 <!-- Order Summary Sidebar -->
                 <div class="lg:col-span-1">
-                    <div class="bg-dark-surface rounded-xl border border-gray-700 p-6 sticky top-8">
-                        <h3 class="text-xl font-semibold text-white mb-4">
-                            <i class="fas fa-shopping-cart mr-2 text-neon-green"></i>
-                            Order Summary
-                        </h3>
-                        
-                        {if $cartitems}
-                            <div class="space-y-4">
-                                {foreach from=$cartitems item=item}
-                                    <div class="border-b border-gray-600 pb-3">
-                                        <div class="text-white font-semibold">{$item.name}</div>
-                                        <div class="text-gray-400 text-sm">{$item.description}</div>
-                                        <div class="text-neon-green font-bold text-right">{$item.price}</div>
-                                    </div>
-                                {/foreach}
-                            </div>
-                            
-                            <div class="border-t border-gray-500 pt-4 mt-4">
-                                <div class="flex justify-between items-center text-lg">
-                                    <span class="text-white font-bold">Total:</span>
-                                    <span class="text-neon-green font-bold">{$total}</span>
-                                </div>
-                            </div>
-                        {else}
-                            <p class="text-gray-400">Your cart is empty</p>
-                        {/if}
-                    </div>
+                    {include file="$template/orderforms/standard_cart/payment/invoice-summary.tpl"}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Payment Method JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Payment method selection handling
+    const paymentMethodRadios = document.querySelectorAll('input[name="paymentmethod"]');
+    const paymentForms = document.querySelectorAll('.payment-form');
+    
+    paymentMethodRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Hide all payment forms
+            paymentForms.forEach(form => {
+                form.classList.add('hidden');
+            });
+            
+            // Show the selected payment form
+            const selectedMethod = this.value;
+            const formId = selectedMethod === 'creditcard' ? 'card-payment-form' : selectedMethod + '-payment-form';
+            const selectedForm = document.getElementById(formId);
+            
+            if (selectedForm) {
+                selectedForm.classList.remove('hidden');
+            }
+            
+            // Update the visual selection of payment method options
+            document.querySelectorAll('.payment-method-option').forEach(option => {
+                const optionBorder = option.querySelector('div');
+                optionBorder.classList.remove('border-neon-green', 'bg-neon-green/10', 'border-cyber-purple', 'bg-cyber-purple/10');
+                optionBorder.classList.add('border-gray-600');
+            });
+            
+            // Highlight selected option
+            const selectedOption = this.closest('.payment-method-option');
+            if (selectedOption) {
+                const optionBorder = selectedOption.querySelector('div');
+                optionBorder.classList.remove('border-gray-600');
+                if (selectedMethod === 'creditcard') {
+                    optionBorder.classList.add('border-neon-green', 'bg-neon-green/10');
+                } else if (selectedMethod === 'bank') {
+                    optionBorder.classList.add('border-cyber-purple', 'bg-cyber-purple/10');
+                }
+            }
+        });
+    });
+    
+    // Form validation on submit
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            const selectedPaymentMethod = document.querySelector('input[name="paymentmethod"]:checked');
+            
+            if (!selectedPaymentMethod) {
+                e.preventDefault();
+                alert('Please select a payment method');
+                return false;
+            }
+            
+            let isValid = true;
+            
+            // Validate billing address
+            if (!validateBillingAddress()) {
+                isValid = false;
+            }
+            
+            // Validate payment method specific fields
+            if (selectedPaymentMethod.value === 'creditcard') {
+                if (!validateCardPayment()) {
+                    isValid = false;
+                }
+            } else if (selectedPaymentMethod.value === 'bank') {
+                if (!validateBankPayment()) {
+                    isValid = false;
+                }
+            }
+            
+            // Check terms agreement
+            const termsCheckbox = document.querySelector('input[name="agree_terms"]');
+            if (!termsCheckbox || !termsCheckbox.checked) {
+                isValid = false;
+                alert('You must agree to the Terms of Service to continue');
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+    
+    // Initialize with default payment method
+    const defaultPaymentMethod = document.querySelector('input[name="paymentmethod"]:checked');
+    if (defaultPaymentMethod) {
+        defaultPaymentMethod.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+
+<!-- Include payment validation scripts -->
+{include file="$template/orderforms/standard_cart/payment/card/validate.tpl"}
+{include file="$template/orderforms/standard_cart/payment/bank/validate.tpl"}
 
 {include file="$template/footer.tpl"}
