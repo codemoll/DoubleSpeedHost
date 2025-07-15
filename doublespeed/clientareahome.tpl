@@ -39,19 +39,19 @@
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{$numactiveservices}</div>
+                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{if isset($numactiveservices)}{$numactiveservices}{else}0{/if}</div>
                 <div class="text-text-light text-sm">Active Services</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-electric-blue mb-2">{$numdomains}</div>
+                <div class="text-3xl font-orbitron font-bold text-electric-blue mb-2">{if isset($numdomains)}{$numdomains}{else}0{/if}</div>
                 <div class="text-text-light text-sm">Domains</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-cyber-purple mb-2">{$numtickets}</div>
+                <div class="text-3xl font-orbitron font-bold text-cyber-purple mb-2">{if isset($numtickets)}{$numtickets}{else}0{/if}</div>
                 <div class="text-text-light text-sm">Open Tickets</div>
             </div>
             <div class="card-dark text-center">
-                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{$numunpaidinvoices}</div>
+                <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">{if isset($numunpaidinvoices)}{$numunpaidinvoices}{else}0{/if}</div>
                 <div class="text-text-light text-sm">Unpaid Invoices</div>
             </div>
         </div>

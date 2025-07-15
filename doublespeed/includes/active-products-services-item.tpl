@@ -32,14 +32,14 @@
                 {if $product.regdate}
                     <p class="text-gray-500 text-xs">
                         <i class="fas fa-calendar mr-1"></i>
-                        {$LANG.orderregistered}: {$product.regdate}
+                        {if isset($LANG) && isset($LANG.orderregistered)}{$LANG.orderregistered}{else}Registered{/if}: {$product.regdate}
                     </p>
                 {/if}
                 
                 {if $product.nextduedate}
                     <p class="text-gray-500 text-xs">
                         <i class="fas fa-clock mr-1"></i>
-                        {$LANG.clientareaproductnextduedate}: {$product.nextduedate}
+                        {if isset($LANG) && isset($LANG.clientareaproductnextduedate)}{$LANG.clientareaproductnextduedate}{else}Next Due Date{/if}: {$product.nextduedate}
                     </p>
                 {/if}
             </div>
@@ -50,7 +50,7 @@
                     <a href="clientareaproductdetails.php?id={$product.id}" 
                        class="px-3 py-1 text-xs font-medium bg-neon-green/20 text-neon-green border border-neon-green/30 rounded hover:bg-neon-green/30 transition-colors duration-200">
                         <i class="fas fa-cog mr-1"></i>
-                        {$LANG.manage}
+                        {if isset($LANG) && isset($LANG.manage)}{$LANG.manage}{else}Manage{/if}
                     </a>
                 {/if}
                 
@@ -75,13 +75,13 @@
                 {if $product.overagesbilling}
                     <div class="text-xs text-yellow-400">
                         <i class="fas fa-exclamation-triangle mr-1"></i>
-                        {$LANG.overagesbilling}: {$product.overagesbilling}
+                        {if isset($LANG) && isset($LANG.overagesbilling)}{$LANG.overagesbilling}{else}Overages Billing{/if}: {$product.overagesbilling}
                     </div>
                 {/if}
                 {if $product.suspendreason}
                     <div class="text-xs text-red-400 mt-1">
                         <i class="fas fa-ban mr-1"></i>
-                        {$LANG.suspendreason}: {$product.suspendreason}
+                        {if isset($LANG) && isset($LANG.suspendreason)}{$LANG.suspendreason}{else}Suspend Reason{/if}: {$product.suspendreason}
                     </div>
                 {/if}
             </div>
