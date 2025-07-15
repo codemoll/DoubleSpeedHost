@@ -1,0 +1,64 @@
+name: "DoubleSpeed Host"
+version: "1.0.0"
+description: "Dark tech-inspired WHMCS template with modern design and animations"
+author: "DoubleSpeed Host Team"
+authorUrl: "https://doublespeedhost.com"
+thumbnail: "preview.png"
+
+# Template configuration
+config:
+  primaryColor:
+    type: "dropdown"
+    options: 
+      - "Neon Green"
+      - "Electric Blue" 
+      - "Cyber Purple"
+    default: "Neon Green"
+    description: "Choose the primary accent color for the template"
+    
+  logoUrl:
+    type: "text"
+    size: 50
+    default: ""
+    description: "Enter the URL to your logo image"
+    
+  heroTitle:
+    type: "text"
+    size: 50
+    default: "DoubleSpeed Host – Fast, Reliable, and Secure Hosting"
+    description: "Main title for the homepage hero section"
+    
+  heroSubtitle:
+    type: "textarea"
+    rows: 3
+    default: "Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support."
+    description: "Subtitle text for the homepage hero section"
+    
+  footerText:
+    type: "textarea"
+    rows: 2
+    default: "© 2024 DoubleSpeed Host. All rights reserved. Powered by cutting-edge technology."
+    description: "Footer copyright text"
+    
+  supportPhone:
+    type: "text"
+    size: 20
+    default: "+1 (555) 123-4567"
+    description: "Support phone number"
+    
+  supportEmail:
+    type: "text"
+    size: 30
+    default: "support@doublespeedhost.com"
+    description: "Support email address"
+
+# Features
+features:
+  - "Dark tech-inspired design"
+  - "Responsive layout"
+  - "Tailwind CSS framework"
+  - "Glow effects and animations"
+  - "Modern typography"
+  - "Client area dashboard"
+  - "Support ticket system"
+  - "Multi-color theme support"
