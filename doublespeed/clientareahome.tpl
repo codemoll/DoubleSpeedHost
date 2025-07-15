@@ -40,36 +40,36 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="card-dark text-center">
                 <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">
-                    {if isset($stats.numactiveservices)}{$stats.numactiveservices}
+                    {if isset($clientsstats.productsnumactive)}{$clientsstats.productsnumactive}
+                    {elseif isset($stats.numactiveservices)}{$stats.numactiveservices}
                     {elseif isset($numactiveservices)}{$numactiveservices}
-                    {elseif isset($clientstats.productsnumactive)}{$clientstats.productsnumactive}
                     {else}0{/if}
                 </div>
                 <div class="text-text-light text-sm">Active Services</div>
             </div>
             <div class="card-dark text-center">
                 <div class="text-3xl font-orbitron font-bold text-electric-blue mb-2">
-                    {if isset($stats.numdomains)}{$stats.numdomains}
+                    {if isset($clientsstats.numdomains)}{$clientsstats.numdomains}
+                    {elseif isset($stats.numdomains)}{$stats.numdomains}
                     {elseif isset($numdomains)}{$numdomains}
-                    {elseif isset($clientstats.numdomains)}{$clientstats.numdomains}
                     {else}0{/if}
                 </div>
                 <div class="text-text-light text-sm">Domains</div>
             </div>
             <div class="card-dark text-center">
                 <div class="text-3xl font-orbitron font-bold text-cyber-purple mb-2">
-                    {if isset($stats.numtickets)}{$stats.numtickets}
+                    {if isset($clientsstats.numtickets)}{$clientsstats.numtickets}
+                    {elseif isset($stats.numtickets)}{$stats.numtickets}
                     {elseif isset($numtickets)}{$numtickets}
-                    {elseif isset($clientstats.numtickets)}{$clientstats.numtickets}
                     {else}0{/if}
                 </div>
                 <div class="text-text-light text-sm">Open Tickets</div>
             </div>
             <div class="card-dark text-center">
                 <div class="text-3xl font-orbitron font-bold text-neon-green mb-2">
-                    {if isset($stats.numunpaidinvoices)}{$stats.numunpaidinvoices}
+                    {if isset($clientsstats.numunpaidinvoices)}{$clientsstats.numunpaidinvoices}
+                    {elseif isset($stats.numunpaidinvoices)}{$stats.numunpaidinvoices}
                     {elseif isset($numunpaidinvoices)}{$numunpaidinvoices}
-                    {elseif isset($clientstats.numunpaidinvoices)}{$clientstats.numunpaidinvoices}
                     {else}0{/if}
                 </div>
                 <div class="text-text-light text-sm">Unpaid Invoices</div>
@@ -88,17 +88,15 @@
                     </a>
                 </div>
                 
-                {if $services || $clientsstats.products}
+                {if $products}
                     <div class="space-y-4">
-                        {assign var="serviceList" value=$services}
-                        {if !$serviceList && isset($clientsstats.products)}{assign var="serviceList" value=$clientsstats.products}{/if}
-                        {foreach from=$serviceList item=service name=services}
+                        {foreach from=$products item=service name=services}
                             {if $smarty.foreach.services.index < 3}
                                 <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">{$service.product|default:$service.name}</h3>
-                                            <p class="text-text-light text-sm">{$service.domain|default:$service.dedicatedip}</p>
+                                            <h3 class="text-white font-medium">{$service.product}</h3>
+                                            <p class="text-text-light text-sm">{$service.domain}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
@@ -108,7 +106,7 @@
                                                 {$service.status}
                                             </span>
                                             <div class="text-text-light text-sm mt-1">
-                                                Next Due: {$service.nextduedate|default:$service.nextdue}
+                                                Next Due: {$service.nextduedate}
                                             </div>
                                         </div>
                                     </div>
@@ -136,29 +134,54 @@
                     </a>
                 </div>
                 
-                {if $invoices || $recentinvoices}
+                {if $invoices}
+                    {* Check for overdue invoices first *}
+                    {assign var="overdueCount" value=0}
+                    {assign var="overdueTotal" value=0}
+                    {foreach from=$invoices item=invoice}
+                        {if $invoice.status eq 'Unpaid' && $invoice.overdue}
+                            {assign var="overdueCount" value=$overdueCount+1}
+                            {assign var="overdueTotal" value=$overdueTotal+$invoice.rawbalance}
+                        {/if}
+                    {/foreach}
+                    
+                    {if $overdueCount > 0}
+                        <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-4">
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <p class="text-red-200 text-sm">
+                                        You have <strong>({$overdueCount})</strong> Overdue invoice{if $overdueCount > 1}s{/if} with a total balance due of <strong>{$currency.prefix}{$overdueTotal|string_format:"%.2f"} {$currency.code}</strong>. Pay them now to avoid any interruptions in service.
+                                    </p>
+                                </div>
+                                <a href="{$WEB_ROOT}/clientarea.php?action=invoices&status=Unpaid" class="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Pay Now</a>
+                            </div>
+                        </div>
+                    {/if}
+                    
                     <div class="space-y-4">
-                        {assign var="invoiceList" value=$invoices}
-                        {if !$invoiceList && isset($recentinvoices)}{assign var="invoiceList" value=$recentinvoices}{/if}
-                        {foreach from=$invoiceList item=invoice name=invoices}
+                        {foreach from=$invoices item=invoice name=invoices}
                             {if $smarty.foreach.invoices.index < 3}
-                                <div class="bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/viewinvoice.php?id={$invoice.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">Invoice #{$invoice.id|default:$invoice.invoicenum}</h3>
-                                            <p class="text-text-light text-sm">{$invoice.datedue|default:$invoice.duedate}</p>
+                                            <h3 class="text-white font-medium">Invoice #{$invoice.invoicenum}</h3>
+                                            <p class="text-text-light text-sm">Due: {$invoice.datedue}</p>
                                         </div>
                                         <div class="text-right">
                                             <div class="text-white font-medium">{$invoice.total}</div>
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
                                                 {if $invoice.status eq 'Paid'}bg-neon-green text-dark-bg
                                                 {elseif $invoice.status eq 'Unpaid'}bg-red-500 text-white
+                                                {elseif $invoice.status eq 'Cancelled'}bg-gray-500 text-white
                                                 {else}bg-yellow-500 text-dark-bg{/if}">
                                                 {$invoice.status}
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             {/if}
                         {/foreach}
                     </div>
@@ -176,34 +199,33 @@
             <div class="card-dark">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-xl font-orbitron font-semibold text-white">Support Tickets</h2>
-                    <a href="{$WEB_ROOT}/clientarea.php?action=tickets" class="text-neon-green hover:text-electric-blue transition-colors duration-300 text-sm">
+                    <a href="{$WEB_ROOT}/supporttickets.php" class="text-neon-green hover:text-electric-blue transition-colors duration-300 text-sm">
                         View All →
                     </a>
                 </div>
                 
-                {if $tickets || $supporttickets}
+                {if $tickets}
                     <div class="space-y-4">
-                        {assign var="ticketList" value=$tickets}
-                        {if !$ticketList && isset($supporttickets)}{assign var="ticketList" value=$supporttickets}{/if}
-                        {foreach from=$ticketList item=ticket name=tickets}
+                        {foreach from=$tickets item=ticket name=tickets}
                             {if $smarty.foreach.tickets.index < 3}
-                                <div class="bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/viewticket.php?tid={$ticket.tid}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">#{$ticket.tid|default:$ticket.id} - {$ticket.subject|default:$ticket.title}</h3>
-                                            <p class="text-text-light text-sm">{$ticket.lastreply|default:$ticket.lastupdate}</p>
+                                            <h3 class="text-white font-medium">#{$ticket.tid} - {$ticket.subject}</h3>
+                                            <p class="text-text-light text-sm">Last Reply: {$ticket.lastreply}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
                                                 {if $ticket.status eq 'Open'}bg-neon-green text-dark-bg
                                                 {elseif $ticket.status eq 'Customer-Reply'}bg-electric-blue text-white
                                                 {elseif $ticket.status eq 'Answered'}bg-cyber-purple text-white
-                                                {else}bg-gray-500 text-white{/if}">
+                                                {elseif $ticket.status eq 'Closed'}bg-gray-500 text-white
+                                                {else}bg-yellow-500 text-dark-bg{/if}">
                                                 {$ticket.status}
                                             </span>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             {/if}
                         {/foreach}
                     </div>
@@ -255,7 +277,8 @@
         </div>
         
         <!-- Account Status Alerts -->
-        {if $numunpaidinvoices > 0}
+        {assign var="unpaidCount" value=$clientsstats.numunpaidinvoices|default:$numunpaidinvoices|default:0}
+        {if $unpaidCount > 0}
             <div class="mt-8">
                 <div class="bg-red-900 border border-red-700 rounded-lg p-6">
                     <div class="flex items-center">
@@ -264,7 +287,7 @@
                         </svg>
                         <div>
                             <h3 class="text-white font-semibold">Payment Required</h3>
-                            <p class="text-red-200 text-sm">You have {$numunpaidinvoices} unpaid invoice{if $numunpaidinvoices > 1}s{/if}. Please pay to avoid service interruption.</p>
+                            <p class="text-red-200 text-sm">You have {$unpaidCount} unpaid invoice{if $unpaidCount > 1}s{/if}. Please pay to avoid service interruption.</p>
                         </div>
                         <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="ml-auto btn-primary">View Invoices</a>
                     </div>

@@ -2,7 +2,6 @@
     
     <!-- Footer -->
     <footer id="main-footer" class="bg-dark-bg-alt border-t border-gray-800 mt-16">
-    <footer class="bg-dark-bg-alt border-t border-gray-800 mt-16">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
@@ -173,16 +172,19 @@
         });
     });
     
-    // Add smooth scroll to all anchor links
+    // Add smooth scroll to internal anchor links only
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
         });
     });
@@ -192,8 +194,17 @@
     const mobileMenu = document.getElementById('mobile-menu');
     
     if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function() {
+        mobileMenuButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking anywhere else
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
         });
     }
     
@@ -202,21 +213,19 @@
     const userMenu = document.getElementById('user-menu');
     
     if (userMenuButton && userMenu) {
-        userMenuButton.addEventListener('click', function() {
+        userMenuButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             userMenu.classList.toggle('hidden');
         });
-    }
-    
-    // Close menus when clicking outside
-    document.addEventListener('click', function(event) {
-        if (mobileMenuButton && mobileMenu && !mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
-            mobileMenu.classList.add('hidden');
-        }
         
-        if (userMenuButton && userMenu && !userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.classList.add('hidden');
-        }
-    });
+        // Close user menu when clicking anywhere else
+        document.addEventListener('click', function(event) {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+    }
     </script>
     
     <!-- WHMCS Template JavaScript Files -->
