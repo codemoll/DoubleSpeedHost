@@ -108,4 +108,19 @@ if (!function_exists('lang')) {
     }
 }
 
+// Initialize language array if not set to prevent trans() errors
+if (!isset($LANG) || !is_array($LANG)) {
+    $LANG = array();
+}
+
+// Provide fallback language object for WHMCS compatibility
+if (!class_exists('Lang')) {
+    class Lang {
+        public static function trans($key, $default = '') {
+            global $LANG;
+            return (isset($LANG) && is_array($LANG) && isset($LANG[$key])) ? $LANG[$key] : $default;
+        }
+    }
+}
+
 ?>
