@@ -87,4 +87,25 @@ if (!function_exists('getTemplateVariables')) {
     }
 }
 
+// Add defensive language helper function to prevent trans() errors
+if (!function_exists('checkLangVariable')) {
+    function checkLangVariable($variable) {
+        global $LANG;
+        
+        if (!isset($LANG) || !is_array($LANG)) {
+            return '';
+        }
+        
+        return isset($LANG[$variable]) ? $LANG[$variable] : '';
+    }
+}
+
+// Ensure language helper functions are available  
+if (!function_exists('lang')) {
+    function lang($key, $default = '') {
+        global $LANG;
+        return (isset($LANG) && is_array($LANG) && isset($LANG[$key])) ? $LANG[$key] : $default;
+    }
+}
+
 ?>

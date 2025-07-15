@@ -139,26 +139,5 @@
     
     <!-- Main Content -->
     <main class="pt-16">
-        
-        <style>
-        .nav-link {
-            @apply text-text-light hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 relative;
-        }
-        
-        .nav-link:hover {
-            @apply shadow-glow-white;
-        }
-        
-        .nav-link.active {
-            @apply text-neon-green;
-        }
-        
-        .nav-link-mobile {
-            @apply text-text-light hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300;
-        }
-        
-        .nav-link-mobile.active {
-            @apply text-neon-green bg-gray-700;
-        }
-        </style>
+
         
