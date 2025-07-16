@@ -1,7 +1,7 @@
 {include file="$template/header.tpl"}
 
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="layout-container">
         <!-- Header -->
         <div class="text-center mb-12">
             <div class="mx-auto w-20 h-20 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-6">
@@ -38,16 +38,17 @@
                     </div>
                     
                     {if isset($productgroup.products) && is_array($productgroup.products) && count($productgroup.products) > 0}
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-                            {foreach from=$productgroup.products item=product}
-                                <div class="card-dark hover:border-neon-green transition-all duration-300 group flex flex-col h-full relative overflow-hidden">
-                                    <!-- Product Header -->
-                                    <div class="text-center mb-6 relative z-10">
-                                        <div class="mb-4">
-                                            <div class="w-16 h-16 mx-auto bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-4">
-                                                <svg class="w-8 h-8 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                                                </svg>
+                        <div class="product-grid-container">
+                            <div class="responsive-grid-products">
+                                {foreach from=$productgroup.products item=product}
+                                    <div class="product-card-enhanced">
+                                        <!-- Product Header -->
+                                        <div class="text-center mb-6 relative z-10">
+                                            <div class="mb-4">
+                                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-4">
+                                                    <svg class="w-8 h-8 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                                    </svg>
                                             </div>
                                             <h3 class="text-xl font-orbitron font-semibold text-white mb-3 min-h-[2.5rem] flex items-center justify-center">
                                                 {if isset($product.name) && $product.name}

@@ -211,6 +211,29 @@
     <script src="{$WEB_ROOT}/templates/{$template}/js/twitter.js"></script>
     <script src="{$WEB_ROOT}/templates/{$template}/js/theme.js"></script>
     
+    <!-- Conditional Domain Search Enhancement -->
+    <script>
+    // Load domain search enhancements for pages that might show domain results
+    (function() {
+        const needsDomainScript = 
+            window.location.pathname.includes('domainchecker') ||
+            window.location.pathname.includes('cart') ||
+            window.location.pathname.includes('order') ||
+            window.location.pathname.includes('configure') ||
+            document.querySelector('#domain-search-form') ||
+            document.querySelector('.domain-result') ||
+            document.querySelector('[id*="domain"]') ||
+            document.querySelector('[class*="domain"]');
+            
+        if (needsDomainScript) {
+            const script = document.createElement('script');
+            script.src = '{$WEB_ROOT}/templates/{$template}/js/domain-search.js';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+    })();
+    </script>
+    
     {$footeroutput}
 </body>
 </html>

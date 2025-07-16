@@ -1,7 +1,7 @@
 {include file="$template/header.tpl"}
 
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="checkout-container">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl font-orbitron font-bold text-white mb-4">Shopping Cart</h1>
@@ -21,16 +21,16 @@
             </div>
         {/if}
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="checkout-grid">
             <!-- Cart Items -->
-            <div class="lg:col-span-2">
+            <div class="checkout-main">
                 {if $products}
                     <div class="space-y-6">
                         {foreach from=$products item=product key=num}
-                            <div class="card-dark">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-semibold text-white mb-2">{$product.product}</h3>
+                            <div class="checkout-card">
+                                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-lg font-semibold text-white mb-2 truncate">{$product.product}</h3>
                                         {if $product.domain}
                                             <p class="text-text-light mb-2">Domain: {$product.domain}</p>
                                         {/if}

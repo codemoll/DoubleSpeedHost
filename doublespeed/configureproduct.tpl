@@ -1,7 +1,7 @@
 {include file="$template/header.tpl"}
 
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="config-panel-container">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl font-orbitron font-bold text-white mb-4">
@@ -27,23 +27,23 @@
             </div>
         {/if}
 
-        <form method="post" action="{$smarty.server.PHP_SELF}">
-            <div class="space-y-8">
+        <form method="post" action="{$smarty.server.PHP_SELF}" class="order-form-section">
+            <div class="space-y-8 constrain-width">
                 
                 <!-- Product Information -->
                 {if $productinfo}
-                    <div class="card-dark">
+                    <div class="config-panel-section">
                         <h2 class="text-xl font-orbitron font-semibold text-white mb-6">Product Details</h2>
                         
                         <div class="space-y-4">
                             <div class="flex justify-between items-start">
-                                <div>
+                                <div class="flex-1 min-w-0">
                                     <h3 class="text-lg font-medium text-white">{$productinfo.name}</h3>
                                     {if $productinfo.description}
                                         <p class="text-text-light mt-1">{$productinfo.description}</p>
                                     {/if}
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right flex-shrink-0 ml-4">
                                     <span class="text-2xl font-bold text-neon-green">{$productinfo.price}</span>
                                     {if $productinfo.billingcycle}
                                         <p class="text-text-light text-sm">/{$productinfo.billingcycle}</p>
@@ -56,10 +56,10 @@
 
                 <!-- Billing Cycle -->
                 {if $billingcycles}
-                    <div class="card-dark">
+                    <div class="config-panel-section">
                         <h3 class="text-lg font-orbitron font-semibold text-white mb-4">Billing Cycle</h3>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="responsive-grid-auto">
                             {foreach from=$billingcycles item=cycle key=period}
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="billingcycle" value="{$period}" 
@@ -79,25 +79,6 @@
                         </div>
                     </div>
                 {/if}
-
-                <!-- Configurable Options -->
-                {if $configurableoptions}
-                    <div class="card-dark">
-                        <h3 class="text-lg font-orbitron font-semibold text-white mb-6">Configuration Options</h3>
-                        
-                        <div class="space-y-6">
-                            {foreach from=$configurableoptions item=option}
-                                <div>
-                                    <label class="block text-sm font-medium text-text-light mb-2">
-                                        {$option.optionname}
-                                        {if $option.required}<span class="text-red-400">*</span>{/if}
-                                    </label>
-                                    
-                                    {if $option.optiontype eq "dropdown"}
-                                        <select name="configoption[{$option.id}]" class="select-dark">
-                                            {foreach from=$option.options item=suboption key=key}
-                                                <option value="{$key}" {if $option.selectedvalue eq $key}selected{/if}>
-                                                    {$suboption.name} {if $suboption.price}(+{$suboption.price}){/if}
                                                 </option>
                                             {/foreach}
                                         </select>
