@@ -2,6 +2,10 @@
 
 This guide provides comprehensive instructions for enabling and using debug mode in WHMCS templates to troubleshoot issues and verify variable contents.
 
+![WHMCS Template Debug Mode Example](https://github.com/user-attachments/assets/bf4d178e-9cb7-418c-bb71-602b7f0a6392)
+
+*Example of the enhanced debug information panels and status badges implemented in the DoubleSpeed Host WHMCS template.*
+
 ## Table of Contents
 1. [Enabling Debug Mode](#enabling-debug-mode)
 2. [Debug Output Features](#debug-output-features)
