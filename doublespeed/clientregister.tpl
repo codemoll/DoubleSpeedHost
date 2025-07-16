@@ -62,6 +62,8 @@
             <div id="registration">
                 <form method="post" class="using-password-strength space-y-8" action="{$smarty.server.PHP_SELF}" role="form" name="orderfrm" id="frmCheckout">
                     <input type="hidden" name="register" value="true"/>
+                    {* Set captcha form context for WHMCS *}
+                    {assign var="captchaForm" value="registration"}
 
                     <div id="containerNewUserSignup">
 
@@ -262,7 +264,7 @@
                                 {$LANG.orderadditionalrequiredinfo}
                             </h2>
                             <div class="text-sm text-text-light mb-4">
-                                <i>{$LANG.orderForm.requiredField}</i>
+                                <i>{if isset($LANG.orderForm) && isset($LANG.orderForm.requiredField)}{$LANG.orderForm.requiredField}{else}{$LANG.orderrequiredfields}{/if}</i>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {if $customfields}
@@ -580,7 +582,7 @@ function registerFormPasswordStrengthFeedback() {
 
 // Style custom fields to match template
 document.addEventListener('DOMContentLoaded', function() {
-    // Style custom field inputs
+    // Style custom field inputs to match DoubleSpeedHost theme
     const customFieldInputs = document.querySelectorAll('.custom-field-input input, .custom-field-input select, .custom-field-input textarea');
     customFieldInputs.forEach(function(input) {
         if (!input.classList.contains('input-dark')) {
@@ -594,6 +596,18 @@ document.addEventListener('DOMContentLoaded', function() {
         checkbox.classList.remove('input-dark', 'w-full');
         checkbox.classList.add('w-4', 'h-4', 'text-neon-green', 'bg-dark-surface', 'border-gray-600', 'rounded', 'focus:ring-neon-green', 'focus:ring-2');
     });
+    
+    // Handle WHMCS-specific field styling
+    const formControls = document.querySelectorAll('.field.form-control');
+    formControls.forEach(function(field) {
+        field.classList.add('input-dark');
+    });
+    
+    // Ensure proper integration with WHMCS password strength
+    const passwordField = document.getElementById('inputNewPassword1');
+    if (passwordField && typeof registerFormPasswordStrengthFeedback === 'function') {
+        passwordField.addEventListener('keyup', registerFormPasswordStrengthFeedback);
+    }
 });
 </script>
 
