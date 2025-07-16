@@ -1,7 +1,7 @@
 {include file="$template/header.tpl"}
 
 <div class="min-h-screen bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="layout-container">
         
         <!-- Page Header -->
         <div class="text-center mb-12">
@@ -17,92 +17,94 @@
         </div>
 
         <!-- Domain Search Form -->
-        <div class="card-dark mb-8">
-            <form method="post" action="{$WEB_ROOT}/domainchecker.php" class="space-y-6" id="domain-search-form">
-                <div>
-                    <label for="domain" class="block text-lg font-orbitron font-semibold text-white mb-4">
-                        Enter your desired domain name
-                    </label>
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="flex-1 relative">
-                            <input type="text" 
-                                   name="domain" 
-                                   id="domain"
-                                   value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
-                                   placeholder="yourdomain"
-                                   class="input-dark w-full text-lg py-4 pr-12"
-                                   required
-                                   autocomplete="off"
-                                   spellcheck="false">
-                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="order-form-container mb-8">
+            <div class="card-dark">
+                <form method="post" action="{$WEB_ROOT}/domainchecker.php" class="space-y-6" id="domain-search-form">
+                    <div>
+                        <label for="domain" class="block text-lg font-orbitron font-semibold text-white mb-4">
+                            Enter your desired domain name
+                        </label>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1 relative">
+                                <input type="text" 
+                                       name="domain" 
+                                       id="domain"
+                                       value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
+                                       placeholder="yourdomain"
+                                       class="input-dark w-full text-lg py-4 pr-12"
+                                       required
+                                       autocomplete="off"
+                                       spellcheck="false">
+                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="md:w-48 w-full">
+                                <select name="ext" class="input-dark w-full py-4 text-lg">
+                                    {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
+                                        {foreach $domainextensions as $extension}
+                                            {assign var="ext_value" value="{if isset($extension.extension)}{$extension.extension}{elseif isset($extension.tld)}{$extension.tld}{elseif is_string($extension)}{$extension}{else}com{/if}"}
+                                            <option value=".{$ext_value}" 
+                                                    {if isset($selectedext) && ($selectedext eq $ext_value || $selectedext eq ".{$ext_value}")}selected{/if}>
+                                                .{$ext_value}
+                                            </option>
+                                        {/foreach}
+                                    {else}
+                                        {* Fallback extensions when WHMCS data is not available *}
+                                        <option value=".com" {if isset($selectedext) && ($selectedext eq 'com' || $selectedext eq '.com')}selected{/if}>.com</option>
+                                        <option value=".net" {if isset($selectedext) && ($selectedext eq 'net' || $selectedext eq '.net')}selected{/if}>.net</option>
+                                        <option value=".org" {if isset($selectedext) && ($selectedext eq 'org' || $selectedext eq '.org')}selected{/if}>.org</option>
+                                        <option value=".info" {if isset($selectedext) && ($selectedext eq 'info' || $selectedext eq '.info')}selected{/if}>.info</option>
+                                        <option value=".biz" {if isset($selectedext) && ($selectedext eq 'biz' || $selectedext eq '.biz')}selected{/if}>.biz</option>
+                                        <option value=".us" {if isset($selectedext) && ($selectedext eq 'us' || $selectedext eq '.us')}selected{/if}>.us</option>
+                                        <option value=".io" {if isset($selectedext) && ($selectedext eq 'io' || $selectedext eq '.io')}selected{/if}>.io</option>
+                                        <option value=".co" {if isset($selectedext) && ($selectedext eq 'co' || $selectedext eq '.co')}selected{/if}>.co</option>
+                                        <option value=".dev" {if isset($selectedext) && ($selectedext eq 'dev' || $selectedext eq '.dev')}selected{/if}>.dev</option>
+                                        <option value=".app" {if isset($selectedext) && ($selectedext eq 'app' || $selectedext eq '.app')}selected{/if}>.app</option>
+                                    {/if}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary px-8 py-4 text-lg whitespace-nowrap hover:scale-105 transition-all duration-300" id="search-submit-btn">
+                                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
-                            </div>
-                        </div>
-                        <div class="md:w-48 w-full">
-                            <select name="ext" class="input-dark w-full py-4 text-lg">
-                                {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
-                                    {foreach $domainextensions as $extension}
-                                        {assign var="ext_value" value="{if isset($extension.extension)}{$extension.extension}{elseif isset($extension.tld)}{$extension.tld}{elseif is_string($extension)}{$extension}{else}com{/if}"}
-                                        <option value=".{$ext_value}" 
-                                                {if isset($selectedext) && ($selectedext eq $ext_value || $selectedext eq ".{$ext_value}")}selected{/if}>
-                                            .{$ext_value}
-                                        </option>
-                                    {/foreach}
-                                {else}
-                                    {* Fallback extensions when WHMCS data is not available *}
-                                    <option value=".com" {if isset($selectedext) && ($selectedext eq 'com' || $selectedext eq '.com')}selected{/if}>.com</option>
-                                    <option value=".net" {if isset($selectedext) && ($selectedext eq 'net' || $selectedext eq '.net')}selected{/if}>.net</option>
-                                    <option value=".org" {if isset($selectedext) && ($selectedext eq 'org' || $selectedext eq '.org')}selected{/if}>.org</option>
-                                    <option value=".info" {if isset($selectedext) && ($selectedext eq 'info' || $selectedext eq '.info')}selected{/if}>.info</option>
-                                    <option value=".biz" {if isset($selectedext) && ($selectedext eq 'biz' || $selectedext eq '.biz')}selected{/if}>.biz</option>
-                                    <option value=".us" {if isset($selectedext) && ($selectedext eq 'us' || $selectedext eq '.us')}selected{/if}>.us</option>
-                                    <option value=".io" {if isset($selectedext) && ($selectedext eq 'io' || $selectedext eq '.io')}selected{/if}>.io</option>
-                                    <option value=".co" {if isset($selectedext) && ($selectedext eq 'co' || $selectedext eq '.co')}selected{/if}>.co</option>
-                                    <option value=".dev" {if isset($selectedext) && ($selectedext eq 'dev' || $selectedext eq '.dev')}selected{/if}>.dev</option>
-                                    <option value=".app" {if isset($selectedext) && ($selectedext eq 'app' || $selectedext eq '.app')}selected{/if}>.app</option>
-                                {/if}
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-primary px-8 py-4 text-lg whitespace-nowrap hover:scale-105 transition-all duration-300" id="search-submit-btn">
-                            <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <span class="search-btn-text">Search</span>
-                        </button>
-                    </div>
-                </div>
-                
-                {if $error}
-                    <div class="bg-red-900/20 border border-red-600/50 rounded-lg p-4 animate-pulse">
-                        <div class="flex items-start">
-                            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                            </svg>
-                            <div class="text-red-200 text-sm">
-                                <strong class="font-semibold">Search Error:</strong> {$error}
-                            </div>
+                                <span class="search-btn-text">Search</span>
+                            </button>
                         </div>
                     </div>
-                {/if}
-            </form>
+                    
+                    {if $error}
+                        <div class="bg-red-900/20 border border-red-600/50 rounded-lg p-4 animate-pulse">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                <div class="text-red-200 text-sm">
+                                    <strong class="font-semibold">Search Error:</strong> {$error}
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+                </form>
+            </div>
         </div>
 
         <!-- Search Results -->
         {if isset($results) && is_array($results) && count($results) > 0}
-            <div id="domain-search-results" class="space-y-4 animate-in">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                    <h2 class="text-2xl font-orbitron font-bold text-white">Search Results</h2>
-                    <div class="text-text-light text-sm mt-2 sm:mt-0">
-                        Found {count($results)} result{if count($results) != 1}s{/if} for "{if isset($searchterm)}{$searchterm}{/if}"
+            <div id="domain-search-results" class="domain-results-container animate-in">
+                <div class="domain-results-grid">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                        <h2 class="text-2xl font-orbitron font-bold text-white">Search Results</h2>
+                        <div class="text-text-light text-sm mt-2 sm:mt-0">
+                            Found {count($results)} result{if count($results) != 1}s{/if} for "{if isset($searchterm)}{$searchterm}{/if}"
+                        </div>
                     </div>
-                </div>
-                
-                {foreach $results as $result}
-                    <div class="domain-result {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}available{else}unavailable{/if} group">
-                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between p-6 gap-4">
-                            <div class="flex-1 min-w-0">
+                    
+                    {foreach $results as $result}
+                        <div class="domain-result-enhanced {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}available{else}unavailable{/if}">
+                            <div class="domain-result-content">
                                 <div class="domain-name text-xl font-semibold text-white mb-2 truncate">
                                     {if isset($result.domain) && $result.domain}
                                         {$result.domain}
@@ -146,7 +148,7 @@
                             </div>
                             
                             {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
+                                <div class="domain-result-actions flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
                                     <div class="text-center sm:text-right">
                                         {if isset($result.price) && $result.price}
                                             <div class="domain-price text-2xl font-bold text-neon-green">
@@ -175,7 +177,7 @@
                                     </div>
                                 </div>
                             {else}
-                                <div class="flex flex-col gap-2 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
+                                <div class="domain-result-actions flex flex-col gap-2 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
                                     <div class="text-text-light text-sm">This domain is not available for registration.</div>
                                     <button class="btn-outline text-sm px-4 py-2 w-full sm:w-auto" onclick="suggestAlternatives('{if isset($result.domain)}{$result.domain}{elseif isset($result.domainname)}{$result.domainname}{elseif isset($result.sld) && isset($result.tld)}{$result.sld}.{$result.tld}{/if}')">
                                         <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,26 +188,26 @@
                                 </div>
                             {/if}
                         </div>
-                    </div>
-                {/foreach}
-                
-                <!-- Additional Actions -->
-                <div class="bg-dark-bg-alt border border-gray-700 rounded-lg p-6 mt-8">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <h3 class="text-white font-semibold mb-2">Need help choosing?</h3>
-                            <p class="text-text-light text-sm">Our domain experts can help you find the perfect domain name for your project.</p>
-                        </div>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <a href="{$WEB_ROOT}/contact.php" class="btn-outline px-4 py-2 text-center">
-                                Contact Support
-                            </a>
-                            <button onclick="searchAgain()" class="btn-secondary px-4 py-2">
-                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
-                                Search Again
-                            </button>
+                    {/foreach}
+                    
+                    <!-- Additional Actions -->
+                    <div class="bg-dark-bg-alt border border-gray-700 rounded-lg p-6 mt-8">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h3 class="text-white font-semibold mb-2">Need help choosing?</h3>
+                                <p class="text-text-light text-sm">Our domain experts can help you find the perfect domain name for your project.</p>
+                            </div>
+                            <div class="button-group">
+                                <a href="{$WEB_ROOT}/contact.php" class="btn-outline px-4 py-2 text-center">
+                                    Contact Support
+                                </a>
+                                <button onclick="searchAgain()" class="btn-secondary px-4 py-2">
+                                    <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    Search Again
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +223,7 @@
                         We couldn't find any results for "<strong>{$searchterm}</strong>". 
                         Try a different domain name or check your spelling.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <div class="button-group justify-center">
                         <button onclick="searchAgain()" class="btn-primary px-6 py-3">
                             <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -242,7 +244,7 @@
         <!-- Popular Extensions -->
         <div class="mt-12">
             <h2 class="text-2xl font-orbitron font-bold text-white mb-6 text-center">Popular Domain Extensions</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div class="responsive-grid-auto">
                 {if isset($popularextensions) && is_array($popularextensions)}
                     {foreach $popularextensions as $extension}
                         <div class="card-dark text-center py-4 hover:border-neon-green transition-all duration-300">
