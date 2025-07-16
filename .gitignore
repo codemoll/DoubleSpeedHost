@@ -41,3 +41,7 @@ Thumbs.db
 *~
 *.bak
 *.orig
+
+# Test files
+*test.html
+registration_test.html
