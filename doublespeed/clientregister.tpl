@@ -1,3 +1,23 @@
+{if in_array('state', $optionalFields)}
+    <script>
+        var statesTab = 10;
+        var stateNotRequired = true;
+    </script>
+{/if}
+
+<script type="text/javascript" src="{$BASE_PATH_JS}/StatesDropdown.js"></script>
+<script type="text/javascript" src="{$BASE_PATH_JS}/PasswordStrength.js"></script>
+<script>
+    window.langPasswordStrength = "{$LANG.pwstrength}";
+    window.langPasswordWeak = "{$LANG.pwstrengthweak}";
+    window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
+    window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
+    jQuery(document).ready(function()
+    {
+        jQuery("#inputNewPassword1").keyup(registerFormPasswordStrengthFeedback);
+    });
+</script>
+
 {include file="$template/header.tpl"}
 
 <div class="container mx-auto px-4 py-8">
@@ -12,6 +32,19 @@
                 </p>
             </div>
             
+            {if $registrationDisabled}
+                <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
+                    <div class="flex">
+                        <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="text-red-200 text-sm">
+                            {$LANG.registerCreateAccount} <strong><a href="{$WEB_ROOT}/cart.php" class="text-red-300 underline hover:text-red-100">{$LANG.registerCreateAccountOrder}</a></strong>
+                        </div>
+                    </div>
+                </div>
+            {/if}
+            
             {if $errormessage}
                 <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
                     <div class="flex">
@@ -25,264 +58,431 @@
                 </div>
             {/if}
             
-            <form method="post" action="{$WEB_ROOT}/register.php" class="space-y-8" id="registration-form">
-                {if $token}
-                    <input type="hidden" name="token" value="{$token}">
-                {/if}
-                
-                <!-- Personal Information Section -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                        </svg>
-                        Personal Information
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">First Name *</label>
-                            <input type="text" name="firstname" required class="input-dark w-full" 
-                                   placeholder="Enter your first name" 
-                                   value="{if $smarty.post.firstname}{$smarty.post.firstname}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Last Name *</label>
-                            <input type="text" name="lastname" required class="input-dark w-full" 
-                                   placeholder="Enter your last name"
-                                   value="{if $smarty.post.lastname}{$smarty.post.lastname}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Email Address *</label>
-                            <input type="email" name="email" required class="input-dark w-full" 
-                                   placeholder="your@email.com"
-                                   value="{if $smarty.post.email}{$smarty.post.email}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Phone Number *</label>
-                            <input type="tel" name="phonenumber" required class="input-dark w-full" 
-                                   placeholder="+1 (555) 123-4567"
-                                   value="{if $smarty.post.phonenumber}{$smarty.post.phonenumber}{/if}">
-                        </div>
-                    </div>
-                </div>
+            {if !$registrationDisabled}
+            <div id="registration">
+                <form method="post" class="using-password-strength space-y-8" action="{$smarty.server.PHP_SELF}" role="form" name="orderfrm" id="frmCheckout">
+                    <input type="hidden" name="register" value="true"/>
 
-                <!-- Billing Address Section -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-electric-blue" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                        </svg>
-                        Billing Address
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-white mb-2">Company Name <span class="text-text-light">(Optional)</span></label>
-                            <input type="text" name="companyname" class="input-dark w-full" 
-                                   placeholder="Your Company Name"
-                                   value="{if $smarty.post.companyname}{$smarty.post.companyname}{/if}">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-white mb-2">Street Address *</label>
-                            <input type="text" name="address1" required class="input-dark w-full" 
-                                   placeholder="123 Main Street"
-                                   value="{if $smarty.post.address1}{$smarty.post.address1}{/if}">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-white mb-2">Street Address 2 <span class="text-text-light">(Optional)</span></label>
-                            <input type="text" name="address2" class="input-dark w-full" 
-                                   placeholder="Apartment, suite, etc."
-                                   value="{if $smarty.post.address2}{$smarty.post.address2}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">City *</label>
-                            <input type="text" name="city" required class="input-dark w-full" 
-                                   placeholder="Enter your city"
-                                   value="{if $smarty.post.city}{$smarty.post.city}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">State/Province *</label>
-                            <input type="text" name="state" required class="input-dark w-full" 
-                                   placeholder="State or Province"
-                                   value="{if $smarty.post.state}{$smarty.post.state}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Postal Code *</label>
-                            <input type="text" name="postcode" required class="input-dark w-full" 
-                                   placeholder="ZIP/Postal Code"
-                                   value="{if $smarty.post.postcode}{$smarty.post.postcode}{/if}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Country *</label>
-                            <select name="country" required class="input-dark w-full">
-                                <option value="">Select Country</option>
-                                {if $countries}
-                                    {foreach from=$countries key=code item=country}
-                                        <option value="{$code}" {if $smarty.post.country == $code}selected{/if}>
-                                            {$country}
-                                        </option>
-                                    {/foreach}
-                                {else}
-                                    <option value="US" {if $smarty.post.country == 'US'}selected{/if}>United States</option>
-                                    <option value="CA" {if $smarty.post.country == 'CA'}selected{/if}>Canada</option>
-                                    <option value="GB" {if $smarty.post.country == 'GB'}selected{/if}>United Kingdom</option>
-                                    <option value="AU" {if $smarty.post.country == 'AU'}selected{/if}>Australia</option>
-                                    <option value="DE" {if $smarty.post.country == 'DE'}selected{/if}>Germany</option>
-                                    <option value="FR" {if $smarty.post.country == 'FR'}selected{/if}>France</option>
-                                    <option value="NL" {if $smarty.post.country == 'NL'}selected{/if}>Netherlands</option>
-                                {/if}
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                    <div id="containerNewUserSignup">
 
-                <!-- Additional Information Section -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-cyber-purple" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                        </svg>
-                        Additional Information
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Default Currency</label>
-                            <select name="currency" class="input-dark w-full">
-                                <option value="1" {if $smarty.post.currency == '1'}selected{/if}>USD - US Dollars</option>
-                                <option value="2" {if $smarty.post.currency == '2'}selected{/if}>EUR - Euros</option>
-                                <option value="3" {if $smarty.post.currency == '3'}selected{/if}>GBP - British Pounds</option>
-                                <option value="4" {if $smarty.post.currency == '4'}selected{/if}>CAD - Canadian Dollars</option>
-                                <option value="5" {if $smarty.post.currency == '5'}selected{/if}>AUD - Australian Dollars</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account Security Section -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-                        </svg>
-                        Account Security
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Password *</label>
-                            <div class="relative">
-                                <input type="password" name="password" required class="input-dark w-full pr-12" 
-                                       placeholder="Enter a strong password" id="password-field">
-                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" 
-                                        onclick="togglePasswordVisibility('password-field', this)">
-                                    <svg class="w-5 h-5 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="mt-2">
-                                <div class="text-xs text-text-light mb-1">Password Strength:</div>
-                                <div class="flex space-x-1">
-                                    <div class="h-2 bg-gray-600 rounded flex-1" id="strength-bar-1"></div>
-                                    <div class="h-2 bg-gray-600 rounded flex-1" id="strength-bar-2"></div>
-                                    <div class="h-2 bg-gray-600 rounded flex-1" id="strength-bar-3"></div>
-                                    <div class="h-2 bg-gray-600 rounded flex-1" id="strength-bar-4"></div>
-                                </div>
-                                <div class="text-xs mt-1" id="strength-text">Enter a password</div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white mb-2">Confirm Password *</label>
-                            <div class="relative">
-                                <input type="password" name="password2" required class="input-dark w-full pr-12" 
-                                       placeholder="Confirm your password" id="confirm-password-field">
-                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" 
-                                        onclick="togglePasswordVisibility('confirm-password-field', this)">
-                                    <svg class="w-5 h-5 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="text-xs mt-2 text-text-light">
-                                <span id="password-match"></span>
-                            </div>
-                        </div>
-                        <div class="md:col-span-2">
-                            <button type="button" class="btn-outline text-sm" onclick="generatePassword()">
-                                <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        {include file="$template/includes/linkedaccounts.tpl" linkContext="registration"}
+                        <!-- Personal Information Section -->
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                                 </svg>
-                                Generate Secure Password
-                            </button>
+                                {$LANG.orderForm.personalInformation}
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="inputFirstName" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.firstName} {if !in_array('firstname', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-user text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="firstname" id="inputFirstName" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.firstName}" 
+                                               value="{$clientfirstname}" {if !in_array('firstname', $optionalFields)}required{/if} autofocus>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputLastName" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.lastName} {if !in_array('lastname', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-user text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="lastname" id="inputLastName" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.lastName}" 
+                                               value="{$clientlastname}" {if !in_array('lastname', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputEmail" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.emailAddress} <span class="text-red-400">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-envelope text-text-light"></i>
+                                        </div>
+                                        <input type="email" name="email" id="inputEmail" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.emailAddress}" 
+                                               value="{$clientemail}" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputPhone" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.phoneNumber} {if !in_array('phonenumber', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-phone text-text-light"></i>
+                                        </div>
+                                        <input type="tel" name="phonenumber" id="inputPhone" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.phoneNumber}" 
+                                               value="{$clientphonenumber}" {if !in_array('phonenumber', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Billing Address Section -->
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-electric-blue" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                {$LANG.orderForm.billingAddress}
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="md:col-span-2">
+                                    <label for="inputCompanyName" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.companyName} <span class="text-text-light">({$LANG.orderForm.optional})</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-building text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="companyname" id="inputCompanyName" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})" 
+                                               value="{$clientcompanyname}">
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="inputAddress1" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.streetAddress} {if !in_array('address1', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="far fa-building text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="address1" id="inputAddress1" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.streetAddress}" 
+                                               value="{$clientaddress1}" {if !in_array('address1', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="inputAddress2" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.streetAddress2} <span class="text-text-light">({$LANG.orderForm.optional})</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-map-marker-alt text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="address2" id="inputAddress2" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.streetAddress2}" 
+                                               value="{$clientaddress2}">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputCity" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.city} {if !in_array('city', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="far fa-building text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="city" id="inputCity" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.city}" 
+                                               value="{$clientcity}" {if !in_array('city', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="state" class="block text-sm font-medium text-white mb-2" id="inputStateIcon">
+                                        {$LANG.orderForm.state} {if !in_array('state', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-map-signs text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="state" id="state" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.state}" 
+                                               value="{$clientstate}" {if !in_array('state', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputPostcode" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.postcode} {if !in_array('postcode', $optionalFields)}<span class="text-red-400">*</span>{/if}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-certificate text-text-light"></i>
+                                        </div>
+                                        <input type="text" name="postcode" id="inputPostcode" class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.orderForm.postcode}" 
+                                               value="{$clientpostcode}" {if !in_array('postcode', $optionalFields)}required{/if}>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="inputCountry" class="block text-sm font-medium text-white mb-2" id="inputCountryIcon">
+                                        {$LANG.orderForm.country} <span class="text-red-400">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-globe text-text-light"></i>
+                                        </div>
+                                        <select name="country" id="inputCountry" class="input-dark w-full pl-10" required>
+                                            {foreach $clientcountries as $countryCode => $countryName}
+                                                <option value="{$countryCode}"{if (!$clientcountry && $countryCode eq $defaultCountry) || ($countryCode eq $clientcountry)} selected="selected"{/if}>
+                                                    {$countryName}
+                                                </option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                {if $showTaxIdField}
+                                    <div class="md:col-span-2">
+                                        <label for="inputTaxId" class="block text-sm font-medium text-white mb-2">
+                                            {$taxLabel} <span class="text-text-light">({$LANG.orderForm.optional})</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-building text-text-light"></i>
+                                            </div>
+                                            <input type="text" name="tax_id" id="inputTaxId" class="input-dark w-full pl-10" 
+                                                   placeholder="{$taxLabel} ({$LANG.orderForm.optional})" 
+                                                   value="{$clientTaxId}">
+                                        </div>
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <!-- Additional Information Section -->
+                        {if $customfields || $currencies}
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-cyber-purple" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                {$LANG.orderadditionalrequiredinfo}
+                            </h2>
+                            <div class="text-sm text-text-light mb-4">
+                                <i>{$LANG.orderForm.requiredField}</i>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {if $customfields}
+                                {foreach $customfields as $customfield}
+                                    <div class="{if $customfield.fieldtype eq 'textarea'}md:col-span-2{/if}">
+                                        <label for="customfield{$customfield.id}" class="block text-sm font-medium text-white mb-2">
+                                            {$customfield.name} {$customfield.required}
+                                        </label>
+                                        <div class="custom-field-input">
+                                            {$customfield.input}
+                                        {if $customfield.description}
+                                            <span class="block text-xs text-text-light mt-1">{$customfield.description}</span>
+                                        {/if}
+                                        </div>
+                                    </div>
+                                {/foreach}
+                                {/if}
+                                {if $currencies}
+                                <div class="{if !$customfields}md:col-span-2{/if}">
+                                    <label for="inputCurrency" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.orderForm.currency}
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="far fa-money-bill-alt text-text-light"></i>
+                                        </div>
+                                        <select id="inputCurrency" name="currency" class="input-dark w-full pl-10">
+                                            {foreach from=$currencies item=curr}
+                                                <option value="{$curr.id}"{if !$smarty.post.currency && $curr.default || $smarty.post.currency eq $curr.id } selected{/if}>{$curr.code}</option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                {/if}
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+
+                    <!-- Account Security Section -->
+                    <div id="containerNewUserSecurity" {if $remote_auth_prelinked && !$securityquestions } class="hidden"{/if}>
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                                </svg>
+                                {$LANG.orderForm.accountSecurity}
+                            </h2>
+                            
+                            <div id="containerPassword" class="{if $remote_auth_prelinked && $securityquestions}hidden{/if}">
+                                <div id="passwdFeedback" style="display: none;" class="bg-blue-900 border border-blue-600 rounded-lg p-3 mb-6 text-center text-blue-200"></div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="inputNewPassword1" class="block text-sm font-medium text-white mb-2">
+                                            {$LANG.clientareapassword} <span class="text-red-400">*</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-lock text-text-light"></i>
+                                            </div>
+                                            <input type="password" name="password" id="inputNewPassword1" 
+                                                   data-error-threshold="{$pwStrengthErrorThreshold}" 
+                                                   data-warning-threshold="{$pwStrengthWarningThreshold}" 
+                                                   class="input-dark w-full pl-10 pr-12" 
+                                                   placeholder="{$LANG.clientareapassword}" 
+                                                   autocomplete="off" required{if $remote_auth_prelinked} value="{$password}"{/if}>
+                                            <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" 
+                                                    onclick="togglePasswordVisibility('inputNewPassword1', this)">
+                                                <svg class="w-5 h-5 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="inputNewPassword2" class="block text-sm font-medium text-white mb-2">
+                                            {$LANG.clientareaconfirmpassword} <span class="text-red-400">*</span>
+                                        </label>
+                                        <div class="relative">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fas fa-lock text-text-light"></i>
+                                            </div>
+                                            <input type="password" name="password2" id="inputNewPassword2" 
+                                                   class="input-dark w-full pl-10 pr-12" 
+                                                   placeholder="{$LANG.clientareaconfirmpassword}" 
+                                                   autocomplete="off" required{if $remote_auth_prelinked} value="{$password}"{/if}>
+                                            <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" 
+                                                    onclick="togglePasswordVisibility('inputNewPassword2', this)">
+                                                <svg class="w-5 h-5 text-text-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="text-xs mt-2 text-text-light">
+                                            <span id="password-match"></span>
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <button type="button" class="btn-outline text-sm generate-password" data-targetfields="inputNewPassword1,inputNewPassword2">
+                                            <svg class="w-4 h-4 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                                            </svg>
+                                            {$LANG.generatePassword.btnLabel}
+                                        </button>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <div class="password-strength-meter">
+                                            <div class="progress bg-gray-700 rounded-full h-2 overflow-hidden">
+                                                <div class="progress-bar progress-bar-success progress-bar-striped h-full transition-all duration-500 ease-out" 
+                                                     role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthMeterBar">
+                                                </div>
+                                            </div>
+                                            <p class="text-center text-sm text-text-light mt-2" id="passwordStrengthTextLabel">{$LANG.pwstrength}: {$LANG.pwstrengthenter}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {if $securityquestions}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                <div class="md:col-span-2">
+                                    <label for="inputSecurityQId" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.clientareasecurityquestion} <span class="text-red-400">*</span>
+                                    </label>
+                                    <select name="securityqid" id="inputSecurityQId" class="input-dark w-full" required>
+                                        <option value="">{$LANG.clientareasecurityquestion}</option>
+                                        {foreach $securityquestions as $question}
+                                            <option value="{$question.id}"{if $question.id eq $securityqid} selected{/if}>
+                                                {$question.question}
+                                            </option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="inputSecurityQAns" class="block text-sm font-medium text-white mb-2">
+                                        {$LANG.clientareasecurityanswer} <span class="text-red-400">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-lock text-text-light"></i>
+                                        </div>
+                                        <input type="password" name="securityqans" id="inputSecurityQAns" 
+                                               class="input-dark w-full pl-10" 
+                                               placeholder="{$LANG.clientareasecurityanswer}" 
+                                               autocomplete="off" required>
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
                         </div>
                     </div>
-                </div>
 
-                <!-- Marketing Preferences -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                        </svg>
-                        Mailing List Subscription
-                    </h2>
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <input type="checkbox" name="marketing_emails_opt_in" value="1" id="marketing-emails" 
-                                   class="w-4 h-4 text-neon-green bg-dark-surface border-gray-600 rounded focus:ring-neon-green focus:ring-2">
-                            <label for="marketing-emails" class="ml-3 text-text-light">
-                                Yes, I would like to receive promotional emails about new services, special offers, and updates from DoubleSpeed Host.
-                            </label>
+                    <!-- Marketing Preferences -->
+                    {if $showMarketingEmailOptIn}
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                </svg>
+                                {$LANG.emailMarketing.joinOurMailingList}
+                            </h2>
+                            <div class="space-y-4">
+                                <p class="text-text-light">{$marketingEmailOptInMessage}</p>
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="marketingoptin" value="1"{if $marketingEmailOptIn} checked{/if} 
+                                           id="marketing-emails" 
+                                           class="w-4 h-4 text-neon-green bg-dark-surface border-gray-600 rounded focus:ring-neon-green focus:ring-2">
+                                    <label for="marketing-emails" class="ml-3 text-text-light">
+                                        {$LANG.yes}, I would like to receive promotional emails about new services, special offers, and updates.
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-xs text-text-light">
-                            You can unsubscribe at any time. We respect your privacy and will never share your information with third parties.
+                    {/if}
+
+                    <!-- CAPTCHA -->
+                    {include file="$template/includes/captcha.tpl"}
+
+                    <!-- Terms and Conditions -->
+                    {if $accepttos}
+                        <div class="card-dark">
+                            <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
+                                <svg class="w-6 h-6 mr-3 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/>
+                                </svg>
+                                {$LANG.ordertos}
+                            </h2>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox" name="accepttos" value="1" required id="accept-tos" 
+                                           class="w-4 h-4 mt-1 text-neon-green bg-dark-surface border-gray-600 rounded focus:ring-neon-green focus:ring-2 accepttos">
+                                    <label for="accept-tos" class="ml-3 text-text-light">
+                                        {$LANG.ordertosagreement} <a href="{$tosurl}" target="_blank" class="text-neon-green hover:text-electric-blue underline">{$LANG.ordertos}</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn-primary text-lg px-12 py-4 shadow-xl{$captcha->getButtonClass($captchaForm)}">
+                            <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                            {$LANG.clientregistertitle}
+                        </button>
+                        <p class="text-text-light text-sm mt-4">
+                            Already have an account? 
+                            <a href="{$WEB_ROOT}/clientarea.php" class="text-neon-green hover:text-electric-blue transition-colors duration-300">
+                                Sign in here
+                            </a>
                         </p>
                     </div>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="card-dark">
-                    <h2 class="text-2xl font-orbitron font-semibold text-white mb-6 flex items-center">
-                        <svg class="w-6 h-6 mr-3 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/>
-                        </svg>
-                        Terms of Service Acceptance
-                    </h2>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <input type="checkbox" name="accepttos" value="1" required id="accept-tos" 
-                                   class="w-4 h-4 mt-1 text-neon-green bg-dark-surface border-gray-600 rounded focus:ring-neon-green focus:ring-2">
-                            <label for="accept-tos" class="ml-3 text-text-light">
-                                I have read and agree to the <a href="{$WEB_ROOT}/legal.php?page=terms-of-service" target="_blank" class="text-neon-green hover:text-electric-blue underline">Terms of Service</a> and <a href="{$WEB_ROOT}/legal.php?page=privacy-policy" target="_blank" class="text-neon-green hover:text-electric-blue underline">Privacy Policy</a>. *
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                {if $recaptchahtml}
-                    <div class="card-dark">
-                        <h2 class="text-lg font-semibold text-white mb-4">Security Verification</h2>
-                        {$recaptchahtml}
-                    </div>
-                {/if}
-
-                <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="btn-primary text-lg px-12 py-4 shadow-xl">
-                        <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
-                        </svg>
-                        Create My Account
-                    </button>
-                    <p class="text-text-light text-sm mt-4">
-                        Already have an account? 
-                        <a href="{$WEB_ROOT}/clientarea.php" class="text-neon-green hover:text-electric-blue transition-colors duration-300">
-                            Sign in here
-                        </a>
-                    </p>
-                </div>
-            </form>
+                </form>
+            </div>
+            {/if}
         </div>
     </div>
 </div>
@@ -308,97 +508,93 @@ function togglePasswordVisibility(fieldId, button) {
     }
 }
 
-// Password strength indicator
-document.getElementById('password-field').addEventListener('input', function() {
-    const password = this.value;
-    const strength = calculatePasswordStrength(password);
-    updatePasswordStrength(strength);
-});
-
 // Password confirmation check
-document.getElementById('confirm-password-field').addEventListener('input', function() {
-    const password = document.getElementById('password-field').value;
-    const confirmPassword = this.value;
-    const matchElement = document.getElementById('password-match');
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmPasswordField = document.getElementById('inputNewPassword2');
+    const passwordField = document.getElementById('inputNewPassword1');
     
-    if (confirmPassword.length === 0) {
-        matchElement.textContent = '';
-        matchElement.className = '';
-    } else if (password === confirmPassword) {
-        matchElement.textContent = '✓ Passwords match';
-        matchElement.className = 'text-green-400';
-    } else {
-        matchElement.textContent = '✗ Passwords do not match';
-        matchElement.className = 'text-red-400';
+    if (confirmPasswordField && passwordField) {
+        confirmPasswordField.addEventListener('input', function() {
+            const password = passwordField.value;
+            const confirmPassword = this.value;
+            const matchElement = document.getElementById('password-match');
+            
+            if (confirmPassword.length === 0) {
+                matchElement.textContent = '';
+                matchElement.className = '';
+            } else if (password === confirmPassword) {
+                matchElement.textContent = '✓ Passwords match';
+                matchElement.className = 'text-green-400';
+            } else {
+                matchElement.textContent = '✗ Passwords do not match';
+                matchElement.className = 'text-red-400';
+            }
+        });
     }
 });
 
-function calculatePasswordStrength(password) {
+// Enhanced password strength indicator for WHMCS compatibility
+function registerFormPasswordStrengthFeedback() {
+    const password = document.getElementById('inputNewPassword1').value;
+    const strengthBar = document.getElementById('passwordStrengthMeterBar');
+    const strengthText = document.getElementById('passwordStrengthTextLabel');
+    
+    if (!strengthBar || !strengthText) return;
+    
     let score = 0;
-    if (password.length >= 8) score++;
-    if (password.match(/[a-z]/)) score++;
-    if (password.match(/[A-Z]/)) score++;
-    if (password.match(/[0-9]/)) score++;
-    if (password.match(/[^a-zA-Z0-9]/)) score++;
-    return score;
+    let feedback = window.langPasswordStrength + ': ';
+    
+    // Calculate strength
+    if (password.length >= 8) score += 20;
+    if (password.match(/[a-z]/)) score += 20;
+    if (password.match(/[A-Z]/)) score += 20;
+    if (password.match(/[0-9]/)) score += 20;
+    if (password.match(/[^a-zA-Z0-9]/)) score += 20;
+    
+    // Update progress bar
+    strengthBar.style.width = score + '%';
+    strengthBar.setAttribute('aria-valuenow', score);
+    
+    // Update classes and text
+    strengthBar.className = 'progress-bar h-full transition-all duration-500 ease-out';
+    
+    if (score === 0) {
+        feedback += window.langPasswordStrength || 'Enter a password';
+        strengthText.className = 'text-center text-sm text-text-light mt-2';
+    } else if (score <= 40) {
+        feedback += window.langPasswordWeak || 'Weak';
+        strengthBar.className += ' bg-red-500';
+        strengthText.className = 'text-center text-sm text-red-400 mt-2';
+    } else if (score <= 60) {
+        feedback += window.langPasswordModerate || 'Moderate';
+        strengthBar.className += ' bg-yellow-500';
+        strengthText.className = 'text-center text-sm text-yellow-400 mt-2';
+    } else {
+        feedback += window.langPasswordStrong || 'Strong';
+        strengthBar.className += ' bg-green-500';
+        strengthText.className = 'text-center text-sm text-green-400 mt-2';
+    }
+    
+    strengthText.textContent = feedback;
 }
 
-function updatePasswordStrength(strength) {
-    const bars = ['strength-bar-1', 'strength-bar-2', 'strength-bar-3', 'strength-bar-4'];
-    const textElement = document.getElementById('strength-text');
-    
-    // Reset bars
-    bars.forEach(bar => {
-        document.getElementById(bar).className = 'h-2 bg-gray-600 rounded flex-1';
+// Style custom fields to match template
+document.addEventListener('DOMContentLoaded', function() {
+    // Style custom field inputs
+    const customFieldInputs = document.querySelectorAll('.custom-field-input input, .custom-field-input select, .custom-field-input textarea');
+    customFieldInputs.forEach(function(input) {
+        if (!input.classList.contains('input-dark')) {
+            input.classList.add('input-dark', 'w-full');
+        }
     });
     
-    if (strength === 0) {
-        textElement.textContent = 'Enter a password';
-        textElement.className = 'text-xs mt-1 text-text-light';
-    } else if (strength <= 2) {
-        textElement.textContent = 'Weak password';
-        textElement.className = 'text-xs mt-1 text-red-400';
-        bars.slice(0, 1).forEach(bar => {
-            document.getElementById(bar).className = 'h-2 bg-red-500 rounded flex-1';
-        });
-    } else if (strength === 3) {
-        textElement.textContent = 'Good password';
-        textElement.className = 'text-xs mt-1 text-yellow-400';
-        bars.slice(0, 2).forEach(bar => {
-            document.getElementById(bar).className = 'h-2 bg-yellow-500 rounded flex-1';
-        });
-    } else if (strength === 4) {
-        textElement.textContent = 'Strong password';
-        textElement.className = 'text-xs mt-1 text-green-400';
-        bars.slice(0, 3).forEach(bar => {
-            document.getElementById(bar).className = 'h-2 bg-green-500 rounded flex-1';
-        });
-    } else {
-        textElement.textContent = 'Very strong password';
-        textElement.className = 'text-xs mt-1 text-neon-green';
-        bars.forEach(bar => {
-            document.getElementById(bar).className = 'h-2 bg-neon-green rounded flex-1';
-        });
-    }
-}
-
-// Password generator
-function generatePassword() {
-    const length = 16;
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-    let password = "";
-    for (let i = 0, n = charset.length; i < length; ++i) {
-        password += charset.charAt(Math.floor(Math.random() * n));
-    }
-    
-    document.getElementById('password-field').value = password;
-    document.getElementById('confirm-password-field').value = password;
-    
-    // Trigger strength calculation
-    updatePasswordStrength(calculatePasswordStrength(password));
-    document.getElementById('password-match').textContent = '✓ Passwords match';
-    document.getElementById('password-match').className = 'text-green-400';
-}
+    // Style checkboxes in custom fields
+    const customFieldCheckboxes = document.querySelectorAll('.custom-field-input input[type="checkbox"]');
+    customFieldCheckboxes.forEach(function(checkbox) {
+        checkbox.classList.remove('input-dark', 'w-full');
+        checkbox.classList.add('w-4', 'h-4', 'text-neon-green', 'bg-dark-surface', 'border-gray-600', 'rounded', 'focus:ring-neon-green', 'focus:ring-2');
+    });
+});
 </script>
 
 {include file="$template/footer.tpl"}
