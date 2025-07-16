@@ -1,25 +1,5 @@
 {include file="$template/header.tpl"}
 
-{* Debug Mode - Only show when debug is enabled in template settings *}
-{if isset($template_debug_mode) && $template_debug_mode}
-    <div class="container mx-auto px-4 py-4">
-        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
-            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Client Area Product Details Template</h3>
-            <div class="text-yellow-200 text-sm space-y-2">
-                <div><strong>Service Variable:</strong> {if isset($service)}{if is_array($service)}Array with {count($service)} properties{else}Type: {gettype($service)}{/if}{else}Not set{/if}</div>
-                <div><strong>Product:</strong> {if isset($product) && $product}{$product}{else}Not set{/if}</div>
-                <div><strong>Domain:</strong> {if isset($domain) && $domain}{$domain}{else}Not set{/if}</div>
-                <div><strong>Status:</strong> {if isset($status) && $status}{$status}{else}Not set{/if}</div>
-                <div><strong>Usage Stats:</strong> Disk: {if isset($diskusage)}{$diskusage}{else}N/A{/if}, BW: {if isset($bwusage)}{$bwusage}{else}N/A{/if}</div>
-                <div><strong>Service ID:</strong> {if isset($serviceid) && $serviceid}{$serviceid}{else}Not set{/if}</div>
-                <div><strong>Module Output:</strong> {if isset($moduleoutput) && $moduleoutput}Present{else}Not available{/if}</div>
-                <div><strong>Template File:</strong> clientareaproductdetails.tpl</div>
-                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
-            </div>
-        </div>
-    </div>
-{/if}
-
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-7xl mx-auto">
         

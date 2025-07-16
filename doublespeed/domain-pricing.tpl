@@ -1,30 +1,5 @@
 {include file="$template/header.tpl"}
 
-{* Debug Mode - Only show when debug is enabled in template settings *}
-{if isset($template_debug_mode) && $template_debug_mode}
-    <div class="container mx-auto px-4 py-4">
-        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
-            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Domain Pricing Template</h3>
-            <div class="text-yellow-200 text-sm space-y-2">
-                <div><strong>Pricing Variable:</strong> {if isset($pricing)}{if is_array($pricing)}Array with {count($pricing)} items{else}Type: {gettype($pricing)}{/if}{else}Not set{/if}</div>
-                {if isset($pricing) && is_array($pricing) && $pricing}
-                    <div><strong>Sample TLD:</strong> 
-                        {foreach $pricing as $tld name=debug_loop}
-                            {if $smarty.foreach.debug_loop.first}
-                                Extension: {if isset($tld.extension)}{$tld.extension}{else}N/A{/if}, 
-                                Register: {if isset($tld.register)}{$tld.register}{else}N/A{/if}, 
-                                Renew: {if isset($tld.renew)}{$tld.renew}{else}N/A{/if}
-                            {/if}
-                        {/foreach}
-                    </div>
-                {/if}
-                <div><strong>Template File:</strong> domain-pricing.tpl</div>
-                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
-            </div>
-        </div>
-    </div>
-{/if}
-
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <div class="mb-8">

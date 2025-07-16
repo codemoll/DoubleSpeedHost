@@ -1,29 +1,5 @@
 {include file="$template/header.tpl"}
 
-{* Debug Mode - Only show when debug is enabled in template settings *}
-{if isset($template_debug_mode) && $template_debug_mode}
-    <div class="container mx-auto px-4 py-4">
-        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
-            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Products Template</h3>
-            <div class="text-yellow-200 text-sm space-y-2">
-                <div><strong>Product Groups:</strong> {if isset($productgroups)}{if is_array($productgroups)}Array with {count($productgroups)} groups{else}Type: {gettype($productgroups)}{/if}{else}Not set{/if}</div>
-                {if isset($productgroups) && is_array($productgroups) && count($productgroups) > 0}
-                    <div><strong>Sample Group:</strong> 
-                        {foreach from=$productgroups item=pg name=debug_loop}
-                            {if $smarty.foreach.debug_loop.first}
-                                Name: {if isset($pg.name)}{$pg.name}{else}N/A{/if}, 
-                                Products: {if isset($pg.products) && is_array($pg.products)}{count($pg.products)} items{else}N/A{/if}
-                            {/if}
-                        {/foreach}
-                    </div>
-                {/if}
-                <div><strong>Template File:</strong> products.tpl</div>
-                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
-            </div>
-        </div>
-    </div>
-{/if}
-
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
         <!-- Header -->

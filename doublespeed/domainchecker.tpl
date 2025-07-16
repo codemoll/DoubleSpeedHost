@@ -1,24 +1,5 @@
 {include file="$template/header.tpl"}
 
-{* Debug Mode - Only show when debug is enabled in template settings *}
-{if isset($template_debug_mode) && $template_debug_mode}
-    <div class="container mx-auto px-4 py-4">
-        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
-            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Domain Checker Template</h3>
-            <div class="text-yellow-200 text-sm space-y-2">
-                <div><strong>Domain Extensions:</strong> {if isset($domainextensions)}{if is_array($domainextensions)}Array with {count($domainextensions)} items{else}Type: {gettype($domainextensions)}{/if}{else}Not set{/if}</div>
-                <div><strong>Search Results:</strong> {if isset($results)}{if is_array($results)}Array with {count($results)} items{else}Type: {gettype($results)}{/if}{else}Not set{/if}</div>
-                <div><strong>Popular Extensions:</strong> {if isset($popularextensions)}{if is_array($popularextensions)}Array with {count($popularextensions)} items{else}Type: {gettype($popularextensions)}{/if}{else}Not set{/if}</div>
-                <div><strong>Search Term:</strong> {if isset($searchterm)}{$searchterm}{else}Not set{/if}</div>
-                <div><strong>Selected Extension:</strong> {if isset($selectedext)}{$selectedext}{else}Not set{/if}</div>
-                <div><strong>Error:</strong> {if isset($error) && $error}{$error}{else}None{/if}</div>
-                <div><strong>Template File:</strong> domainchecker.tpl</div>
-                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
-            </div>
-        </div>
-    </div>
-{/if}
-
 <div class="min-h-screen bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         

@@ -1,23 +1,5 @@
 {include file="$template/header.tpl"}
 
-{* Debug Mode - Only show when debug is enabled in template settings *}
-{if isset($template_debug_mode) && $template_debug_mode}
-    <div class="container mx-auto px-4 py-4">
-        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
-            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Configure Product Domain Template</h3>
-            <div class="text-yellow-200 text-sm space-y-2">
-                <div><strong>Domain Options:</strong> {if isset($domainoptions)}{if is_array($domainoptions)}Array with {count($domainoptions)} options{else}Type: {gettype($domainoptions)}{/if}{else}Not set{/if}</div>
-                <div><strong>TLDs:</strong> {if isset($tlds)}{if is_array($tlds)}Array with {count($tlds)} TLDs{else}Type: {gettype($tlds)}{/if}{else}Not set{/if}</div>
-                <div><strong>Selected Domain Type:</strong> {if isset($selecteddomaintype)}{$selecteddomaintype}{else}Not set{/if}</div>
-                <div><strong>Error Message:</strong> {if isset($errormessage) && $errormessage}{$errormessage}{else}None{/if}</div>
-                <div><strong>Form Data:</strong> SLD: {if isset($sld)}{$sld}{else}N/A{/if}, TLD: {if isset($selectedtld)}{$selectedtld}{else}N/A{/if}</div>
-                <div><strong>Template File:</strong> configureproductdomain.tpl</div>
-                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
-            </div>
-        </div>
-    </div>
-{/if}
-
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
