@@ -13,42 +13,63 @@
                     <p class="text-text-light">Find the perfect domain for your website at competitive prices.</p>
                 </div>
                 
-                {if $pricing}
+                {if isset($pricing) && is_array($pricing) && $pricing}
                     <div class="overflow-x-auto">
                         <table class="w-full table-auto">
                             <thead>
                                 <tr class="border-b border-gray-600">
-                                    <th class="text-left py-4 px-4 text-text-light">Extension</th>
-                                    <th class="text-center py-4 px-4 text-text-light">Registration</th>
-                                    <th class="text-center py-4 px-4 text-text-light">Renewal</th>
-                                    <th class="text-center py-4 px-4 text-text-light">Transfer</th>
-                                    <th class="text-center py-4 px-4 text-text-light">Action</th>
+                                    <th class="text-left py-4 px-2 md:px-4 text-text-light">Extension</th>
+                                    <th class="text-center py-4 px-2 md:px-4 text-text-light hidden sm:table-cell">Registration</th>
+                                    <th class="text-center py-4 px-2 md:px-4 text-text-light hidden md:table-cell">Renewal</th>
+                                    <th class="text-center py-4 px-2 md:px-4 text-text-light hidden lg:table-cell">Transfer</th>
+                                    <th class="text-center py-4 px-2 md:px-4 text-text-light">Price</th>
+                                    <th class="text-center py-4 px-2 md:px-4 text-text-light">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {foreach $pricing as $tld}
                                     <tr class="border-b border-gray-700 hover:bg-dark-bg transition-colors">
-                                        <td class="py-4 px-4">
-                                            <span class="text-xl font-bold text-white">.{$tld.extension}</span>
-                                            {if $tld.description}
-                                                <p class="text-text-light text-sm">{$tld.description}</p>
+                                        <td class="py-4 px-2 md:px-4">
+                                            <span class="text-lg md:text-xl font-bold text-white">
+                                                .{if isset($tld.extension)}{$tld.extension}{else}com{/if}
+                                            </span>
+                                            {if isset($tld.description) && $tld.description}
+                                                <p class="text-text-light text-xs md:text-sm hidden sm:block">{$tld.description}</p>
                                             {/if}
                                         </td>
-                                        <td class="py-4 px-4 text-center">
-                                            <span class="text-lg font-semibold text-neon-green">${$tld.register}</span>
+                                        <td class="py-4 px-2 md:px-4 text-center hidden sm:table-cell">
+                                            <span class="text-sm md:text-lg font-semibold text-neon-green">
+                                                ${if isset($tld.register)}{$tld.register}{else}N/A{/if}
+                                            </span>
+                                            <p class="text-text-light text-xs hidden md:block">per year</p>
+                                        </td>
+                                        <td class="py-4 px-2 md:px-4 text-center hidden md:table-cell">
+                                            <span class="text-sm md:text-lg font-semibold text-electric-blue">
+                                                ${if isset($tld.renew)}{$tld.renew}{else}N/A{/if}
+                                            </span>
                                             <p class="text-text-light text-xs">per year</p>
                                         </td>
-                                        <td class="py-4 px-4 text-center">
-                                            <span class="text-lg font-semibold text-electric-blue">${$tld.renew}</span>
+                                        <td class="py-4 px-2 md:px-4 text-center hidden lg:table-cell">
+                                            <span class="text-sm md:text-lg font-semibold text-cyber-purple">
+                                                ${if isset($tld.transfer)}{$tld.transfer}{else}N/A{/if}
+                                            </span>
                                             <p class="text-text-light text-xs">per year</p>
                                         </td>
-                                        <td class="py-4 px-4 text-center">
-                                            <span class="text-lg font-semibold text-cyber-purple">${$tld.transfer}</span>
-                                            <p class="text-text-light text-xs">per year</p>
+                                        <td class="py-4 px-2 md:px-4 text-center sm:hidden">
+                                            <div class="space-y-1">
+                                                <div class="text-sm font-semibold text-neon-green">
+                                                    Reg: ${if isset($tld.register)}{$tld.register}{else}N/A{/if}
+                                                </div>
+                                                {if isset($tld.renew)}
+                                                    <div class="text-xs text-electric-blue">
+                                                        Renewal: ${$tld.renew}
+                                                    </div>
+                                                {/if}
+                                            </div>
                                         </td>
-                                        <td class="py-4 px-4 text-center">
-                                            <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query=.{$tld.extension}" 
-                                               class="btn-primary btn-sm">
+                                        <td class="py-4 px-2 md:px-4 text-center">
+                                            <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query=.{if isset($tld.extension)}{$tld.extension}{else}com{/if}" 
+                                               class="btn-primary btn-sm text-xs md:text-sm px-2 md:px-4">
                                                 Register
                                             </a>
                                         </td>

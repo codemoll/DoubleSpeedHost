@@ -17,69 +17,80 @@
             </p>
         </div>
 
-        {if $productgroups}
+        {if isset($productgroups) && is_array($productgroups) && $productgroups}
             {foreach from=$productgroups item=productgroup}
                 <div class="mb-12">
                     <div class="text-center mb-8">
-                        <h2 class="text-2xl font-orbitron font-bold text-white mb-4">{$productgroup.name}</h2>
-                        {if $productgroup.description}
+                        <h2 class="text-2xl font-orbitron font-bold text-white mb-4">
+                            {if isset($productgroup.name)}{$productgroup.name}{else}Products{/if}
+                        </h2>
+                        {if isset($productgroup.description) && $productgroup.description}
                             <p class="text-text-light max-w-3xl mx-auto">{$productgroup.description}</p>
                         {/if}
                     </div>
                     
-                    {if $productgroup.products}
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {if isset($productgroup.products) && is_array($productgroup.products) && $productgroup.products}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                             {foreach from=$productgroup.products item=product}
-                                <div class="card-dark hover:border-neon-green transition-all duration-300 group">
+                                <div class="card-dark hover:border-neon-green transition-all duration-300 group flex flex-col">
                                     <div class="text-center mb-6">
-                                        <h3 class="text-xl font-orbitron font-semibold text-white mb-2">{$product.name}</h3>
-                                        {if $product.description}
+                                        <h3 class="text-xl font-orbitron font-semibold text-white mb-2">
+                                            {if isset($product.name)}{$product.name}{else}Hosting Plan{/if}
+                                        </h3>
+                                        {if isset($product.description) && $product.description}
                                             <p class="text-text-light text-sm">{$product.description|strip_tags|truncate:120}</p>
                                         {/if}
                                     </div>
                                     
-                                    {if $product.pricing}
+                                    {if isset($product.pricing) && is_array($product.pricing)}
                                         <div class="text-center mb-6">
                                             <div class="text-3xl font-bold text-neon-green mb-2">
-                                                {if $product.pricing.monthly}
+                                                {if isset($product.pricing.monthly) && $product.pricing.monthly}
                                                     {$product.pricing.monthly}
-                                                {elseif $product.pricing.annually}
+                                                {elseif isset($product.pricing.annually) && $product.pricing.annually}
                                                     {$product.pricing.annually}
-                                                {elseif $product.pricing.oneoff}
+                                                {elseif isset($product.pricing.oneoff) && $product.pricing.oneoff}
                                                     {$product.pricing.oneoff}
                                                 {else}
                                                     Contact Us
                                                 {/if}
                                             </div>
-                                            {if $product.pricing.monthly}
+                                            {if isset($product.pricing.monthly) && $product.pricing.monthly}
                                                 <div class="text-text-light text-sm">/month</div>
-                                            {elseif $product.pricing.annually}
+                                            {elseif isset($product.pricing.annually) && $product.pricing.annually}
                                                 <div class="text-text-light text-sm">/year</div>
                                             {/if}
                                         </div>
                                     {/if}
                                     
-                                    {if $product.features}
-                                        <div class="space-y-3 mb-6">
+                                    {if isset($product.features) && is_array($product.features) && $product.features}
+                                        <div class="space-y-3 mb-6 flex-grow">
                                             {foreach from=$product.features item=feature name=features}
                                                 {if $smarty.foreach.features.index < 5}
-                                                    <div class="flex items-center space-x-3">
-                                                        <svg class="w-5 h-5 text-neon-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <div class="flex items-start space-x-3">
+                                                        <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                                         </svg>
                                                         <span class="text-white text-sm">{$feature}</span>
                                                     </div>
                                                 {/if}
                                             {/foreach}
+                                            {if count($product.features) > 5}
+                                                <div class="text-text-light text-xs italic">
+                                                    +{count($product.features) - 5} more features
+                                                </div>
+                                            {/if}
                                         </div>
                                     {/if}
                                     
-                                    <div class="text-center">
-                                        <a href="{$WEB_ROOT}/cart.php?a=add&pid={$product.pid}" class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-neon-green group-hover:to-electric-blue">
+                                    <div class="space-y-3 mt-auto">
+                                        <a href="{$WEB_ROOT}/cart.php?a=add&pid={if isset($product.pid)}{$product.pid}{else}1{/if}" 
+                                           class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-neon-green group-hover:to-electric-blue">
                                             Order Now
                                         </a>
-                                        {if $product.configoptions}
-                                            <a href="{$WEB_ROOT}/cart.php?a=confproduct&i={$product.pid}" class="btn-outline w-full mt-2">
+                                        {if isset($product.configoptions) && $product.configoptions}
+                                            <a href="{$WEB_ROOT}/cart.php?a=confproduct&i={$product.pid}" 
+                                               class="btn-outline w-full">
                                                 Configure
                                             </a>
                                         {/if}
@@ -87,14 +98,18 @@
                                 </div>
                             {/foreach}
                         </div>
+                    {else}
+                        <div class="text-center py-8">
+                            <p class="text-text-light">No products available in this category.</p>
+                        </div>
                     {/if}
                 </div>
             {/foreach}
         {else}
             <!-- Default products when no data available -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 <!-- Basic Hosting -->
-                <div class="card-dark hover:border-neon-green transition-all duration-300 group">
+                <div class="card-dark hover:border-neon-green transition-all duration-300 group flex flex-col">
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-orbitron font-semibold text-white mb-2">Basic Hosting</h3>
                         <p class="text-text-light text-sm">Perfect for personal websites and blogs</p>
@@ -105,34 +120,34 @@
                         <div class="text-text-light text-sm">/month</div>
                     </div>
                     
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-neon-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="space-y-3 mb-6 flex-grow">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">10 GB SSD Storage</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-neon-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">100 GB Bandwidth</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-neon-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">5 Email Accounts</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-neon-green flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Free SSL Certificate</span>
                         </div>
                     </div>
                     
-                    <div class="text-center">
+                    <div class="mt-auto">
                         <a href="{$WEB_ROOT}/cart.php?a=add&pid=1" class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-neon-green group-hover:to-electric-blue">
                             Order Now
                         </a>
@@ -140,7 +155,7 @@
                 </div>
 
                 <!-- Standard Hosting -->
-                <div class="card-dark hover:border-electric-blue transition-all duration-300 group border-electric-blue">
+                <div class="card-dark hover:border-electric-blue transition-all duration-300 group border-electric-blue relative flex flex-col">
                     <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
                         <span class="bg-electric-blue text-dark-bg px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
                     </div>
@@ -155,34 +170,34 @@
                         <div class="text-text-light text-sm">/month</div>
                     </div>
                     
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="space-y-3 mb-6 flex-grow">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">50 GB SSD Storage</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">500 GB Bandwidth</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Unlimited Email</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Free Domain + SSL</span>
                         </div>
                     </div>
                     
-                    <div class="text-center">
+                    <div class="mt-auto">
                         <a href="{$WEB_ROOT}/cart.php?a=add&pid=2" class="btn-primary w-full bg-electric-blue group-hover:bg-gradient-to-r group-hover:from-electric-blue group-hover:to-cyber-purple">
                             Order Now
                         </a>
@@ -190,7 +205,7 @@
                 </div>
 
                 <!-- Premium Hosting -->
-                <div class="card-dark hover:border-cyber-purple transition-all duration-300 group">
+                <div class="card-dark hover:border-cyber-purple transition-all duration-300 group flex flex-col">
                     <div class="text-center mb-6">
                         <h3 class="text-xl font-orbitron font-semibold text-white mb-2">Premium Hosting</h3>
                         <p class="text-text-light text-sm">Maximum performance for high-traffic sites</p>
@@ -201,34 +216,34 @@
                         <div class="text-text-light text-sm">/month</div>
                     </div>
                     
-                    <div class="space-y-3 mb-6">
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="space-y-3 mb-6 flex-grow">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">200 GB SSD Storage</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Unlimited Bandwidth</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Unlimited Everything</span>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-cyber-purple flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             <span class="text-white text-sm">Priority Support</span>
                         </div>
                     </div>
                     
-                    <div class="text-center">
+                    <div class="mt-auto">
                         <a href="{$WEB_ROOT}/cart.php?a=add&pid=3" class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-cyber-purple group-hover:to-neon-green">
                             Order Now
                         </a>
