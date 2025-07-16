@@ -28,21 +28,32 @@
                             <input type="text" 
                                    name="domain" 
                                    id="domain"
-                                   value="{if $searchterm}{$searchterm}{/if}"
+                                   value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
                                    placeholder="yourdomain"
                                    class="input-dark w-full text-lg py-4"
                                    required>
                         </div>
                         <div class="sm:w-48">
                             <select name="ext" class="input-dark w-full py-4 text-lg">
-                                <option value=".com">.com</option>
-                                <option value=".net">.net</option>
-                                <option value=".org">.org</option>
-                                <option value=".info">.info</option>
-                                <option value=".biz">.biz</option>
-                                <option value=".us">.us</option>
-                                <option value=".io">.io</option>
-                                <option value=".co">.co</option>
+                                {if isset($domainextensions) && is_array($domainextensions)}
+                                    {foreach $domainextensions as $extension}
+                                        <option value=".{$extension.extension}" 
+                                                {if isset($selectedext) && $selectedext eq $extension.extension}selected{/if}>
+                                            .{$extension.extension}
+                                        </option>
+                                    {/foreach}
+                                {else}
+                                    <option value=".com">.com</option>
+                                    <option value=".net">.net</option>
+                                    <option value=".org">.org</option>
+                                    <option value=".info">.info</option>
+                                    <option value=".biz">.biz</option>
+                                    <option value=".us">.us</option>
+                                    <option value=".io">.io</option>
+                                    <option value=".co">.co</option>
+                                    <option value=".dev">.dev</option>
+                                    <option value=".app">.app</option>
+                                {/if}
                             </select>
                         </div>
                         <button type="submit" class="btn-primary px-8 py-4 text-lg whitespace-nowrap">
@@ -70,28 +81,42 @@
         </div>
 
         <!-- Search Results -->
-        {if $results}
+        {if isset($results) && is_array($results) && $results}
             <div class="space-y-4">
                 <h2 class="text-2xl font-orbitron font-bold text-white mb-6">Search Results</h2>
                 
                 {foreach $results as $result}
-                    <div class="domain-result {if $result.status eq 'available'}available{else}unavailable{/if}">
-                        <div class="domain-name">{$result.domain}</div>
-                        <div class="domain-status">
-                            {if $result.status eq 'available'}
-                                Available
-                            {else}
-                                Unavailable
+                    <div class="domain-result {if isset($result.status) && $result.status eq 'available'}available{else}unavailable{/if}">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4">
+                            <div class="flex-1">
+                                <div class="domain-name text-lg font-semibold text-white">
+                                    {if isset($result.domain)}{$result.domain}{else}Domain{/if}
+                                </div>
+                                <div class="domain-status mt-1">
+                                    {if isset($result.status) && $result.status eq 'available'}
+                                        <span class="text-neon-green text-sm">✓ Available</span>
+                                    {else}
+                                        <span class="text-red-400 text-sm">✗ Unavailable</span>
+                                    {/if}
+                                </div>
+                            </div>
+                            
+                            {if isset($result.status) && $result.status eq 'available'}
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                                    {if isset($result.price)}
+                                        <div class="domain-price text-lg font-bold text-white">
+                                            {$result.price}
+                                        </div>
+                                    {/if}
+                                    <div class="domain-action">
+                                        <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query={if isset($result.domain)}{$result.domain}{/if}" 
+                                           class="btn-primary text-sm px-4 py-2">
+                                            Add to Cart
+                                        </a>
+                                    </div>
+                                </div>
                             {/if}
                         </div>
-                        {if $result.status eq 'available'}
-                            <div class="domain-price">{$result.price}</div>
-                            <div class="domain-action">
-                                <a href="cart.php?a=add&domain=register&query={$result.domain}" class="btn-primary text-sm">
-                                    Add to Cart
-                                </a>
-                            </div>
-                        {/if}
                     </div>
                 {/foreach}
             </div>
@@ -101,30 +126,50 @@
         <div class="mt-12">
             <h2 class="text-2xl font-orbitron font-bold text-white mb-6 text-center">Popular Domain Extensions</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-neon-green">.COM</div>
-                    <div class="text-text-light text-sm">$12.99/year</div>
-                </div>
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-electric-blue">.NET</div>
-                    <div class="text-text-light text-sm">$14.99/year</div>
-                </div>
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-cyber-purple">.ORG</div>
-                    <div class="text-text-light text-sm">$13.99/year</div>
-                </div>
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-yellow-500">.IO</div>
-                    <div class="text-text-light text-sm">$59.99/year</div>
-                </div>
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-green-400">.CO</div>
-                    <div class="text-text-light text-sm">$29.99/year</div>
-                </div>
-                <div class="card-dark text-center py-4">
-                    <div class="text-lg font-orbitron font-bold text-orange-400">.INFO</div>
-                    <div class="text-text-light text-sm">$18.99/year</div>
-                </div>
+                {if isset($popularextensions) && is_array($popularextensions)}
+                    {foreach $popularextensions as $extension}
+                        <div class="card-dark text-center py-4 hover:border-neon-green transition-all duration-300">
+                            <div class="text-lg font-orbitron font-bold text-neon-green">
+                                .{if isset($extension.extension)}{$extension.extension|upper}{else}COM{/if}
+                            </div>
+                            <div class="text-text-light text-sm">
+                                {if isset($extension.price)}{$extension.price}{else}Contact us{/if}
+                            </div>
+                            {if isset($extension.price)}
+                                <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query=.{$extension.extension}" 
+                                   class="btn-outline btn-sm mt-2 text-xs">
+                                    Register
+                                </a>
+                            {/if}
+                        </div>
+                    {/foreach}
+                {else}
+                    <!-- Default popular extensions -->
+                    <div class="card-dark text-center py-4 hover:border-neon-green transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-neon-green">.COM</div>
+                        <div class="text-text-light text-sm">$12.99/year</div>
+                    </div>
+                    <div class="card-dark text-center py-4 hover:border-electric-blue transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-electric-blue">.NET</div>
+                        <div class="text-text-light text-sm">$14.99/year</div>
+                    </div>
+                    <div class="card-dark text-center py-4 hover:border-cyber-purple transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-cyber-purple">.ORG</div>
+                        <div class="text-text-light text-sm">$13.99/year</div>
+                    </div>
+                    <div class="card-dark text-center py-4 hover:border-yellow-500 transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-yellow-500">.IO</div>
+                        <div class="text-text-light text-sm">$59.99/year</div>
+                    </div>
+                    <div class="card-dark text-center py-4 hover:border-green-400 transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-green-400">.CO</div>
+                        <div class="text-text-light text-sm">$29.99/year</div>
+                    </div>
+                    <div class="card-dark text-center py-4 hover:border-orange-400 transition-all duration-300">
+                        <div class="text-lg font-orbitron font-bold text-orange-400">.INFO</div>
+                        <div class="text-text-light text-sm">$18.99/year</div>
+                    </div>
+                {/if}
             </div>
         </div>
         

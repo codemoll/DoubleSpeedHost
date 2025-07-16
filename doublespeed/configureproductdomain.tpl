@@ -33,20 +33,22 @@
                     <h2 class="text-xl font-orbitron font-semibold text-white mb-6">Domain Configuration</h2>
                     
                     <div class="space-y-6">
-                        {if $domainoptions}
+                        {if isset($domainoptions) && is_array($domainoptions) && $domainoptions}
                             {foreach from=$domainoptions item=option key=type}
                                 <label class="block">
-                                    <div class="flex items-start space-x-3">
+                                    <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-neon-green transition-colors cursor-pointer">
                                         <input type="radio" name="domaintype" value="{$type}" 
-                                               {if $selecteddomaintype eq $type}checked{/if}
-                                               class="mt-1" onchange="toggleDomainFields(this.value)">
+                                               {if isset($selecteddomaintype) && $selecteddomaintype eq $type}checked{/if}
+                                               class="mt-1 text-neon-green focus:ring-neon-green" onchange="toggleDomainFields(this.value)">
                                         <div class="flex-1">
-                                            <div class="text-white font-medium mb-2">{$option.name}</div>
-                                            {if $option.description}
+                                            <div class="text-white font-medium mb-2">
+                                                {if isset($option.name)}{$option.name}{else}Domain Option{/if}
+                                            </div>
+                                            {if isset($option.description) && $option.description}
                                                 <p class="text-text-light text-sm">{$option.description}</p>
                                             {/if}
-                                            {if $option.price}
-                                                <span class="text-neon-green font-bold">{$option.price}</span>
+                                            {if isset($option.price) && $option.price}
+                                                <span class="text-neon-green font-bold text-lg">{$option.price}</span>
                                             {/if}
                                         </div>
                                     </div>
@@ -55,8 +57,8 @@
                         {else}
                             <!-- Default domain options when WHMCS variables not available -->
                             <label class="block">
-                                <div class="flex items-start space-x-3">
-                                    <input type="radio" name="domaintype" value="register" checked class="mt-1" onchange="toggleDomainFields(this.value)">
+                                <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-neon-green transition-colors cursor-pointer">
+                                    <input type="radio" name="domaintype" value="register" checked class="mt-1 text-neon-green focus:ring-neon-green" onchange="toggleDomainFields(this.value)">
                                     <div class="flex-1">
                                         <div class="text-white font-medium mb-2">Register a new domain</div>
                                         <p class="text-text-light text-sm">Register a brand new domain name</p>
@@ -65,8 +67,8 @@
                             </label>
                             
                             <label class="block">
-                                <div class="flex items-start space-x-3">
-                                    <input type="radio" name="domaintype" value="transfer" class="mt-1" onchange="toggleDomainFields(this.value)">
+                                <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-electric-blue transition-colors cursor-pointer">
+                                    <input type="radio" name="domaintype" value="transfer" class="mt-1 text-electric-blue focus:ring-electric-blue" onchange="toggleDomainFields(this.value)">
                                     <div class="flex-1">
                                         <div class="text-white font-medium mb-2">Transfer domain from another registrar</div>
                                         <p class="text-text-light text-sm">Transfer an existing domain to us</p>
@@ -75,8 +77,8 @@
                             </label>
                             
                             <label class="block">
-                                <div class="flex items-start space-x-3">
-                                    <input type="radio" name="domaintype" value="owndomain" class="mt-1" onchange="toggleDomainFields(this.value)">
+                                <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-cyber-purple transition-colors cursor-pointer">
+                                    <input type="radio" name="domaintype" value="owndomain" class="mt-1 text-cyber-purple focus:ring-cyber-purple" onchange="toggleDomainFields(this.value)">
                                     <div class="flex-1">
                                         <div class="text-white font-medium mb-2">Use my own domain</div>
                                         <p class="text-text-light text-sm">I will use an existing domain and update my nameservers</p>
@@ -85,8 +87,8 @@
                             </label>
                             
                             <label class="block">
-                                <div class="flex items-start space-x-3">
-                                    <input type="radio" name="domaintype" value="subdomain" class="mt-1" onchange="toggleDomainFields(this.value)">
+                                <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-yellow-500 transition-colors cursor-pointer">
+                                    <input type="radio" name="domaintype" value="subdomain" class="mt-1 text-yellow-500 focus:ring-yellow-500" onchange="toggleDomainFields(this.value)">
                                     <div class="flex-1">
                                         <div class="text-white font-medium mb-2">Use a subdomain</div>
                                         <p class="text-text-light text-sm">Use a free subdomain (e.g., yourdomain.oursite.com)</p>
@@ -112,10 +114,11 @@
                                     <input type="text" name="sld" value="{if isset($sld)}{$sld}{/if}" 
                                            placeholder="yourdomain" class="input-dark flex-1 rounded-r-none">
                                     <select name="tld" class="select-dark rounded-l-none border-l-0 w-32">
-                                        {if $tlds}
+                                        {if isset($tlds) && is_array($tlds) && $tlds}
                                             {foreach from=$tlds item=tld}
-                                                <option value="{$tld.tld}" {if isset($selectedtld) && $selectedtld eq $tld.tld}selected{/if}>
-                                                    .{$tld.tld}
+                                                <option value="{if isset($tld.tld)}{$tld.tld}{else}com{/if}" 
+                                                        {if isset($selectedtld) && $selectedtld eq $tld.tld}selected{/if}>
+                                                    .{if isset($tld.tld)}{$tld.tld}{else}com{/if}
                                                 </option>
                                             {/foreach}
                                         {else}
@@ -124,6 +127,8 @@
                                             <option value="org">.org</option>
                                             <option value="info">.info</option>
                                             <option value="biz">.biz</option>
+                                            <option value="io">.io</option>
+                                            <option value="co">.co</option>
                                         {/if}
                                     </select>
                                 </div>
@@ -134,9 +139,11 @@
                                     Registration Period
                                 </label>
                                 <select name="regperiod" class="select-dark">
-                                    {if isset($domainregperiods) && $domainregperiods}
+                                    {if isset($domainregperiods) && is_array($domainregperiods) && $domainregperiods}
                                         {foreach from=$domainregperiods item=period key=years}
-                                            <option value="{$years}">{$years} Year{if $years > 1}s{/if}{if $period} - {$period}{/if}</option>
+                                            <option value="{$years}" {if isset($selectedregperiod) && $selectedregperiod eq $years}selected{/if}>
+                                                {$years} Year{if $years > 1}s{/if}{if $period} - {$period}{/if}
+                                            </option>
                                         {/foreach}
                                     {else}
                                         <option value="1">1 Year</option>
@@ -198,13 +205,16 @@
                                 <input type="text" name="subdomain" value="{if isset($subdomain)}{$subdomain}{/if}" 
                                        placeholder="yoursite" class="input-dark flex-1 rounded-r-none">
                                 <select name="subdomainsuffix" class="select-dark rounded-l-none border-l-0">
-                                    {if $subdomainsuffixes}
+                                    {if isset($subdomainsuffixes) && is_array($subdomainsuffixes) && $subdomainsuffixes}
                                         {foreach from=$subdomainsuffixes item=suffix}
-                                            <option value="{$suffix}">{$suffix}</option>
+                                            <option value="{$suffix}" {if isset($selectedsubdomainsuffix) && $selectedsubdomainsuffix eq $suffix}selected{/if}>
+                                                {$suffix}
+                                            </option>
                                         {/foreach}
                                     {else}
                                         <option value=".doublespeedhost.com">.doublespeedhost.com</option>
                                         <option value=".hosting.com">.hosting.com</option>
+                                        <option value=".myhost.com">.myhost.com</option>
                                     {/if}
                                 </select>
                             </div>
@@ -217,33 +227,37 @@
                     <h3 class="text-lg font-orbitron font-semibold text-white mb-6">Nameservers</h3>
                     
                     <div class="space-y-4">
-                        <label class="flex items-center">
-                            <input type="radio" name="nschoice" value="default" checked class="mr-3">
+                        <label class="flex items-center p-3 border border-gray-700 rounded-lg hover:border-neon-green transition-colors cursor-pointer">
+                            <input type="radio" name="nschoice" value="default" checked class="mr-3 text-neon-green focus:ring-neon-green">
                             <span class="text-white">Use default nameservers</span>
                         </label>
                         
-                        <label class="flex items-center">
-                            <input type="radio" name="nschoice" value="custom" class="mr-3" onchange="toggleCustomNS(this.checked)">
+                        <label class="flex items-center p-3 border border-gray-700 rounded-lg hover:border-electric-blue transition-colors cursor-pointer">
+                            <input type="radio" name="nschoice" value="custom" class="mr-3 text-electric-blue focus:ring-electric-blue" onchange="toggleCustomNS(this.checked)">
                             <span class="text-white">Use custom nameservers</span>
                         </label>
                         
-                        <div id="custom-ns" style="display: none;" class="ml-6 space-y-3">
+                        <div id="custom-ns" style="display: none;" class="ml-6 space-y-3 p-4 bg-dark-bg rounded-lg border border-gray-700">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-text-light mb-2">Nameserver 1</label>
-                                    <input type="text" name="ns1" value="{if isset($ns1)}{$ns1}{/if}" class="input-dark">
+                                    <label class="block text-sm font-medium text-text-light mb-2">Nameserver 1 <span class="text-red-400">*</span></label>
+                                    <input type="text" name="ns1" value="{if isset($ns1)}{$ns1}{/if}" 
+                                           placeholder="ns1.example.com" class="input-dark">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-text-light mb-2">Nameserver 2</label>
-                                    <input type="text" name="ns2" value="{if isset($ns2)}{$ns2}{/if}" class="input-dark">
+                                    <label class="block text-sm font-medium text-text-light mb-2">Nameserver 2 <span class="text-red-400">*</span></label>
+                                    <input type="text" name="ns2" value="{if isset($ns2)}{$ns2}{/if}" 
+                                           placeholder="ns2.example.com" class="input-dark">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-text-light mb-2">Nameserver 3 (Optional)</label>
-                                    <input type="text" name="ns3" value="{if isset($ns3)}{$ns3}{/if}" class="input-dark">
+                                    <input type="text" name="ns3" value="{if isset($ns3)}{$ns3}{/if}" 
+                                           placeholder="ns3.example.com" class="input-dark">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-text-light mb-2">Nameserver 4 (Optional)</label>
-                                    <input type="text" name="ns4" value="{if isset($ns4)}{$ns4}{/if}" class="input-dark">
+                                    <input type="text" name="ns4" value="{if isset($ns4)}{$ns4}{/if}" 
+                                           placeholder="ns4.example.com" class="input-dark">
                                 </div>
                             </div>
                         </div>
@@ -268,18 +282,134 @@
 function toggleDomainFields(type) {
     // Hide all domain fields
     const fields = document.querySelectorAll('.domain-fields');
-    fields.forEach(field => field.style.display = 'none');
+    fields.forEach(field => {
+        field.style.display = 'none';
+        field.classList.remove('animate-pulse');
+    });
     
-    // Show the selected type
+    // Show the selected type with animation
     const targetField = document.getElementById(type + '-fields');
     if (targetField) {
         targetField.style.display = 'block';
+        targetField.classList.add('animate-pulse');
+        setTimeout(() => {
+            targetField.classList.remove('animate-pulse');
+        }, 500);
     }
+    
+    // Update radio button colors
+    updateRadioColors(type);
 }
 
 function toggleCustomNS(show) {
     const customNS = document.getElementById('custom-ns');
-    customNS.style.display = show ? 'block' : 'none';
+    if (customNS) {
+        if (show) {
+            customNS.style.display = 'block';
+            customNS.classList.add('animate-pulse');
+            setTimeout(() => {
+                customNS.classList.remove('animate-pulse');
+            }, 500);
+        } else {
+            customNS.style.display = 'none';
+        }
+    }
+}
+
+function updateRadioColors(selectedType) {
+    // Reset all radio buttons to default color
+    const radios = document.querySelectorAll('input[name="domaintype"]');
+    radios.forEach(radio => {
+        const parent = radio.closest('label').querySelector('div');
+        if (parent) {
+            parent.classList.remove('border-neon-green', 'border-electric-blue', 'border-cyber-purple', 'border-yellow-500');
+            parent.classList.add('border-gray-700');
+        }
+    });
+    
+    // Highlight selected option
+    const selectedRadio = document.querySelector(`input[name="domaintype"][value="${selectedType}"]`);
+    if (selectedRadio) {
+        const parent = selectedRadio.closest('label').querySelector('div');
+        if (parent) {
+            parent.classList.remove('border-gray-700');
+            switch(selectedType) {
+                case 'register':
+                    parent.classList.add('border-neon-green');
+                    break;
+                case 'transfer':
+                    parent.classList.add('border-electric-blue');
+                    break;
+                case 'owndomain':
+                    parent.classList.add('border-cyber-purple');
+                    break;
+                case 'subdomain':
+                    parent.classList.add('border-yellow-500');
+                    break;
+                default:
+                    parent.classList.add('border-neon-green');
+            }
+        }
+    }
+}
+
+// Form validation
+function validateDomainForm() {
+    const selectedType = document.querySelector('input[name="domaintype"]:checked');
+    if (!selectedType) {
+        alert('Please select a domain type.');
+        return false;
+    }
+    
+    const type = selectedType.value;
+    
+    switch(type) {
+        case 'register':
+            const sld = document.querySelector('input[name="sld"]');
+            if (!sld || !sld.value.trim()) {
+                alert('Please enter a domain name.');
+                sld.focus();
+                return false;
+            }
+            break;
+        case 'transfer':
+            const transferDomain = document.querySelector('input[name="transferdomain"]');
+            if (!transferDomain || !transferDomain.value.trim()) {
+                alert('Please enter the domain to transfer.');
+                transferDomain.focus();
+                return false;
+            }
+            break;
+        case 'owndomain':
+            const hostname = document.querySelector('input[name="hostname"]');
+            if (!hostname || !hostname.value.trim()) {
+                alert('Please enter your domain name.');
+                hostname.focus();
+                return false;
+            }
+            break;
+        case 'subdomain':
+            const subdomain = document.querySelector('input[name="subdomain"]');
+            if (!subdomain || !subdomain.value.trim()) {
+                alert('Please enter a subdomain name.');
+                subdomain.focus();
+                return false;
+            }
+            break;
+    }
+    
+    // Check custom nameservers
+    const customNS = document.querySelector('input[name="nschoice"][value="custom"]:checked');
+    if (customNS) {
+        const ns1 = document.querySelector('input[name="ns1"]');
+        const ns2 = document.querySelector('input[name="ns2"]');
+        if (!ns1.value.trim() || !ns2.value.trim()) {
+            alert('Please enter at least two nameservers.');
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 // Initialize on page load
@@ -288,6 +418,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedType) {
         toggleDomainFields(selectedType.value);
     }
+    
+    // Add form validation
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!validateDomainForm()) {
+                e.preventDefault();
+            }
+        });
+    }
+    
+    // Add change listeners for nameserver choice
+    const nsRadios = document.querySelectorAll('input[name="nschoice"]');
+    nsRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            toggleCustomNS(this.value === 'custom');
+        });
+    });
 });
 </script>
 
