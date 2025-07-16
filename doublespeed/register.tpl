@@ -76,6 +76,8 @@
                 {if $token}
                     <input type="hidden" name="token" value="{$token}">
                 {/if}
+                {* Set captcha form context for WHMCS *}
+                {assign var="captchaForm" value="registration"}
                 
                 <!-- Personal Information -->
                 <div class="mb-8">
