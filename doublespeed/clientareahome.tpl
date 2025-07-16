@@ -2,24 +2,68 @@
 
 {* Function to render MarketConnect promotion panels *}
 {function name=outputHomePanels}
-    <div menuItemName="{$item->getName()}" class="card-dark mb-6">
-        <div class="border-b border-gray-700 p-4">
-            <h3 class="text-xl font-orbitron font-semibold text-white flex items-center justify-between">
-                <span>{$item->getLabel()}</span>
+    <div menuItemName="{$item->getName()}" class="relative bg-dark-surface border border-gray-700 rounded-lg overflow-hidden transition-all duration-300 hover:border-{if $item->getExtra('color') eq 'green'}neon-green hover:shadow-glow-green{elseif $item->getExtra('color') eq 'blue'}electric-blue hover:shadow-glow-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple hover:shadow-glow-purple{else}neon-green hover:shadow-glow-green{/if} group{if $item->getClass()} {$item->getClass()}{/if}"{if $item->getAttribute('id')} id="{$item->getAttribute('id')}"{/if}>
+        
+        {* Accent bar *}
+        <div class="h-1 bg-gradient-to-r {if $item->getExtra('color') eq 'green'}from-neon-green to-electric-blue{elseif $item->getExtra('color') eq 'blue'}from-electric-blue to-cyber-purple{elseif $item->getExtra('color') eq 'purple'}from-cyber-purple to-neon-green{else}from-neon-green to-electric-blue{/if}"></div>
+        
+        {* Header with title and button *}
+        <div class="p-6 border-b border-gray-700">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-orbitron font-semibold text-white flex items-center">
+                    {if $item->hasIcon()}<i class="{$item->getIcon()} mr-3 text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if}"></i>{/if}
+                    {$item->getLabel()}
+                    {if $item->hasBadge()}<span class="ml-2 px-2 py-1 rounded-full text-xs font-medium bg-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} text-dark-bg">{$item->getBadge()}</span>{/if}
+                </h3>
                 {if $item->getExtra('btn-link') && $item->getExtra('btn-text')}
-                    <a href="{$item->getExtra('btn-link')}" class="text-sm px-4 py-2 ml-4 rounded-lg font-medium transition-all duration-300
+                    <a href="{$item->getExtra('btn-link')}" class="px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105
                         {if $item->getExtra('color') eq 'green'}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green
                         {elseif $item->getExtra('color') eq 'blue'}bg-electric-blue hover:bg-electric-blue/80 text-white hover:shadow-glow-blue
                         {elseif $item->getExtra('color') eq 'purple'}bg-cyber-purple hover:bg-cyber-purple/80 text-white hover:shadow-glow-purple
                         {else}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green{/if}">
+                        {if $item->getExtra('btn-icon')}<i class="{$item->getExtra('btn-icon')} mr-2"></i>{/if}
                         {$item->getExtra('btn-text')}
                     </a>
                 {/if}
-            </h3>
+            </div>
         </div>
+        
+        {* Body content *}
         {if $item->hasBodyHtml()}
-            <div class="p-4">
+            <div class="p-6">
                 {$item->getBodyHtml()}
+            </div>
+        {/if}
+        
+        {* Child items as list *}
+        {if $item->hasChildren()}
+            <div class="border-t border-gray-700">
+                {foreach $item->getChildren() as $childItem}
+                    {if $childItem->getUri()}
+                        <a menuItemName="{$childItem->getName()}" href="{$childItem->getUri()}" class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0 hover:bg-dark-bg transition-all duration-300 group{if $childItem->getClass()} {$childItem->getClass()}{/if}{if $childItem->isCurrent()} bg-dark-bg{/if}"{if $childItem->getAttribute('dataToggleTab')} data-toggle="tab"{/if}{if $childItem->getAttribute('target')} target="{$childItem->getAttribute('target')}"{/if} id="{$childItem->getId()}">
+                            <div class="flex items-center">
+                                {if $childItem->hasIcon()}<i class="{$childItem->getIcon()} mr-3 text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if}"></i>{/if}
+                                <span class="text-white group-hover:text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} transition-colors duration-300">{$childItem->getLabel()}</span>
+                            </div>
+                            {if $childItem->hasBadge()}<span class="px-2 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300 group-hover:bg-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} group-hover:text-dark-bg transition-all duration-300">{$childItem->getBadge()}</span>{/if}
+                        </a>
+                    {else}
+                        <div menuItemName="{$childItem->getName()}" class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0{if $childItem->getClass()} {$childItem->getClass()}{/if}" id="{$childItem->getId()}">
+                            <div class="flex items-center">
+                                {if $childItem->hasIcon()}<i class="{$childItem->getIcon()} mr-3 text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if}"></i>{/if}
+                                <span class="text-white">{$childItem->getLabel()}</span>
+                            </div>
+                            {if $childItem->hasBadge()}<span class="px-2 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300">{$childItem->getBadge()}</span>{/if}
+                        </div>
+                    {/if}
+                {/foreach}
+            </div>
+        {/if}
+        
+        {* Footer content *}
+        {if $item->hasFooterHtml()}
+            <div class="p-6 border-t border-gray-700 bg-dark-bg/50">
+                {$item->getFooterHtml()}
             </div>
         {/if}
     </div>
@@ -104,9 +148,70 @@
         <!-- MarketConnect Promotion Panels -->
         {if isset($panels) && $panels}
             <div class="mb-8">
-                {foreach from=$panels item=item}
-                    {outputHomePanels}
+                {* Check if there are any full-width panels *}
+                {assign var="hasFullWidthPanels" value=false}
+                {foreach $panels as $item}
+                    {if $item->getExtra('colspan')}
+                        {assign var="hasFullWidthPanels" value=true}
+                        {break}
+                    {/if}
                 {/foreach}
+                
+                {if $hasFullWidthPanels}
+                    <div class="space-y-6">
+                        <!-- Full-width panels first -->
+                        {foreach $panels as $item}
+                            {if $item->getExtra('colspan')}
+                                {outputHomePanels}
+                                {assign "panels" $panels->removeChild($item->getName())}
+                            {/if}
+                        {/foreach}
+                        
+                        <!-- Two-column layout for remaining panels -->
+                        {if $panels && count($panels) > 0}
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Left column - odd panels -->
+                                <div class="space-y-6">
+                                    {foreach $panels as $item}
+                                        {if $item@iteration is odd}
+                                            {outputHomePanels}
+                                        {/if}
+                                    {/foreach}
+                                </div>
+                                
+                                <!-- Right column - even panels -->
+                                <div class="space-y-6">
+                                    {foreach $panels as $item}
+                                        {if $item@iteration is even}
+                                            {outputHomePanels}
+                                        {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                {else}
+                    <!-- No full-width panels - use two-column layout directly -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Left column - odd panels -->
+                        <div class="space-y-6">
+                            {foreach $panels as $item}
+                                {if $item@iteration is odd}
+                                    {outputHomePanels}
+                                {/if}
+                            {/foreach}
+                        </div>
+                        
+                        <!-- Right column - even panels -->
+                        <div class="space-y-6">
+                            {foreach $panels as $item}
+                                {if $item@iteration is even}
+                                    {outputHomePanels}
+                                {/if}
+                            {/foreach}
+                        </div>
+                    </div>
+                {/if}
             </div>
         {/if}
         
