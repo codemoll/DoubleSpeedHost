@@ -21,6 +21,9 @@
         
         <div class="card-dark">
             <form method="post" action="{$WEB_ROOT}/register.php">
+                {if $token}
+                    <input type="hidden" name="token" value="{$token}">
+                {/if}
                 {if $errormessage}
                     <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
                         <div class="flex">
