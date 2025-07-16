@@ -1,5 +1,30 @@
 {include file="$template/header.tpl"}
 
+{* Function to render MarketConnect promotion panels *}
+{function name=outputHomePanels}
+    <div menuItemName="{$item->getName()}" class="card-dark mb-6">
+        <div class="border-b border-gray-700 p-4">
+            <h3 class="text-xl font-orbitron font-semibold text-white flex items-center justify-between">
+                <span>{$item->getLabel()}</span>
+                {if $item->getExtra('btn-link') && $item->getExtra('btn-text')}
+                    <a href="{$item->getExtra('btn-link')}" class="text-sm px-4 py-2 ml-4 rounded-lg font-medium transition-all duration-300
+                        {if $item->getExtra('color') eq 'green'}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green
+                        {elseif $item->getExtra('color') eq 'blue'}bg-electric-blue hover:bg-electric-blue/80 text-white hover:shadow-glow-blue
+                        {elseif $item->getExtra('color') eq 'purple'}bg-cyber-purple hover:bg-cyber-purple/80 text-white hover:shadow-glow-purple
+                        {else}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green{/if}">
+                        {$item->getExtra('btn-text')}
+                    </a>
+                {/if}
+            </h3>
+        </div>
+        {if $item->hasBodyHtml()}
+            <div class="p-4">
+                {$item->getBodyHtml()}
+            </div>
+        {/if}
+    </div>
+{/function}
+
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-7xl mx-auto">
         
@@ -75,6 +100,15 @@
                 <div class="text-text-light text-sm">Unpaid Invoices</div>
             </div>
         </div>
+        
+        <!-- MarketConnect Promotion Panels -->
+        {if isset($panels) && $panels}
+            <div class="mb-8">
+                {foreach from=$panels item=item}
+                    {outputHomePanels}
+                {/foreach}
+            </div>
+        {/if}
         
         <!-- Main Dashboard Content -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
