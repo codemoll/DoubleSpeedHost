@@ -116,45 +116,179 @@
     @apply p-6;
   }
   
-  /* Domain Results */
+  /* Domain Results Enhanced */
   .domain-results {
-    @apply space-y-2;
+    @apply space-y-4;
   }
-  
+
   .domain-result {
-    @apply flex items-center justify-between p-3 bg-dark-surface border border-gray-700 rounded-lg;
+    @apply flex items-center justify-between p-4 bg-dark-surface border border-gray-700 rounded-lg transition-all duration-300 hover:border-neon-green hover:shadow-glow-green;
   }
-  
+
   .domain-result.available {
-    @apply border-neon-green;
+    @apply border-neon-green/50 bg-gradient-to-r from-green-500/10 to-transparent;
   }
-  
+
   .domain-result.unavailable {
-    @apply border-red-500;
+    @apply border-red-500/50 bg-gradient-to-r from-red-500/10 to-transparent;
   }
-  
+
   .domain-name {
     @apply font-medium text-white flex-1;
   }
-  
+
   .domain-status {
     @apply text-sm px-2;
   }
-  
+
   .domain-result.available .domain-status {
     @apply text-neon-green;
   }
-  
+
   .domain-result.unavailable .domain-status {
     @apply text-red-400;
   }
-  
+
   .domain-price {
     @apply font-semibold text-white mx-4;
   }
-  
+
   .domain-action {
     @apply flex-shrink-0;
+  }
+
+  /* Product Cards Enhanced */
+  .product-card {
+    @apply relative bg-dark-surface border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-neon-green hover:shadow-glow-green group overflow-hidden;
+  }
+
+  .product-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-neon-green/5 to-electric-blue/5 opacity-0 transition-opacity duration-300;
+  }
+
+  .product-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .product-card:hover {
+    @apply transform -translate-y-2 scale-105;
+  }
+
+  /* Responsive Layout Fixes */
+  .responsive-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    .responsive-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Form Enhancement */
+  .enhanced-form {
+    @apply space-y-6;
+  }
+
+  .form-group {
+    @apply space-y-2;
+  }
+
+  .form-row {
+    @apply flex flex-col md:flex-row gap-4;
+  }
+
+  .form-row .form-group {
+    @apply flex-1;
+  }
+
+  /* Loading States */
+  .loading-overlay {
+    @apply fixed inset-0 bg-dark-bg bg-opacity-90 flex items-center justify-center z-50;
+  }
+
+  .loading-spinner {
+    @apply w-12 h-12 border-4 border-neon-green border-t-transparent rounded-full animate-spin;
+  }
+
+  /* Animation Enhancements */
+  .animate-in {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stagger-animation {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .stagger-animation.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile Optimizations */
+  @media (max-width: 640px) {
+    .card-dark {
+      @apply p-4;
+    }
+
+    .btn-primary, .btn-secondary, .btn-outline {
+      @apply py-3 px-4 text-sm;
+    }
+
+    .text-4xl {
+      @apply text-3xl;
+    }
+
+    .text-3xl {
+      @apply text-2xl;
+    }
+
+    .domain-result {
+      @apply flex-col items-start gap-3 p-4;
+    }
+
+    .domain-action {
+      @apply w-full;
+    }
+
+    .domain-action .btn-primary {
+      @apply w-full justify-center;
+    }
+  }
+
+  /* Enhanced Focus States */
+  .input-dark:focus,
+  .select-dark:focus {
+    @apply ring-2 ring-neon-green ring-opacity-50 border-neon-green;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+  }
+
+  /* Better Button States */
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-outline:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .btn-primary:disabled:hover,
+  .btn-secondary:disabled:hover,
+  .btn-outline:disabled:hover {
+    @apply transform-none scale-100;
   }
   
   /* Knowledge Base Search Results */

@@ -18,22 +18,29 @@
 
         <!-- Domain Search Form -->
         <div class="card-dark mb-8">
-            <form method="post" action="{$WEB_ROOT}/domainchecker.php" class="space-y-6">
+            <form method="post" action="{$WEB_ROOT}/domainchecker.php" class="space-y-6" id="domain-search-form">
                 <div>
                     <label for="domain" class="block text-lg font-orbitron font-semibold text-white mb-4">
                         Enter your desired domain name
                     </label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="flex-1">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1 relative">
                             <input type="text" 
                                    name="domain" 
                                    id="domain"
                                    value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
                                    placeholder="yourdomain"
-                                   class="input-dark w-full text-lg py-4"
-                                   required>
+                                   class="input-dark w-full text-lg py-4 pr-12"
+                                   required
+                                   autocomplete="off"
+                                   spellcheck="false">
+                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="sm:w-48">
+                        <div class="md:w-48 w-full">
                             <select name="ext" class="input-dark w-full py-4 text-lg">
                                 {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
                                     {foreach $domainextensions as $extension}
@@ -58,23 +65,23 @@
                                 {/if}
                             </select>
                         </div>
-                        <button type="submit" class="btn-primary px-8 py-4 text-lg whitespace-nowrap">
+                        <button type="submit" class="btn-primary px-8 py-4 text-lg whitespace-nowrap hover:scale-105 transition-all duration-300" id="search-submit-btn">
                             <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
-                            Search
+                            <span class="search-btn-text">Search</span>
                         </button>
                     </div>
                 </div>
                 
                 {if $error}
-                    <div class="bg-red-900 border border-red-700 rounded-lg p-4">
-                        <div class="flex">
-                            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="bg-red-900/20 border border-red-600/50 rounded-lg p-4 animate-pulse">
+                        <div class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                             </svg>
                             <div class="text-red-200 text-sm">
-                                {$error}
+                                <strong class="font-semibold">Search Error:</strong> {$error}
                             </div>
                         </div>
                     </div>
@@ -84,14 +91,19 @@
 
         <!-- Search Results -->
         {if isset($results) && is_array($results) && count($results) > 0}
-            <div class="space-y-4">
-                <h2 class="text-2xl font-orbitron font-bold text-white mb-6">Search Results</h2>
+            <div id="domain-search-results" class="space-y-4 animate-in">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                    <h2 class="text-2xl font-orbitron font-bold text-white">Search Results</h2>
+                    <div class="text-text-light text-sm mt-2 sm:mt-0">
+                        Found {count($results)} result{if count($results) != 1}s{/if} for "{if isset($searchterm)}{$searchterm}{/if}"
+                    </div>
+                </div>
                 
                 {foreach $results as $result}
-                    <div class="domain-result {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}available{else}unavailable{/if}">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4">
-                            <div class="flex-1">
-                                <div class="domain-name text-lg font-semibold text-white">
+                    <div class="domain-result {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}available{else}unavailable{/if} group">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between p-6 gap-4">
+                            <div class="flex-1 min-w-0">
+                                <div class="domain-name text-xl font-semibold text-white mb-2 truncate">
                                     {if isset($result.domain) && $result.domain}
                                         {$result.domain}
                                     {elseif isset($result.domainname) && $result.domainname}
@@ -102,49 +114,127 @@
                                         Domain Name
                                     {/if}
                                 </div>
-                                <div class="domain-status mt-1">
+                                <div class="domain-status flex items-center gap-2">
                                     {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
-                                        <span class="text-neon-green text-sm">✓ Available</span>
+                                        <div class="flex items-center text-neon-green">
+                                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span class="font-medium">Available for Registration</span>
+                                        </div>
                                     {elseif isset($result.status) && ($result.status eq 'unavailable' || $result.status eq 'Unavailable' || $result.status eq 'taken')}
-                                        <span class="text-red-400 text-sm">✗ Unavailable</span>
+                                        <div class="flex items-center text-red-400">
+                                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span class="font-medium">Not Available</span>
+                                        </div>
                                     {else}
-                                        <span class="text-yellow-400 text-sm">? Status Unknown</span>
+                                        <div class="flex items-center text-yellow-400">
+                                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span class="font-medium">Status Unknown</span>
+                                        </div>
                                     {/if}
                                 </div>
+                                {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
+                                    <div class="text-text-light text-sm mt-1">
+                                        Perfect for your website, email, and more
+                                    </div>
+                                {/if}
                             </div>
                             
                             {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
-                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                                    {if isset($result.price) && $result.price}
-                                        <div class="domain-price text-lg font-bold text-white">
-                                            {if $result.price|strpos:'$' === false && $result.price neq 'Free'}${/if}{$result.price}
-                                        </div>
-                                    {elseif isset($result.pricing) && isset($result.pricing.register)}
-                                        <div class="domain-price text-lg font-bold text-white">
-                                            {if $result.pricing.register|strpos:'$' === false}${/if}{$result.pricing.register}
-                                        </div>
-                                    {/if}
-                                    <div class="domain-action">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
+                                    <div class="text-center sm:text-right">
+                                        {if isset($result.price) && $result.price}
+                                            <div class="domain-price text-2xl font-bold text-neon-green">
+                                                {if $result.price|strpos:'$' === false && $result.price neq 'Free'}${/if}{$result.price}
+                                            </div>
+                                            <div class="text-text-light text-sm">per year</div>
+                                        {elseif isset($result.pricing) && isset($result.pricing.register)}
+                                            <div class="domain-price text-2xl font-bold text-neon-green">
+                                                {if $result.pricing.register|strpos:'$' === false}${/if}{$result.pricing.register}
+                                            </div>
+                                            <div class="text-text-light text-sm">per year</div>
+                                        {else}
+                                            <div class="domain-price text-lg font-bold text-white">Contact us</div>
+                                            <div class="text-text-light text-sm">for pricing</div>
+                                        {/if}
+                                    </div>
+                                    <div class="domain-action w-full sm:w-auto">
                                         {assign var="cart_domain" value="{if isset($result.domain) && $result.domain}{$result.domain}{elseif isset($result.domainname) && $result.domainname}{$result.domainname}{elseif isset($result.sld) && isset($result.tld)}{$result.sld}.{$result.tld}{else}example.com{/if}"}
                                         <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query={$cart_domain}" 
-                                           class="btn-primary text-sm px-4 py-2">
+                                           class="btn-primary px-6 py-3 text-center w-full sm:w-auto hover:scale-105 transition-all duration-300 group-hover:shadow-glow-green">
+                                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                            </svg>
                                             Add to Cart
                                         </a>
                                     </div>
+                                </div>
+                            {else}
+                                <div class="flex flex-col gap-2 pt-4 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-700 lg:pl-6">
+                                    <div class="text-text-light text-sm">This domain is not available for registration.</div>
+                                    <button class="btn-outline text-sm px-4 py-2 w-full sm:w-auto" onclick="suggestAlternatives('{if isset($result.domain)}{$result.domain}{elseif isset($result.domainname)}{$result.domainname}{elseif isset($result.sld) && isset($result.tld)}{$result.sld}.{$result.tld}{/if}')">
+                                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                        </svg>
+                                        Find Alternatives
+                                    </button>
                                 </div>
                             {/if}
                         </div>
                     </div>
                 {/foreach}
+                
+                <!-- Additional Actions -->
+                <div class="bg-dark-bg-alt border border-gray-700 rounded-lg p-6 mt-8">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <h3 class="text-white font-semibold mb-2">Need help choosing?</h3>
+                            <p class="text-text-light text-sm">Our domain experts can help you find the perfect domain name for your project.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="{$WEB_ROOT}/contact.php" class="btn-outline px-4 py-2 text-center">
+                                Contact Support
+                            </a>
+                            <button onclick="searchAgain()" class="btn-secondary px-4 py-2">
+                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                                Search Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         {elseif isset($searchterm) && $searchterm}
-            <div class="text-center py-8">
-                <div class="bg-blue-900 border border-blue-600 rounded-lg p-6">
-                    <svg class="w-12 h-12 text-blue-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="text-center py-12" id="no-results">
+                <div class="bg-blue-900/20 border border-blue-600/50 rounded-lg p-8 max-w-2xl mx-auto">
+                    <svg class="w-16 h-16 text-blue-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    <h3 class="text-blue-300 font-semibold mb-2">Search Complete</h3>
-                    <p class="text-blue-200">No results found for "{$searchterm}". Try a different domain name or extension.</p>
+                    <h3 class="text-blue-300 font-orbitron font-bold text-xl mb-3">No Results Found</h3>
+                    <p class="text-blue-200 mb-6">
+                        We couldn't find any results for "<strong>{$searchterm}</strong>". 
+                        Try a different domain name or check your spelling.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button onclick="searchAgain()" class="btn-primary px-6 py-3">
+                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            Try Another Search
+                        </button>
+                        <button onclick="suggestAlternatives('{$searchterm}')" class="btn-outline px-6 py-3">
+                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                            </svg>
+                            Get Suggestions
+                        </button>
+                    </div>
                 </div>
             </div>
         {/if}
@@ -204,3 +294,102 @@
 </div>
 
 {include file="$template/footer.tpl"}
+
+<script>
+// Enhanced domain search functionality
+function searchAgain() {
+    const domainInput = document.getElementById('domain');
+    if (domainInput) {
+        domainInput.focus();
+        domainInput.select();
+        // Smooth scroll to search form
+        document.getElementById('domain-search-form').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }
+}
+
+function suggestAlternatives(domain) {
+    const cleanDomain = domain.replace(/\.[a-z]+$/i, ''); // Remove extension
+    const suggestions = [
+        cleanDomain + 'site',
+        cleanDomain + 'app', 
+        cleanDomain + 'web',
+        cleanDomain + 'online',
+        cleanDomain + 'pro',
+        'my' + cleanDomain,
+        'get' + cleanDomain
+    ];
+    
+    // Create suggestion modal
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75';
+    modal.innerHTML = `
+        <div class="card-dark max-w-md mx-4 max-h-96 overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-orbitron font-bold text-white">Domain Suggestions</h3>
+                <button class="close-modal text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div class="space-y-2 mb-6">
+                ${suggestions.map(suggestion => `
+                    <div class="flex items-center justify-between p-3 bg-dark-bg-alt rounded-lg hover:bg-gray-700 transition-colors cursor-pointer" 
+                         onclick="searchSuggestion('${suggestion}')">
+                        <span class="text-white">${suggestion}</span>
+                        <svg class="w-4 h-4 text-neon-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="close-modal btn-outline w-full">Close</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Handle modal close
+    modal.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.body.removeChild(modal);
+        });
+    });
+
+    // Close on backdrop click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+}
+
+function searchSuggestion(domain) {
+    const domainInput = document.getElementById('domain');
+    if (domainInput) {
+        domainInput.value = domain;
+        // Close modal
+        const modal = document.querySelector('.fixed.inset-0');
+        if (modal) {
+            document.body.removeChild(modal);
+        }
+        // Focus and scroll to form
+        searchAgain();
+    }
+}
+
+// Add animation class for results
+document.addEventListener('DOMContentLoaded', function() {
+    const results = document.getElementById('domain-search-results');
+    if (results) {
+        results.style.opacity = '0';
+        results.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            results.style.transition = 'all 0.5s ease';
+            results.style.opacity = '1';
+            results.style.transform = 'translateY(0)';
+        }, 100);
+    }
+});
+</script>
+
+<script src="{$WEB_ROOT}/templates/{$template}/js/domain-search.js"></script>
