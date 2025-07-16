@@ -11,7 +11,10 @@
                         {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
                             <img src="{$templatefile.logourl}" alt="{$companyname}" class="h-8 w-auto">
                         {else}
-                            <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded"></div>
+                            {* Check for logo.png in images folder *}
+                            <img src="{$WEB_ROOT}/templates/{$template}/images/logo.png" alt="{$companyname}" class="h-8 w-auto" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded" style="display:none;"></div>
                         {/if}
                         <span class="font-orbitron font-bold text-xl glow-text">{$companyname}</span>
                     </div>
@@ -128,13 +131,23 @@
     </button>
     
     <style>
-    /* Ensure footer appears only once on mobile */
+    /* Ensure footer appears only once on mobile and desktop */
     #main-footer:not(:first-of-type) {
         display: none !important;
     }
     
-    /* Prevent footer duplication */
+    /* Prevent footer duplication - hide any footer after the first one */
     body footer:nth-of-type(n+2) {
+        display: none !important;
+    }
+    
+    /* Additional safeguard for multiple footer elements */
+    footer + footer {
+        display: none !important;
+    }
+    
+    /* Ensure navigation doesn't duplicate */
+    nav:nth-of-type(n+2) {
         display: none !important;
     }
     
