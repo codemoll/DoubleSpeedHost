@@ -148,37 +148,70 @@
         <!-- MarketConnect Promotion Panels -->
         {if isset($panels) && $panels}
             <div class="mb-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    
-                    <!-- Full-width panels first -->
-                    <div class="lg:col-span-2">
+                {* Check if there are any full-width panels *}
+                {assign var="hasFullWidthPanels" value=false}
+                {foreach $panels as $item}
+                    {if $item->getExtra('colspan')}
+                        {assign var="hasFullWidthPanels" value=true}
+                        {break}
+                    {/if}
+                {/foreach}
+                
+                {if $hasFullWidthPanels}
+                    <div class="space-y-6">
+                        <!-- Full-width panels first -->
                         {foreach $panels as $item}
                             {if $item->getExtra('colspan')}
                                 {outputHomePanels}
                                 {assign "panels" $panels->removeChild($item->getName())}
                             {/if}
                         {/foreach}
+                        
+                        <!-- Two-column layout for remaining panels -->
+                        {if $panels && count($panels) > 0}
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Left column - odd panels -->
+                                <div class="space-y-6">
+                                    {foreach $panels as $item}
+                                        {if $item@iteration is odd}
+                                            {outputHomePanels}
+                                        {/if}
+                                    {/foreach}
+                                </div>
+                                
+                                <!-- Right column - even panels -->
+                                <div class="space-y-6">
+                                    {foreach $panels as $item}
+                                        {if $item@iteration is even}
+                                            {outputHomePanels}
+                                        {/if}
+                                    {/foreach}
+                                </div>
+                            </div>
+                        {/if}
                     </div>
-                    
-                    <!-- Left column - odd panels -->
-                    <div class="space-y-6">
-                        {foreach $panels as $item}
-                            {if $item@iteration is odd}
-                                {outputHomePanels}
-                            {/if}
-                        {/foreach}
+                {else}
+                    <!-- No full-width panels - use two-column layout directly -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Left column - odd panels -->
+                        <div class="space-y-6">
+                            {foreach $panels as $item}
+                                {if $item@iteration is odd}
+                                    {outputHomePanels}
+                                {/if}
+                            {/foreach}
+                        </div>
+                        
+                        <!-- Right column - even panels -->
+                        <div class="space-y-6">
+                            {foreach $panels as $item}
+                                {if $item@iteration is even}
+                                    {outputHomePanels}
+                                {/if}
+                            {/foreach}
+                        </div>
                     </div>
-                    
-                    <!-- Right column - even panels -->
-                    <div class="space-y-6">
-                        {foreach $panels as $item}
-                            {if $item@iteration is even}
-                                {outputHomePanels}
-                            {/if}
-                        {/foreach}
-                    </div>
-                    
-                </div>
+                {/if}
             </div>
         {/if}
         

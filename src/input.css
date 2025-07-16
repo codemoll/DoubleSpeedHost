@@ -305,8 +305,33 @@
     box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
   }
 
+  .shadow-glow-purple {
+    box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
+  }
+
   .shadow-glow-white {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Promotion panel tile enhancements */
+  .promotion-panel-tile {
+    @apply relative bg-dark-surface border border-gray-700 rounded-lg overflow-hidden transition-all duration-300 group;
+  }
+
+  .promotion-panel-tile:hover {
+    @apply transform translate-y-[-2px] shadow-lg;
+  }
+
+  .promotion-panel-accent-green {
+    @apply hover:border-neon-green hover:shadow-glow-green;
+  }
+
+  .promotion-panel-accent-blue {
+    @apply hover:border-electric-blue hover:shadow-glow-blue;
+  }
+
+  .promotion-panel-accent-purple {
+    @apply hover:border-cyber-purple hover:shadow-glow-purple;
   }
 
   /* Social Login Buttons */
