@@ -308,4 +308,72 @@
   .shadow-glow-white {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   }
+
+  /* Social Login Buttons */
+  .btn-social {
+    @apply w-full flex items-center justify-center px-4 py-3 border border-gray-600 rounded-lg text-white transition-all duration-300 text-sm font-medium;
+  }
+
+  .btn-google {
+    @apply hover:bg-red-600/10 hover:border-red-500;
+  }
+
+  .btn-facebook {
+    @apply hover:bg-blue-600/10 hover:border-blue-500;
+  }
+
+  .btn-github {
+    @apply hover:bg-gray-600/10 hover:border-gray-500;
+  }
+
+  .btn-twitter {
+    @apply hover:bg-blue-400/10 hover:border-blue-400;
+  }
+
+  .btn-linkedin {
+    @apply hover:bg-blue-700/10 hover:border-blue-600;
+  }
+
+  .btn-default {
+    @apply hover:bg-neon-green/10 hover:border-neon-green;
+  }
+
+  /* Generate Password button */
+  .generate-password {
+    @apply inline-flex items-center px-4 py-2 bg-gray-700 text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-600 hover:text-white transition-all duration-300;
+  }
+
+  /* Password Strength */
+  .password-strength-meter {
+    @apply w-full;
+  }
+
+  .password-strength-meter .progress {
+    @apply w-full bg-gray-700 rounded-full h-2 overflow-hidden;
+  }
+
+  .password-strength-meter .progress-bar {
+    @apply h-full transition-all duration-500 ease-out;
+  }
+
+  .password-strength-weak {
+    @apply bg-red-500;
+  }
+
+  .password-strength-moderate {
+    @apply bg-yellow-500;
+  }
+
+  .password-strength-strong {
+    @apply bg-green-500;
+  }
+
+  /* Focus glow effects */
+  .focus\:shadow-glow-green:focus {
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
+  }
+
+  .focus\:shadow-glow-blue:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+  }
 }
