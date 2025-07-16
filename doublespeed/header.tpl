@@ -71,10 +71,10 @@
                     <div class="ml-4 flex items-center md:ml-6">
                         {if $loggedin}
                             <div class="relative">
-                                <button type="button" class="flex items-center text-sm rounded-full text-text-light hover:text-white focus:outline-none focus:ring-2 focus:ring-neon-green" id="user-menu-button">
+                                <button type="button" class="flex items-center text-sm rounded-full text-text-light hover:text-white focus:outline-none focus:ring-2 focus:ring-neon-green transition-all duration-300" id="user-menu-button">
                                     <span class="sr-only">Open user menu</span>
-                                    <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center">
-                                        <span class="text-dark-bg font-medium text-sm">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center shadow-glow-green">
+                                        <span class="text-dark-bg font-bold text-sm">
                                             {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
                                                 {$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}
                                             {else}
@@ -82,29 +82,149 @@
                                             {/if}
                                         </span>
                                     </div>
-                                    <span class="ml-2">
-                                        {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
-                                            {$clientsdetails.firstname}
-                                        {else}
-                                            User
-                                        {/if}
-                                    </span>
+                                    <div class="ml-3 hidden lg:block">
+                                        <div class="flex flex-col text-left">
+                                            <span class="text-white font-medium leading-tight">
+                                                {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
+                                                    {$clientsdetails.firstname}
+                                                {else}
+                                                    User
+                                                {/if}
+                                            </span>
+                                            <span class="text-text-light text-xs leading-tight">Account Menu</span>
+                                        </div>
+                                    </div>
+                                    <svg class="ml-2 w-4 h-4 text-text-light transition-transform duration-300" id="user-menu-arrow" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
                                 </button>
-                                <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-dark-surface ring-1 ring-gray-700 hidden" id="user-menu">
-                                    <div class="py-1">
-                                        <a href="{$WEB_ROOT}/clientarea.php" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Dashboard</a>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Account Details</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=users" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">User Management</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Contacts</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Account Security</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Email History</a>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Your Profile</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=changepw" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Change Password</a>
-                                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Security Settings</a>
-                                        <div class="border-t border-gray-700 my-1"></div>
-                                        <a href="{$WEB_ROOT}/logout.php" class="block px-4 py-2 text-sm text-text-light hover:bg-gray-700 hover:text-white">Logout</a>
+                                
+                                <!-- Advanced Mega Menu Dropdown -->
+                                <div class="origin-top-right absolute right-0 mt-3 w-96 rounded-xl shadow-xl bg-dark-surface ring-1 ring-gray-700 border border-gray-600 hidden overflow-hidden" id="user-menu">
+                                    <!-- Header Section -->
+                                    <div class="bg-gradient-to-r from-neon-green/10 to-electric-blue/10 px-6 py-4 border-b border-gray-700">
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center">
+                                                <span class="text-dark-bg font-bold">
+                                                    {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
+                                                        {$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}
+                                                    {else}
+                                                        U
+                                                    {/if}
+                                                </span>
+                                            </div>
+                                            <div class="ml-4">
+                                                <h3 class="text-white font-semibold">
+                                                    {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
+                                                        {$clientsdetails.firstname} {$clientsdetails.lastname}
+                                                    {else}
+                                                        User Account
+                                                    {/if}
+                                                </h3>
+                                                <p class="text-text-light text-sm">
+                                                    {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.email)}
+                                                        {$clientsdetails.email}
+                                                    {else}
+                                                        Premium Member
+                                                    {/if}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Menu Grid -->
+                                    <div class="grid grid-cols-2 gap-1 p-2">
+                                        <!-- Dashboard Section -->
+                                        <div class="col-span-2 p-3">
+                                            <h4 class="text-neon-green font-medium text-sm mb-2 uppercase tracking-wider">Dashboard</h4>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <a href="{$WEB_ROOT}/clientarea.php" class="group flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-electric-blue group-hover:text-neon-green transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                                                    </svg>
+                                                    Overview
+                                                </a>
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=products" class="group flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-cyber-purple group-hover:text-neon-green transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/>
+                                                    </svg>
+                                                    Services
+                                                </a>
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="group flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-yellow-400 group-hover:text-neon-green transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                                                    </svg>
+                                                    Billing
+                                                </a>
+                                                <a href="{$WEB_ROOT}/supporttickets.php" class="group flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-orange-400 group-hover:text-neon-green transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Support
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Account Management -->
+                                        <div class="p-3 border-t border-gray-700">
+                                            <h4 class="text-electric-blue font-medium text-sm mb-2 uppercase tracking-wider">Account</h4>
+                                            <div class="space-y-1">
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=details" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Profile
+                                                </a>
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=security" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Security
+                                                </a>
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                    Contacts
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Quick Actions -->
+                                        <div class="p-3 border-t border-gray-700">
+                                            <h4 class="text-cyber-purple font-medium text-sm mb-2 uppercase tracking-wider">Actions</h4>
+                                            <div class="space-y-1">
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=addfunds" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+                                                    </svg>
+                                                    Add Funds
+                                                </a>
+                                                <a href="{$WEB_ROOT}/submitticket.php" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    New Ticket
+                                                </a>
+                                                <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="flex items-center px-3 py-2 text-sm text-text-light hover:bg-dark-bg hover:text-white rounded-lg transition-all duration-200">
+                                                    <svg class="w-4 h-4 mr-3 text-text-light" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                                    </svg>
+                                                    Messages
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Footer Section -->
+                                    <div class="border-t border-gray-700 px-6 py-3 bg-dark-bg/50">
+                                        <a href="{$WEB_ROOT}/logout.php" class="flex items-center justify-center w-full px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-lg transition-all duration-200">
+                                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Sign Out
+                                        </a>
                                     </div>
                                 </div>
                             </div>

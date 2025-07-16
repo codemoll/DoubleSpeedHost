@@ -17,7 +17,7 @@
             <!-- Step 1: Department and Subject -->
             <div class="card-dark">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-semibold text-white">Step 1: What can we help you with?</h2>
+                    <h2 class="text-2xl font-semibold text-white">Step 1: Contact Information & Subject</h2>
                     <div class="flex space-x-2">
                         <div class="w-3 h-3 bg-neon-green rounded-full"></div>
                         <div class="w-3 h-3 bg-gray-600 rounded-full"></div>
@@ -38,6 +38,28 @@
                             </div>
                         </div>
                     {/if}
+                    
+                    <!-- Pre-filled Contact Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-white mb-2">
+                                Full Name
+                            </label>
+                            <input type="text" id="name" name="name" readonly 
+                                   class="input-dark w-full bg-gray-800 cursor-not-allowed" 
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}{$clientsdetails.firstname} {$clientsdetails.lastname}{else}Client Name{/if}">
+                            <p class="text-text-light text-xs mt-1">This information is automatically filled from your account</p>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-white mb-2">
+                                Email Address
+                            </label>
+                            <input type="email" id="email" name="email" readonly 
+                                   class="input-dark w-full bg-gray-800 cursor-not-allowed" 
+                                   value="{if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.email)}{$clientsdetails.email}{else}client@example.com{/if}">
+                            <p class="text-text-light text-xs mt-1">This information is automatically filled from your account</p>
+                        </div>
+                    </div>
                     
                     <div>
                         <label for="deptid" class="block text-sm font-medium text-white mb-2">
@@ -187,11 +209,57 @@
                         <label for="message" class="block text-sm font-medium text-white mb-2">
                             Message *
                         </label>
-                        <textarea id="message" name="message" rows="8" required 
-                                  class="input-dark w-full" 
-                                  placeholder="Please describe your issue in detail. Include any error messages, steps you've already tried, and any other relevant information.">{if $smarty.post.message}{$smarty.post.message}{/if}</textarea>
+                        
+                        <!-- Rich Text Toolbar -->
+                        <div class="bg-dark-bg border border-gray-600 rounded-t-lg p-2 flex items-center space-x-2">
+                            <button type="button" onclick="formatText('bold')" class="p-2 text-text-light hover:text-white hover:bg-gray-700 rounded transition-colors duration-200" title="Bold">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h5a3 3 0 110 6H6v2h4a3 3 0 110 6H4a1 1 0 01-1-1V5zM6 6v3h3a1 1 0 100-2H6zm0 5v3h4a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <button type="button" onclick="formatText('italic')" class="p-2 text-text-light hover:text-white hover:bg-gray-700 rounded transition-colors duration-200" title="Italic">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <div class="w-px h-6 bg-gray-600"></div>
+                            <button type="button" onclick="insertText('- ')" class="p-2 text-text-light hover:text-white hover:bg-gray-700 rounded transition-colors duration-200" title="Bullet List">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <button type="button" onclick="insertText('1. ')" class="p-2 text-text-light hover:text-white hover:bg-gray-700 rounded transition-colors duration-200" title="Numbered List">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <div class="w-px h-6 bg-gray-600"></div>
+                            <button type="button" onclick="togglePreview()" class="p-2 text-text-light hover:text-white hover:bg-gray-700 rounded transition-colors duration-200" title="Preview" id="preview-btn">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Preview
+                            </button>
+                        </div>
+                        
+                        <!-- Message Input -->
+                        <div class="relative">
+                            <textarea id="message" name="message" rows="8" required 
+                                      class="input-dark w-full rounded-t-none border-t-0" 
+                                      placeholder="Please describe your issue in detail. Include any error messages, steps you've already tried, and any other relevant information.">{if $smarty.post.message}{$smarty.post.message}{/if}</textarea>
+                            
+                            <!-- Preview Panel -->
+                            <div id="message-preview" class="hidden input-dark w-full rounded-t-none border-t-0 min-h-[200px] p-4">
+                                <div class="prose prose-invert max-w-none">
+                                    <!-- Preview content will be shown here -->
+                                </div>
+                            </div>
+                        </div>
+                        
                         <p class="text-text-light text-xs mt-1">
-                            The more details you provide, the faster we can help resolve your issue.
+                            The more details you provide, the faster we can help resolve your issue. 
+                            <span class="text-neon-green">Supports basic formatting:</span> **bold**, *italic*, - lists
                         </p>
                     </div>
                     
@@ -351,5 +419,186 @@
         </div>
     </div>
 </div>
+
+<script>
+// Rich text formatting functions
+function formatText(command) {
+    const textarea = document.getElementById('message');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.substring(start, end);
+    let formattedText = '';
+    
+    switch(command) {
+        case 'bold':
+            formattedText = selectedText ? `**${selectedText}**` : '**bold text**';
+            break;
+        case 'italic':
+            formattedText = selectedText ? `*${selectedText}*` : '*italic text*';
+            break;
+    }
+    
+    if (formattedText) {
+        textarea.setRangeText(formattedText, start, end, 'end');
+        textarea.focus();
+        updatePreview();
+    }
+}
+
+function insertText(text) {
+    const textarea = document.getElementById('message');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    
+    // Insert at cursor position
+    textarea.setRangeText(text, start, end, 'end');
+    textarea.focus();
+    updatePreview();
+}
+
+function togglePreview() {
+    const textarea = document.getElementById('message');
+    const preview = document.getElementById('message-preview');
+    const previewBtn = document.getElementById('preview-btn');
+    
+    if (preview.classList.contains('hidden')) {
+        // Show preview
+        updatePreview();
+        textarea.classList.add('hidden');
+        preview.classList.remove('hidden');
+        previewBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+            Edit
+        `;
+    } else {
+        // Show editor
+        textarea.classList.remove('hidden');
+        preview.classList.add('hidden');
+        previewBtn.innerHTML = `
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+            </svg>
+            Preview
+        `;
+        textarea.focus();
+    }
+}
+
+function updatePreview() {
+    const textarea = document.getElementById('message');
+    const preview = document.getElementById('message-preview');
+    const content = textarea.value;
+    
+    // Simple markdown-like rendering
+    let html = content
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')  // Bold
+        .replace(/\*(.*?)\*/g, '<em class="text-neon-green">$1</em>')         // Italic
+        .replace(/^- (.+)$/gm, '<li class="ml-4">• $1</li>')                 // Bullet lists
+        .replace(/^\d+\. (.+)$/gm, '<li class="ml-4">$1</li>')               // Numbered lists
+        .replace(/\n/g, '<br>');                                             // Line breaks
+    
+    // Wrap lists
+    html = html.replace(/(<li class="ml-4">.*<\/li>)/g, '<ul class="space-y-1">$1</ul>');
+    
+    preview.querySelector('.prose').innerHTML = html || '<span class="text-text-light italic">Nothing to preview</span>';
+}
+
+// Auto-update preview when typing
+document.getElementById('message').addEventListener('input', function() {
+    if (!document.getElementById('message-preview').classList.contains('hidden')) {
+        updatePreview();
+    }
+});
+
+// Enhanced file upload with drag and drop
+function setupFileUpload() {
+    const fileInput = document.getElementById('attachments');
+    const dropZone = document.createElement('div');
+    
+    // Create enhanced file upload area
+    const uploadContainer = fileInput.parentNode;
+    uploadContainer.classList.add('relative');
+    
+    dropZone.className = 'border-2 border-dashed border-gray-600 rounded-lg p-6 text-center transition-colors duration-300 hover:border-neon-green';
+    dropZone.innerHTML = `
+        <svg class="w-12 h-12 text-text-light mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+        <p class="text-white mb-2">Drag and drop files here, or <span class="text-neon-green cursor-pointer">browse</span></p>
+        <p class="text-text-light text-sm">Support: JPG, PNG, PDF, DOC, TXT, ZIP, LOG (Max 10MB each)</p>
+    `;
+    
+    // Insert after file input
+    fileInput.insertAdjacentElement('afterend', dropZone);
+    fileInput.style.display = 'none';
+    
+    // Handle drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-neon-green', 'bg-neon-green/10');
+    });
+    
+    dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-neon-green', 'bg-neon-green/10');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-neon-green', 'bg-neon-green/10');
+        fileInput.files = e.dataTransfer.files;
+        updateFileList();
+    });
+    
+    // Handle click to browse
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', updateFileList);
+}
+
+function updateFileList() {
+    const fileInput = document.getElementById('attachments');
+    const files = Array.from(fileInput.files);
+    
+    if (files.length > 0) {
+        let fileListHtml = '<div class="mt-4 space-y-2">';
+        files.forEach((file, index) => {
+            const size = (file.size / 1024 / 1024).toFixed(2);
+            fileListHtml += `
+                <div class="flex items-center justify-between bg-dark-bg rounded-lg p-3">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-neon-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm5 3a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM4 11l2-2 1.5 1.5L10 8l6 6H4z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>
+                            <div class="text-white text-sm">${file.name}</div>
+                            <div class="text-text-light text-xs">${size} MB</div>
+                        </div>
+                    </div>
+                    <span class="text-green-400 text-sm">✓</span>
+                </div>
+            `;
+        });
+        fileListHtml += '</div>';
+        
+        const dropZone = document.querySelector('.border-dashed');
+        const existingList = dropZone.parentNode.querySelector('.mt-4');
+        if (existingList) {
+            existingList.remove();
+        }
+        dropZone.insertAdjacentHTML('afterend', fileListHtml);
+    }
+}
+
+// Initialize enhanced file upload when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setupFileUpload();
+});
+</script>
 
 {include file="$template/footer.tpl"}

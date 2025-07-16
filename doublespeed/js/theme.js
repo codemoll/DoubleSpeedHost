@@ -342,28 +342,42 @@
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         
+        // User menu functionality
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+        const userMenuArrow = document.getElementById('user-menu-arrow');
+        
         if (mobileMenuButton && mobileMenu) {
             mobileMenuButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 mobileMenu.classList.toggle('hidden');
                 // Close user menu if open
-                const userMenu = document.getElementById('user-menu');
                 if (userMenu) {
                     userMenu.classList.add('hidden');
+                    // Reset arrow rotation
+                    if (userMenuArrow) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    }
                 }
             });
         }
-        
-        // User menu functionality
-        const userMenuButton = document.getElementById('user-menu-button');
-        const userMenu = document.getElementById('user-menu');
         
         if (userMenuButton && userMenu) {
             userMenuButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 userMenu.classList.toggle('hidden');
+                
+                // Rotate arrow icon
+                if (userMenuArrow) {
+                    if (userMenu.classList.contains('hidden')) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        userMenuArrow.style.transform = 'rotate(180deg)';
+                    }
+                }
+                
                 // Close mobile menu if open
                 if (mobileMenu) {
                     mobileMenu.classList.add('hidden');
@@ -383,6 +397,10 @@
                 !userMenuButton.contains(event.target) && 
                 !userMenu.contains(event.target)) {
                 userMenu.classList.add('hidden');
+                // Reset arrow rotation
+                if (userMenuArrow) {
+                    userMenuArrow.style.transform = 'rotate(0deg)';
+                }
             }
         });
         
@@ -390,7 +408,13 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (mobileMenu) mobileMenu.classList.add('hidden');
-                if (userMenu) userMenu.classList.add('hidden');
+                if (userMenu) {
+                    userMenu.classList.add('hidden');
+                    // Reset arrow rotation
+                    if (userMenuArrow) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    }
+                }
             }
         });
     }
