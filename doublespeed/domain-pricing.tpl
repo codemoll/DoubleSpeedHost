@@ -1,5 +1,30 @@
 {include file="$template/header.tpl"}
 
+{* Debug Mode - Only show when debug is enabled in template settings *}
+{if isset($template_debug_mode) && $template_debug_mode}
+    <div class="container mx-auto px-4 py-4">
+        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
+            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Domain Pricing Template</h3>
+            <div class="text-yellow-200 text-sm space-y-2">
+                <div><strong>Pricing Variable:</strong> {if isset($pricing)}{if is_array($pricing)}Array with {count($pricing)} items{else}Type: {gettype($pricing)}{/if}{else}Not set{/if}</div>
+                {if isset($pricing) && is_array($pricing) && $pricing}
+                    <div><strong>Sample TLD:</strong> 
+                        {foreach $pricing as $tld name=debug_loop}
+                            {if $smarty.foreach.debug_loop.first}
+                                Extension: {if isset($tld.extension)}{$tld.extension}{else}N/A{/if}, 
+                                Register: {if isset($tld.register)}{$tld.register}{else}N/A{/if}, 
+                                Renew: {if isset($tld.renew)}{$tld.renew}{else}N/A{/if}
+                            {/if}
+                        {/foreach}
+                    </div>
+                {/if}
+                <div><strong>Template File:</strong> domain-pricing.tpl</div>
+                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
+            </div>
+        </div>
+    </div>
+{/if}
+
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-6xl mx-auto">
         <div class="mb-8">
@@ -31,44 +56,75 @@
                                     <tr class="border-b border-gray-700 hover:bg-dark-bg transition-colors">
                                         <td class="py-4 px-2 md:px-4">
                                             <span class="text-lg md:text-xl font-bold text-white">
-                                                .{if isset($tld.extension)}{$tld.extension}{else}com{/if}
+                                                .{if isset($tld.extension) && $tld.extension}{$tld.extension}{elseif isset($tld.tld) && $tld.tld}{$tld.tld}{else}com{/if}
                                             </span>
                                             {if isset($tld.description) && $tld.description}
                                                 <p class="text-text-light text-xs md:text-sm hidden sm:block">{$tld.description}</p>
+                                            {elseif isset($tld.extension)}
+                                                <p class="text-text-light text-xs md:text-sm hidden sm:block">
+                                                    {if $tld.extension eq 'com'}Most popular choice for businesses{/if}
+                                                    {if $tld.extension eq 'net'}Great for networks and tech companies{/if}
+                                                    {if $tld.extension eq 'org'}Perfect for organizations{/if}
+                                                    {if $tld.extension eq 'io'}Popular with tech startups{/if}
+                                                    {if $tld.extension eq 'co'}Short and memorable alternative{/if}
+                                                </p>
                                             {/if}
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden sm:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-neon-green">
-                                                ${if isset($tld.register)}{$tld.register}{else}N/A{/if}
+                                                {if isset($tld.register) && $tld.register}
+                                                    {if $tld.register|strpos:'$' === false}${/if}{$tld.register}
+                                                {elseif isset($tld.pricing) && isset($tld.pricing.register)}
+                                                    {if $tld.pricing.register|strpos:'$' === false}${/if}{$tld.pricing.register}
+                                                {else}
+                                                    <span class="text-text-light">Contact Us</span>
+                                                {/if}
                                             </span>
                                             <p class="text-text-light text-xs hidden md:block">per year</p>
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden md:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-electric-blue">
-                                                ${if isset($tld.renew)}{$tld.renew}{else}N/A{/if}
+                                                {if isset($tld.renew) && $tld.renew}
+                                                    {if $tld.renew|strpos:'$' === false}${/if}{$tld.renew}
+                                                {elseif isset($tld.pricing) && isset($tld.pricing.renew)}
+                                                    {if $tld.pricing.renew|strpos:'$' === false}${/if}{$tld.pricing.renew}
+                                                {else}
+                                                    <span class="text-text-light">Contact Us</span>
+                                                {/if}
                                             </span>
                                             <p class="text-text-light text-xs">per year</p>
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden lg:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-cyber-purple">
-                                                ${if isset($tld.transfer)}{$tld.transfer}{else}N/A{/if}
+                                                {if isset($tld.transfer) && $tld.transfer}
+                                                    {if $tld.transfer|strpos:'$' === false}${/if}{$tld.transfer}
+                                                {elseif isset($tld.pricing) && isset($tld.pricing.transfer)}
+                                                    {if $tld.pricing.transfer|strpos:'$' === false}${/if}{$tld.pricing.transfer}
+                                                {else}
+                                                    <span class="text-text-light">Contact Us</span>
+                                                {/if}
                                             </span>
                                             <p class="text-text-light text-xs">per year</p>
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center sm:hidden">
                                             <div class="space-y-1">
                                                 <div class="text-sm font-semibold text-neon-green">
-                                                    Reg: ${if isset($tld.register)}{$tld.register}{else}N/A{/if}
+                                                    Reg: {if isset($tld.register) && $tld.register}
+                                                        {if $tld.register|strpos:'$' === false}${/if}{$tld.register}
+                                                    {else}
+                                                        <span class="text-text-light">Contact</span>
+                                                    {/if}
                                                 </div>
-                                                {if isset($tld.renew)}
+                                                {if isset($tld.renew) && $tld.renew}
                                                     <div class="text-xs text-electric-blue">
-                                                        Renewal: ${$tld.renew}
+                                                        Renewal: {if $tld.renew|strpos:'$' === false}${/if}{$tld.renew}
                                                     </div>
                                                 {/if}
                                             </div>
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center">
-                                            <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query=.{if isset($tld.extension)}{$tld.extension}{else}com{/if}" 
+                                            {assign var="domain_ext" value="{if isset($tld.extension) && $tld.extension}{$tld.extension}{elseif isset($tld.tld) && $tld.tld}{$tld.tld}{else}com{/if}"}
+                                            <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query=.{$domain_ext}" 
                                                class="btn-primary btn-sm text-xs md:text-sm px-2 md:px-4">
                                                 Register
                                             </a>

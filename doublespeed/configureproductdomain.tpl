@@ -1,5 +1,23 @@
 {include file="$template/header.tpl"}
 
+{* Debug Mode - Only show when debug is enabled in template settings *}
+{if isset($template_debug_mode) && $template_debug_mode}
+    <div class="container mx-auto px-4 py-4">
+        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
+            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Configure Product Domain Template</h3>
+            <div class="text-yellow-200 text-sm space-y-2">
+                <div><strong>Domain Options:</strong> {if isset($domainoptions)}{if is_array($domainoptions)}Array with {count($domainoptions)} options{else}Type: {gettype($domainoptions)}{/if}{else}Not set{/if}</div>
+                <div><strong>TLDs:</strong> {if isset($tlds)}{if is_array($tlds)}Array with {count($tlds)} TLDs{else}Type: {gettype($tlds)}{/if}{else}Not set{/if}</div>
+                <div><strong>Selected Domain Type:</strong> {if isset($selecteddomaintype)}{$selecteddomaintype}{else}Not set{/if}</div>
+                <div><strong>Error Message:</strong> {if isset($errormessage) && $errormessage}{$errormessage}{else}None{/if}</div>
+                <div><strong>Form Data:</strong> SLD: {if isset($sld)}{$sld}{else}N/A{/if}, TLD: {if isset($selectedtld)}{$selectedtld}{else}N/A{/if}</div>
+                <div><strong>Template File:</strong> configureproductdomain.tpl</div>
+                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
+            </div>
+        </div>
+    </div>
+{/if}
+
 <div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
@@ -33,19 +51,39 @@
                     <h2 class="text-xl font-orbitron font-semibold text-white mb-6">Domain Configuration</h2>
                     
                     <div class="space-y-6">
-                        {if isset($domainoptions) && is_array($domainoptions) && $domainoptions}
+                        {if isset($domainoptions) && is_array($domainoptions) && count($domainoptions) > 0}
                             {foreach from=$domainoptions item=option key=type}
                                 <label class="block">
-                                    <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-neon-green transition-colors cursor-pointer">
+                                    <div class="flex items-start space-x-3 p-4 border border-gray-700 rounded-lg hover:border-neon-green transition-colors cursor-pointer domain-option-card" data-domain-type="{$type}">
                                         <input type="radio" name="domaintype" value="{$type}" 
                                                {if isset($selecteddomaintype) && $selecteddomaintype eq $type}checked{/if}
-                                               class="mt-1 text-neon-green focus:ring-neon-green" onchange="toggleDomainFields(this.value)">
+                                               class="mt-1 text-neon-green focus:ring-neon-green domain-type-radio" 
+                                               onchange="toggleDomainFields(this.value)" 
+                                               required data-validation-message="Please select a domain configuration option">
                                         <div class="flex-1">
                                             <div class="text-white font-medium mb-2">
-                                                {if isset($option.name)}{$option.name}{else}Domain Option{/if}
+                                                {if isset($option.name) && $option.name}
+                                                    {$option.name}
+                                                {elseif isset($option.title) && $option.title}
+                                                    {$option.title}
+                                                {else}
+                                                    {if $type eq 'register'}Register a new domain
+                                                    {elseif $type eq 'transfer'}Transfer domain from another registrar
+                                                    {elseif $type eq 'owndomain'}Use my own domain
+                                                    {elseif $type eq 'subdomain'}Use a subdomain
+                                                    {else}Domain Option{/if}
+                                                {/if}
                                             </div>
                                             {if isset($option.description) && $option.description}
                                                 <p class="text-text-light text-sm">{$option.description}</p>
+                                            {else}
+                                                <p class="text-text-light text-sm">
+                                                    {if $type eq 'register'}Register a brand new domain name
+                                                    {elseif $type eq 'transfer'}Transfer an existing domain to us
+                                                    {elseif $type eq 'owndomain'}I will use an existing domain and update my nameservers
+                                                    {elseif $type eq 'subdomain'}Use a free subdomain (e.g., yourdomain.oursite.com)
+                                                    {else}Configure domain settings for your service{/if}
+                                                </p>
                                             {/if}
                                             {if isset($option.price) && $option.price}
                                                 <span class="text-neon-green font-bold text-lg">{$option.price}</span>
@@ -357,7 +395,7 @@ function updateRadioColors(selectedType) {
 function validateDomainForm() {
     const selectedType = document.querySelector('input[name="domaintype"]:checked');
     if (!selectedType) {
-        alert('Please select a domain type.');
+        showValidationError('Please select a domain configuration option.');
         return false;
     }
     
@@ -367,32 +405,56 @@ function validateDomainForm() {
         case 'register':
             const sld = document.querySelector('input[name="sld"]');
             if (!sld || !sld.value.trim()) {
-                alert('Please enter a domain name.');
-                sld.focus();
+                showValidationError('Please enter a domain name.', sld);
+                return false;
+            }
+            // Validate domain name format
+            if (!/^[a-zA-Z0-9-]+$/.test(sld.value.trim())) {
+                showValidationError('Domain name can only contain letters, numbers, and hyphens.', sld);
+                return false;
+            }
+            if (sld.value.trim().length < 2) {
+                showValidationError('Domain name must be at least 2 characters long.', sld);
                 return false;
             }
             break;
         case 'transfer':
             const transferDomain = document.querySelector('input[name="transferdomain"]');
             if (!transferDomain || !transferDomain.value.trim()) {
-                alert('Please enter the domain to transfer.');
-                transferDomain.focus();
+                showValidationError('Please enter the domain to transfer.', transferDomain);
+                return false;
+            }
+            // Validate domain format
+            if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(transferDomain.value.trim())) {
+                showValidationError('Please enter a valid domain name (e.g., example.com).', transferDomain);
                 return false;
             }
             break;
         case 'owndomain':
             const hostname = document.querySelector('input[name="hostname"]');
             if (!hostname || !hostname.value.trim()) {
-                alert('Please enter your domain name.');
-                hostname.focus();
+                showValidationError('Please enter your domain name.', hostname);
+                return false;
+            }
+            // Validate domain format
+            if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(hostname.value.trim())) {
+                showValidationError('Please enter a valid domain name (e.g., example.com).', hostname);
                 return false;
             }
             break;
         case 'subdomain':
             const subdomain = document.querySelector('input[name="subdomain"]');
             if (!subdomain || !subdomain.value.trim()) {
-                alert('Please enter a subdomain name.');
-                subdomain.focus();
+                showValidationError('Please enter a subdomain name.', subdomain);
+                return false;
+            }
+            // Validate subdomain format
+            if (!/^[a-zA-Z0-9-]+$/.test(subdomain.value.trim())) {
+                showValidationError('Subdomain can only contain letters, numbers, and hyphens.', subdomain);
+                return false;
+            }
+            if (subdomain.value.trim().length < 2) {
+                showValidationError('Subdomain must be at least 2 characters long.', subdomain);
                 return false;
             }
             break;
@@ -404,12 +466,60 @@ function validateDomainForm() {
         const ns1 = document.querySelector('input[name="ns1"]');
         const ns2 = document.querySelector('input[name="ns2"]');
         if (!ns1.value.trim() || !ns2.value.trim()) {
-            alert('Please enter at least two nameservers.');
+            showValidationError('Please enter at least two nameservers when using custom nameservers.');
+            return false;
+        }
+        // Validate nameserver format
+        const nsPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!nsPattern.test(ns1.value.trim())) {
+            showValidationError('Please enter a valid nameserver format (e.g., ns1.example.com).', ns1);
+            return false;
+        }
+        if (!nsPattern.test(ns2.value.trim())) {
+            showValidationError('Please enter a valid nameserver format (e.g., ns2.example.com).', ns2);
             return false;
         }
     }
     
     return true;
+}
+
+// Enhanced error display function
+function showValidationError(message, focusElement = null) {
+    // Remove existing error messages
+    const existingErrors = document.querySelectorAll('.validation-error');
+    existingErrors.forEach(error => error.remove());
+    
+    // Create error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'validation-error bg-red-900 border border-red-700 rounded-lg p-4 mb-4';
+    errorDiv.innerHTML = `
+        <div class="flex">
+            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <div class="text-red-200 text-sm">${message}</div>
+        </div>
+    `;
+    
+    // Insert error at top of form
+    const form = document.querySelector('form');
+    if (form) {
+        form.insertBefore(errorDiv, form.firstChild);
+    }
+    
+    // Focus on the problematic element
+    if (focusElement) {
+        focusElement.focus();
+        focusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Auto-hide error after 10 seconds
+    setTimeout(() => {
+        if (errorDiv && errorDiv.parentNode) {
+            errorDiv.remove();
+        }
+    }, 10000);
 }
 
 // Initialize on page load

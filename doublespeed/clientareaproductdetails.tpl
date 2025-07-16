@@ -1,5 +1,25 @@
 {include file="$template/header.tpl"}
 
+{* Debug Mode - Only show when debug is enabled in template settings *}
+{if isset($template_debug_mode) && $template_debug_mode}
+    <div class="container mx-auto px-4 py-4">
+        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
+            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Client Area Product Details Template</h3>
+            <div class="text-yellow-200 text-sm space-y-2">
+                <div><strong>Service Variable:</strong> {if isset($service)}{if is_array($service)}Array with {count($service)} properties{else}Type: {gettype($service)}{/if}{else}Not set{/if}</div>
+                <div><strong>Product:</strong> {if isset($product) && $product}{$product}{else}Not set{/if}</div>
+                <div><strong>Domain:</strong> {if isset($domain) && $domain}{$domain}{else}Not set{/if}</div>
+                <div><strong>Status:</strong> {if isset($status) && $status}{$status}{else}Not set{/if}</div>
+                <div><strong>Usage Stats:</strong> Disk: {if isset($diskusage)}{$diskusage}{else}N/A{/if}, BW: {if isset($bwusage)}{$bwusage}{else}N/A{/if}</div>
+                <div><strong>Service ID:</strong> {if isset($serviceid) && $serviceid}{$serviceid}{else}Not set{/if}</div>
+                <div><strong>Module Output:</strong> {if isset($moduleoutput) && $moduleoutput}Present{else}Not available{/if}</div>
+                <div><strong>Template File:</strong> clientareaproductdetails.tpl</div>
+                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
+            </div>
+        </div>
+    </div>
+{/if}
+
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-7xl mx-auto">
         
@@ -25,30 +45,51 @@
                         {/if}
                         {if isset($status) && $status}
                             <span class="status inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                                {if $status eq 'Active'}bg-green-900 text-green-300 border border-green-600{/if}
-                                {if $status eq 'Suspended'}bg-yellow-900 text-yellow-300 border border-yellow-600{/if}
-                                {if $status eq 'Terminated'}bg-red-900 text-red-300 border border-red-600{/if}
-                                {if $status eq 'Pending'}bg-blue-900 text-blue-300 border border-blue-600{/if}
-                                {if $status eq 'Cancelled'}bg-gray-700 text-gray-300 border border-gray-600{/if}
+                                {if $status eq 'Active' || $status eq 'active'}bg-green-900 text-green-300 border border-green-600{/if}
+                                {if $status eq 'Suspended' || $status eq 'suspended'}bg-yellow-900 text-yellow-300 border border-yellow-600{/if}
+                                {if $status eq 'Terminated' || $status eq 'terminated'}bg-red-900 text-red-300 border border-red-600{/if}
+                                {if $status eq 'Pending' || $status eq 'pending'}bg-blue-900 text-blue-300 border border-blue-600{/if}
+                                {if $status eq 'Cancelled' || $status eq 'cancelled'}bg-gray-700 text-gray-300 border border-gray-600{/if}
+                                {if !in_array($status|lower, ['active', 'suspended', 'terminated', 'pending', 'cancelled'])}bg-purple-900 text-purple-300 border border-purple-600{/if}
                             ">
-                                {if $status eq 'Active'}
+                                {if $status eq 'Active' || $status eq 'active'}
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                     </svg>
-                                {elseif $status eq 'Suspended'}
+                                {elseif $status eq 'Suspended' || $status eq 'suspended'}
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                     </svg>
-                                {elseif $status eq 'Terminated'}
+                                {elseif $status eq 'Terminated' || $status eq 'terminated'}
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                     </svg>
-                                {elseif $status eq 'Pending'}
+                                {elseif $status eq 'Pending' || $status eq 'pending'}
                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
                                     </svg>
+                                {elseif $status eq 'Cancelled' || $status eq 'cancelled'}
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
+                                {else}
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
                                 {/if}
-                                {$status}
+                                {$status|ucfirst}
+                                {* Add status description for clarity *}
+                                {if $status eq 'Active' || $status eq 'active'}
+                                    <span class="hidden sm:inline ml-1">- Service Running</span>
+                                {elseif $status eq 'Suspended' || $status eq 'suspended'}
+                                    <span class="hidden sm:inline ml-1">- Temporarily Disabled</span>
+                                {elseif $status eq 'Terminated' || $status eq 'terminated'}
+                                    <span class="hidden sm:inline ml-1">- Service Ended</span>
+                                {elseif $status eq 'Pending' || $status eq 'pending'}
+                                    <span class="hidden sm:inline ml-1">- Setup in Progress</span>
+                                {elseif $status eq 'Cancelled' || $status eq 'cancelled'}
+                                    <span class="hidden sm:inline ml-1">- Service Cancelled</span>
+                                {/if}
                             </span>
                         {/if}
                     </div>
@@ -147,44 +188,131 @@
                     </div>
                 {/if}
 
-                <!-- Service Statistics -->
-                {if isset($diskusage) || isset($bwusage) || isset($diskpercent) || isset($bwpercent)}
+                <!-- Enhanced Service Statistics with better visualization -->
+                {if isset($diskusage) || isset($bwusage) || isset($diskpercent) || isset($bwpercent) || isset($service)}
                     <div class="card-dark">
                         <h2 class="text-xl font-orbitron font-semibold text-white mb-6">Usage Statistics</h2>
                         <div class="space-y-6">
+                            {* Enhanced disk usage display *}
                             {if isset($diskusage) && isset($disklimit)}
                                 <div>
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-text-light text-sm">Disk Usage</span>
+                                        <span class="text-text-light text-sm flex items-center">
+                                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                            </svg>
+                                            Disk Storage
+                                        </span>
                                         <span class="text-white text-sm font-medium">
-                                            {$diskusage} / {if $disklimit eq 'Unlimited'}Unlimited{else}{$disklimit}{/if}
+                                            {$diskusage} / {if $disklimit eq 'Unlimited' || $disklimit eq '0' || !$disklimit}Unlimited{else}{$disklimit}{/if}
                                         </span>
                                     </div>
-                                    {if isset($diskpercent) && $disklimit neq 'Unlimited'}
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
-                                            <div class="bg-gradient-to-r from-neon-green to-electric-blue h-2 rounded-full transition-all duration-500" 
-                                                 style="width: {$diskpercent}%"></div>
+                                    {if isset($diskpercent) && $disklimit neq 'Unlimited' && $disklimit neq '0' && $diskpercent}
+                                        {assign var="disk_percent" value=$diskpercent}
+                                        {if $disk_percent > 100}{assign var="disk_percent" value=100}{/if}
+                                        <div class="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden">
+                                            <div class="h-3 rounded-full transition-all duration-500 
+                                                {if $disk_percent < 70}bg-gradient-to-r from-neon-green to-electric-blue
+                                                {elseif $disk_percent < 90}bg-gradient-to-r from-yellow-500 to-orange-500
+                                                {else}bg-gradient-to-r from-red-500 to-red-700{/if}" 
+                                                 style="width: {$disk_percent}%">
+                                                <div class="absolute inset-0 bg-white opacity-20 animate-pulse"></div>
+                                            </div>
                                         </div>
-                                        <div class="text-xs text-text-light mt-1">{$diskpercent}% used</div>
+                                        <div class="flex justify-between text-xs mt-1">
+                                            <span class="text-text-light">{$disk_percent}% used</span>
+                                            {if $disk_percent >= 90}
+                                                <span class="text-red-400 font-semibold">⚠ Almost Full</span>
+                                            {elseif $disk_percent >= 70}
+                                                <span class="text-yellow-400">⚠ High Usage</span>
+                                            {else}
+                                                <span class="text-green-400">✓ Good</span>
+                                            {/if}
+                                        </div>
+                                    {else}
+                                        <div class="text-xs text-text-light mt-1">
+                                            {if $disklimit eq 'Unlimited' || $disklimit eq '0' || !$disklimit}
+                                                Unlimited storage available
+                                            {else}
+                                                Usage percentage not available
+                                            {/if}
+                                        </div>
                                     {/if}
                                 </div>
                             {/if}
+                            
+                            {* Enhanced bandwidth usage display *}
                             {if isset($bwusage) && isset($bwlimit)}
                                 <div>
                                     <div class="flex justify-between items-center mb-2">
-                                        <span class="text-text-light text-sm">Bandwidth Usage</span>
+                                        <span class="text-text-light text-sm flex items-center">
+                                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Bandwidth Usage
+                                        </span>
                                         <span class="text-white text-sm font-medium">
-                                            {$bwusage} / {if $bwlimit eq 'Unlimited'}Unlimited{else}{$bwlimit}{/if}
+                                            {$bwusage} / {if $bwlimit eq 'Unlimited' || $bwlimit eq '0' || !$bwlimit}Unlimited{else}{$bwlimit}{/if}
                                         </span>
                                     </div>
-                                    {if isset($bwpercent) && $bwlimit neq 'Unlimited'}
-                                        <div class="w-full bg-gray-700 rounded-full h-2">
-                                            <div class="bg-gradient-to-r from-electric-blue to-cyber-purple h-2 rounded-full transition-all duration-500" 
-                                                 style="width: {$bwpercent}%"></div>
+                                    {if isset($bwpercent) && $bwlimit neq 'Unlimited' && $bwlimit neq '0' && $bwpercent}
+                                        {assign var="bw_percent" value=$bwpercent}
+                                        {if $bw_percent > 100}{assign var="bw_percent" value=100}{/if}
+                                        <div class="w-full bg-gray-700 rounded-full h-3 relative overflow-hidden">
+                                            <div class="h-3 rounded-full transition-all duration-500
+                                                {if $bw_percent < 70}bg-gradient-to-r from-electric-blue to-cyber-purple
+                                                {elseif $bw_percent < 90}bg-gradient-to-r from-yellow-500 to-orange-500
+                                                {else}bg-gradient-to-r from-red-500 to-red-700{/if}" 
+                                                 style="width: {$bw_percent}%">
+                                                <div class="absolute inset-0 bg-white opacity-20 animate-pulse"></div>
+                                            </div>
                                         </div>
-                                        <div class="text-xs text-text-light mt-1">{$bwpercent}% used</div>
+                                        <div class="flex justify-between text-xs mt-1">
+                                            <span class="text-text-light">{$bw_percent}% used</span>
+                                            {if $bw_percent >= 90}
+                                                <span class="text-red-400 font-semibold">⚠ Almost Full</span>
+                                            {elseif $bw_percent >= 70}
+                                                <span class="text-yellow-400">⚠ High Usage</span>
+                                            {else}
+                                                <span class="text-green-400">✓ Good</span>
+                                            {/if}
+                                        </div>
+                                    {else}
+                                        <div class="text-xs text-text-light mt-1">
+                                            {if $bwlimit eq 'Unlimited' || $bwlimit eq '0' || !$bwlimit}
+                                                Unlimited bandwidth available
+                                            {else}
+                                                Usage percentage not available
+                                            {/if}
+                                        </div>
                                     {/if}
                                 </div>
+                            {/if}
+                            
+                            {* Additional service statistics if available *}
+                            {if isset($service) && is_array($service)}
+                                {if isset($service.emails) || isset($service.databases) || isset($service.subdomains)}
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-700">
+                                        {if isset($service.emails)}
+                                            <div class="text-center p-3 bg-dark-bg rounded-lg">
+                                                <div class="text-electric-blue text-lg font-bold">{$service.emails}</div>
+                                                <div class="text-text-light text-xs">Email Accounts</div>
+                                            </div>
+                                        {/if}
+                                        {if isset($service.databases)}
+                                            <div class="text-center p-3 bg-dark-bg rounded-lg">
+                                                <div class="text-cyber-purple text-lg font-bold">{$service.databases}</div>
+                                                <div class="text-text-light text-xs">Databases</div>
+                                            </div>
+                                        {/if}
+                                        {if isset($service.subdomains)}
+                                            <div class="text-center p-3 bg-dark-bg rounded-lg">
+                                                <div class="text-neon-green text-lg font-bold">{$service.subdomains}</div>
+                                                <div class="text-text-light text-xs">Subdomains</div>
+                                            </div>
+                                        {/if}
+                                    </div>
+                                {/if}
                             {/if}
                         </div>
                     </div>

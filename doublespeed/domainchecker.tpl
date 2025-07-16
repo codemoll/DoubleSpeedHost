@@ -1,5 +1,24 @@
 {include file="$template/header.tpl"}
 
+{* Debug Mode - Only show when debug is enabled in template settings *}
+{if isset($template_debug_mode) && $template_debug_mode}
+    <div class="container mx-auto px-4 py-4">
+        <div class="bg-yellow-900 border border-yellow-600 rounded-lg p-4 mb-4">
+            <h3 class="text-yellow-300 font-bold mb-2">🐛 Debug Mode: Domain Checker Template</h3>
+            <div class="text-yellow-200 text-sm space-y-2">
+                <div><strong>Domain Extensions:</strong> {if isset($domainextensions)}{if is_array($domainextensions)}Array with {count($domainextensions)} items{else}Type: {gettype($domainextensions)}{/if}{else}Not set{/if}</div>
+                <div><strong>Search Results:</strong> {if isset($results)}{if is_array($results)}Array with {count($results)} items{else}Type: {gettype($results)}{/if}{else}Not set{/if}</div>
+                <div><strong>Popular Extensions:</strong> {if isset($popularextensions)}{if is_array($popularextensions)}Array with {count($popularextensions)} items{else}Type: {gettype($popularextensions)}{/if}{else}Not set{/if}</div>
+                <div><strong>Search Term:</strong> {if isset($searchterm)}{$searchterm}{else}Not set{/if}</div>
+                <div><strong>Selected Extension:</strong> {if isset($selectedext)}{$selectedext}{else}Not set{/if}</div>
+                <div><strong>Error:</strong> {if isset($error) && $error}{$error}{else}None{/if}</div>
+                <div><strong>Template File:</strong> domainchecker.tpl</div>
+                <div><strong>Timestamp:</strong> {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}</div>
+            </div>
+        </div>
+    </div>
+{/if}
+
 <div class="min-h-screen bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         
@@ -35,24 +54,26 @@
                         </div>
                         <div class="sm:w-48">
                             <select name="ext" class="input-dark w-full py-4 text-lg">
-                                {if isset($domainextensions) && is_array($domainextensions)}
+                                {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
                                     {foreach $domainextensions as $extension}
-                                        <option value=".{$extension.extension}" 
-                                                {if isset($selectedext) && $selectedext eq $extension.extension}selected{/if}>
-                                            .{$extension.extension}
+                                        {assign var="ext_value" value="{if isset($extension.extension)}{$extension.extension}{elseif isset($extension.tld)}{$extension.tld}{elseif is_string($extension)}{$extension}{else}com{/if}"}
+                                        <option value=".{$ext_value}" 
+                                                {if isset($selectedext) && ($selectedext eq $ext_value || $selectedext eq ".{$ext_value}")}selected{/if}>
+                                            .{$ext_value}
                                         </option>
                                     {/foreach}
                                 {else}
-                                    <option value=".com">.com</option>
-                                    <option value=".net">.net</option>
-                                    <option value=".org">.org</option>
-                                    <option value=".info">.info</option>
-                                    <option value=".biz">.biz</option>
-                                    <option value=".us">.us</option>
-                                    <option value=".io">.io</option>
-                                    <option value=".co">.co</option>
-                                    <option value=".dev">.dev</option>
-                                    <option value=".app">.app</option>
+                                    {* Fallback extensions when WHMCS data is not available *}
+                                    <option value=".com" {if isset($selectedext) && ($selectedext eq 'com' || $selectedext eq '.com')}selected{/if}>.com</option>
+                                    <option value=".net" {if isset($selectedext) && ($selectedext eq 'net' || $selectedext eq '.net')}selected{/if}>.net</option>
+                                    <option value=".org" {if isset($selectedext) && ($selectedext eq 'org' || $selectedext eq '.org')}selected{/if}>.org</option>
+                                    <option value=".info" {if isset($selectedext) && ($selectedext eq 'info' || $selectedext eq '.info')}selected{/if}>.info</option>
+                                    <option value=".biz" {if isset($selectedext) && ($selectedext eq 'biz' || $selectedext eq '.biz')}selected{/if}>.biz</option>
+                                    <option value=".us" {if isset($selectedext) && ($selectedext eq 'us' || $selectedext eq '.us')}selected{/if}>.us</option>
+                                    <option value=".io" {if isset($selectedext) && ($selectedext eq 'io' || $selectedext eq '.io')}selected{/if}>.io</option>
+                                    <option value=".co" {if isset($selectedext) && ($selectedext eq 'co' || $selectedext eq '.co')}selected{/if}>.co</option>
+                                    <option value=".dev" {if isset($selectedext) && ($selectedext eq 'dev' || $selectedext eq '.dev')}selected{/if}>.dev</option>
+                                    <option value=".app" {if isset($selectedext) && ($selectedext eq 'app' || $selectedext eq '.app')}selected{/if}>.app</option>
                                 {/if}
                             </select>
                         </div>
@@ -81,35 +102,50 @@
         </div>
 
         <!-- Search Results -->
-        {if isset($results) && is_array($results) && $results}
+        {if isset($results) && is_array($results) && count($results) > 0}
             <div class="space-y-4">
                 <h2 class="text-2xl font-orbitron font-bold text-white mb-6">Search Results</h2>
                 
                 {foreach $results as $result}
-                    <div class="domain-result {if isset($result.status) && $result.status eq 'available'}available{else}unavailable{/if}">
+                    <div class="domain-result {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}available{else}unavailable{/if}">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 gap-4">
                             <div class="flex-1">
                                 <div class="domain-name text-lg font-semibold text-white">
-                                    {if isset($result.domain)}{$result.domain}{else}Domain{/if}
+                                    {if isset($result.domain) && $result.domain}
+                                        {$result.domain}
+                                    {elseif isset($result.domainname) && $result.domainname}
+                                        {$result.domainname}
+                                    {elseif isset($result.sld) && isset($result.tld)}
+                                        {$result.sld}.{$result.tld}
+                                    {else}
+                                        Domain Name
+                                    {/if}
                                 </div>
                                 <div class="domain-status mt-1">
-                                    {if isset($result.status) && $result.status eq 'available'}
+                                    {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
                                         <span class="text-neon-green text-sm">✓ Available</span>
-                                    {else}
+                                    {elseif isset($result.status) && ($result.status eq 'unavailable' || $result.status eq 'Unavailable' || $result.status eq 'taken')}
                                         <span class="text-red-400 text-sm">✗ Unavailable</span>
+                                    {else}
+                                        <span class="text-yellow-400 text-sm">? Status Unknown</span>
                                     {/if}
                                 </div>
                             </div>
                             
-                            {if isset($result.status) && $result.status eq 'available'}
+                            {if isset($result.status) && ($result.status eq 'available' || $result.status eq 'Available')}
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                                    {if isset($result.price)}
+                                    {if isset($result.price) && $result.price}
                                         <div class="domain-price text-lg font-bold text-white">
-                                            {$result.price}
+                                            {if $result.price|strpos:'$' === false && $result.price neq 'Free'}${/if}{$result.price}
+                                        </div>
+                                    {elseif isset($result.pricing) && isset($result.pricing.register)}
+                                        <div class="domain-price text-lg font-bold text-white">
+                                            {if $result.pricing.register|strpos:'$' === false}${/if}{$result.pricing.register}
                                         </div>
                                     {/if}
                                     <div class="domain-action">
-                                        <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query={if isset($result.domain)}{$result.domain}{/if}" 
+                                        {assign var="cart_domain" value="{if isset($result.domain) && $result.domain}{$result.domain}{elseif isset($result.domainname) && $result.domainname}{$result.domainname}{elseif isset($result.sld) && isset($result.tld)}{$result.sld}.{$result.tld}{else}example.com{/if}"}
+                                        <a href="{$WEB_ROOT}/cart.php?a=add&domain=register&query={$cart_domain}" 
                                            class="btn-primary text-sm px-4 py-2">
                                             Add to Cart
                                         </a>
@@ -119,6 +155,16 @@
                         </div>
                     </div>
                 {/foreach}
+            </div>
+        {elseif isset($searchterm) && $searchterm}
+            <div class="text-center py-8">
+                <div class="bg-blue-900 border border-blue-600 rounded-lg p-6">
+                    <svg class="w-12 h-12 text-blue-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <h3 class="text-blue-300 font-semibold mb-2">Search Complete</h3>
+                    <p class="text-blue-200">No results found for "{$searchterm}". Try a different domain name or extension.</p>
+                </div>
             </div>
         {/if}
 
