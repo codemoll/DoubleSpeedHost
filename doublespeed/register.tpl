@@ -143,11 +143,94 @@
                             <select id="country" name="country" required 
                                     class="input-dark w-full focus:shadow-glow-green">
                                 <option value="">Select your country</option>
-                                {foreach $countries as $countrycode => $countryname}
-                                    <option value="{$countrycode}" {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.country) && $countrycode eq $clientsdetails.country}selected{/if}>
-                                        {$countryname}
-                                    </option>
-                                {/foreach}
+                                {if $countries}
+                                    {foreach $countries as $countrycode => $countryname}
+                                        <option value="{$countrycode}" {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.country) && $countrycode eq $clientsdetails.country}selected{/if}>
+                                            {$countryname}
+                                        </option>
+                                    {/foreach}
+                                {else}
+                                    {* Fallback comprehensive country list *}
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="IT">Italy</option>
+                                    <option value="ES">Spain</option>
+                                    <option value="NL">Netherlands</option>
+                                    <option value="BE">Belgium</option>
+                                    <option value="CH">Switzerland</option>
+                                    <option value="AT">Austria</option>
+                                    <option value="SE">Sweden</option>
+                                    <option value="NO">Norway</option>
+                                    <option value="DK">Denmark</option>
+                                    <option value="FI">Finland</option>
+                                    <option value="IE">Ireland</option>
+                                    <option value="PT">Portugal</option>
+                                    <option value="PL">Poland</option>
+                                    <option value="CZ">Czech Republic</option>
+                                    <option value="HU">Hungary</option>
+                                    <option value="GR">Greece</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="CN">China</option>
+                                    <option value="IN">India</option>
+                                    <option value="KR">South Korea</option>
+                                    <option value="SG">Singapore</option>
+                                    <option value="HK">Hong Kong</option>
+                                    <option value="TW">Taiwan</option>
+                                    <option value="MY">Malaysia</option>
+                                    <option value="TH">Thailand</option>
+                                    <option value="ID">Indonesia</option>
+                                    <option value="PH">Philippines</option>
+                                    <option value="VN">Vietnam</option>
+                                    <option value="BR">Brazil</option>
+                                    <option value="MX">Mexico</option>
+                                    <option value="AR">Argentina</option>
+                                    <option value="CL">Chile</option>
+                                    <option value="CO">Colombia</option>
+                                    <option value="PE">Peru</option>
+                                    <option value="ZA">South Africa</option>
+                                    <option value="EG">Egypt</option>
+                                    <option value="IL">Israel</option>
+                                    <option value="AE">United Arab Emirates</option>
+                                    <option value="SA">Saudi Arabia</option>
+                                    <option value="TR">Turkey</option>
+                                    <option value="RU">Russia</option>
+                                    <option value="UA">Ukraine</option>
+                                    <option value="RO">Romania</option>
+                                    <option value="BG">Bulgaria</option>
+                                    <option value="HR">Croatia</option>
+                                    <option value="SK">Slovakia</option>
+                                    <option value="SI">Slovenia</option>
+                                    <option value="LT">Lithuania</option>
+                                    <option value="LV">Latvia</option>
+                                    <option value="EE">Estonia</option>
+                                    <option value="NZ">New Zealand</option>
+                                {/if}
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="currency" class="block text-sm font-medium text-text-light mb-2">
+                                Currency <span class="text-red-400">*</span>
+                            </label>
+                            <select id="currency" name="currency" required 
+                                    class="input-dark w-full focus:shadow-glow-green">
+                                {if $currencies}
+                                    {foreach $currencies as $currencycode => $currencyinfo}
+                                        <option value="{$currencycode}" {if $currencycode eq $defaultcurrency}selected{/if}>
+                                            {$currencyinfo.code} - {$currencyinfo.prefix}{if $currencyinfo.suffix}{$currencyinfo.suffix}{/if}
+                                        </option>
+                                    {/foreach}
+                                {else}
+                                    <option value="USD" selected>USD - $</option>
+                                    <option value="EUR">EUR - €</option>
+                                    <option value="GBP">GBP - £</option>
+                                    <option value="CAD">CAD - C$</option>
+                                    <option value="AUD">AUD - A$</option>
+                                {/if}
                             </select>
                         </div>
                     </div>

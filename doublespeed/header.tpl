@@ -49,7 +49,10 @@
                         {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
                             <img src="{$templatefile.logourl}" alt="{$companyname}" class="h-8 w-auto">
                         {else}
-                            <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded"></div>
+                            {* Check for logo.png in images folder *}
+                            <img src="{$WEB_ROOT}/templates/{$template}/images/logo.png" alt="{$companyname}" class="h-8 w-auto" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded" style="display:none;"></div>
                         {/if}
                         <span class="font-orbitron font-bold text-xl glow-text">{$companyname}</span>
                     </a>
@@ -259,23 +262,66 @@
                 <a href="{$WEB_ROOT}/contact.php" class="nav-link-mobile">Contact</a>
                 {if $loggedin}
                     <div class="pt-4 pb-3 border-t border-gray-700">
+                        <!-- User Profile Section -->
                         <div class="px-3 pb-3">
-                            <div class="text-base font-medium text-white">
-                                {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
-                                    {$clientsdetails.firstname}
-                                {else}
-                                    User
-                                {/if}
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-dark-bg font-bold text-sm">
+                                        {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname) && isset($clientsdetails.lastname)}
+                                            {$clientsdetails.firstname|substr:0:1}{$clientsdetails.lastname|substr:0:1}
+                                        {else}
+                                            U
+                                        {/if}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="text-base font-medium text-white">
+                                        {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
+                                            {$clientsdetails.firstname}
+                                        {else}
+                                            User
+                                        {/if}
+                                    </div>
+                                    <div class="text-text-light text-sm">
+                                        {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.email)}
+                                            {$clientsdetails.email}
+                                        {else}
+                                            Premium Member
+                                        {/if}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <a href="{$WEB_ROOT}/clientarea.php" class="nav-link-mobile">Dashboard</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=details" class="nav-link-mobile">Account Details</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=users" class="nav-link-mobile">User Management</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="nav-link-mobile">Contacts</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=security" class="nav-link-mobile">Account Security</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="nav-link-mobile">Email History</a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=changepw" class="nav-link-mobile">Change Password</a>
-                        <a href="{$WEB_ROOT}/logout.php" class="nav-link-mobile">Logout</a>
+                        
+                        <!-- Dashboard Section -->
+                        <div class="px-3 pb-2">
+                            <div class="text-neon-green font-medium text-xs uppercase tracking-wider mb-2">Dashboard</div>
+                            <a href="{$WEB_ROOT}/clientarea.php" class="nav-link-mobile">Overview</a>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=products" class="nav-link-mobile">Services</a>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="nav-link-mobile">Billing</a>
+                            <a href="{$WEB_ROOT}/supporttickets.php" class="nav-link-mobile">Support</a>
+                        </div>
+                        
+                        <!-- Account Management -->
+                        <div class="px-3 pb-2 border-t border-gray-700 pt-2">
+                            <div class="text-electric-blue font-medium text-xs uppercase tracking-wider mb-2">Account</div>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=details" class="nav-link-mobile">Profile</a>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=security" class="nav-link-mobile">Security</a>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=contacts" class="nav-link-mobile">Contacts</a>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="px-3 pb-2 border-t border-gray-700 pt-2">
+                            <div class="text-cyber-purple font-medium text-xs uppercase tracking-wider mb-2">Actions</div>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=addfunds" class="nav-link-mobile">Add Funds</a>
+                            <a href="{$WEB_ROOT}/submitticket.php" class="nav-link-mobile">New Ticket</a>
+                            <a href="{$WEB_ROOT}/clientarea.php?action=emails" class="nav-link-mobile">Messages</a>
+                        </div>
+                        
+                        <!-- Logout -->
+                        <div class="px-3 pt-2 border-t border-gray-700">
+                            <a href="{$WEB_ROOT}/logout.php" class="nav-link-mobile text-red-400">Sign Out</a>
+                        </div>
                     </div>
                 {else}
                     <div class="pt-4 pb-3 border-t border-gray-700">

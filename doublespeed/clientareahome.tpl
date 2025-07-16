@@ -90,8 +90,10 @@
                 
                 {if $products}
                     <div class="space-y-4">
+                        {assign var="activeCount" value=0}
                         {foreach from=$products item=service name=services}
-                            {if $smarty.foreach.services.index < 3}
+                            {if $service.status eq 'Active' && $activeCount < 3}
+                                {assign var="activeCount" value=$activeCount+1}
                                 <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -99,10 +101,7 @@
                                             <p class="text-text-light text-sm">{$service.domain}</p>
                                         </div>
                                         <div class="text-right">
-                                            <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
-                                                {if $service.status eq 'Active'}bg-neon-green text-dark-bg
-                                                {elseif $service.status eq 'Suspended'}bg-red-500 text-white
-                                                {else}bg-yellow-500 text-dark-bg{/if}">
+                                            <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-neon-green text-dark-bg">
                                                 {$service.status}
                                             </span>
                                             <div class="text-text-light text-sm mt-1">
@@ -113,6 +112,33 @@
                                 </a>
                             {/if}
                         {/foreach}
+                        
+                        {* If no active services, show first 3 services regardless of status *}
+                        {if $activeCount eq 0}
+                            {foreach from=$products item=service name=services}
+                                {if $smarty.foreach.services.index < 3}
+                                    <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h3 class="text-white font-medium">{$service.product}</h3>
+                                                <p class="text-text-light text-sm">{$service.domain}</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
+                                                    {if $service.status eq 'Active'}bg-neon-green text-dark-bg
+                                                    {elseif $service.status eq 'Suspended'}bg-red-500 text-white
+                                                    {else}bg-yellow-500 text-dark-bg{/if}">
+                                                    {$service.status}
+                                                </span>
+                                                <div class="text-text-light text-sm mt-1">
+                                                    Next Due: {$service.nextduedate}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {/if}
+                            {/foreach}
+                        {/if}
                     </div>
                 {else}
                     <div class="text-center py-8">
@@ -162,8 +188,32 @@
                     {/if}
                     
                     <div class="space-y-4">
+                        {assign var="displayCount" value=0}
+                        {* First, show unpaid invoices *}
                         {foreach from=$invoices item=invoice name=invoices}
-                            {if $smarty.foreach.invoices.index < 3}
+                            {if $invoice.status eq 'Unpaid' && $displayCount < 3}
+                                {assign var="displayCount" value=$displayCount+1}
+                                <a href="{$WEB_ROOT}/viewinvoice.php?id={$invoice.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-white font-medium">Invoice #{$invoice.invoicenum}</h3>
+                                            <p class="text-text-light text-sm">Due: {$invoice.datedue}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-white font-medium">{$invoice.total}</div>
+                                            <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-red-500 text-white">
+                                                {$invoice.status}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            {/if}
+                        {/foreach}
+                        
+                        {* Then, fill remaining slots with other recent invoices *}
+                        {foreach from=$invoices item=invoice name=invoices}
+                            {if $invoice.status neq 'Unpaid' && $displayCount < 3}
+                                {assign var="displayCount" value=$displayCount+1}
                                 <a href="{$WEB_ROOT}/viewinvoice.php?id={$invoice.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -174,7 +224,6 @@
                                             <div class="text-white font-medium">{$invoice.total}</div>
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
                                                 {if $invoice.status eq 'Paid'}bg-neon-green text-dark-bg
-                                                {elseif $invoice.status eq 'Unpaid'}bg-red-500 text-white
                                                 {elseif $invoice.status eq 'Cancelled'}bg-gray-500 text-white
                                                 {else}bg-yellow-500 text-dark-bg{/if}">
                                                 {$invoice.status}
