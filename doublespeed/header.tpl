@@ -35,6 +35,103 @@
     <meta property="og:url" content="{$systemurl}">
     
     {$headoutput}
+    
+    <!-- Inline Menu JavaScript Fallback -->
+    <script>
+    // Ensure menu functionality works even if external JS fails to load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait a bit to ensure external scripts have a chance to load
+        setTimeout(function() {
+            initBasicMenuFunctionality();
+        }, 100);
+    });
+    
+    function initBasicMenuFunctionality() {
+        // Only initialize if external theme.js hasn't already done it
+        var mobileMenuButton = document.getElementById('mobile-menu-button');
+        var mobileMenu = document.getElementById('mobile-menu');
+        var userMenuButton = document.getElementById('user-menu-button');
+        var userMenu = document.getElementById('user-menu');
+        var userMenuArrow = document.getElementById('user-menu-arrow');
+        
+        // Check if menu functionality is already initialized
+        if (mobileMenuButton && mobileMenuButton.hasAttribute('data-menu-initialized')) {
+            return; // Already initialized by theme.js
+        }
+        
+        // Mobile menu functionality
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.setAttribute('data-menu-initialized', 'true');
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+                // Close user menu if open
+                if (userMenu) {
+                    userMenu.classList.add('hidden');
+                    if (userMenuArrow) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        }
+        
+        // User menu functionality
+        if (userMenuButton && userMenu) {
+            userMenuButton.setAttribute('data-menu-initialized', 'true');
+            userMenuButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                userMenu.classList.toggle('hidden');
+                
+                // Rotate arrow icon
+                if (userMenuArrow) {
+                    if (userMenu.classList.contains('hidden')) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        userMenuArrow.style.transform = 'rotate(180deg)';
+                    }
+                }
+                
+                // Close mobile menu if open
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Close menus when clicking outside
+        document.addEventListener('click', function(event) {
+            if (mobileMenu && mobileMenuButton && 
+                !mobileMenuButton.contains(event.target) && 
+                !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+            
+            if (userMenu && userMenuButton && 
+                !userMenuButton.contains(event.target) && 
+                !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+                if (userMenuArrow) {
+                    userMenuArrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        });
+        
+        // Close menus on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                if (userMenu) {
+                    userMenu.classList.add('hidden');
+                    if (userMenuArrow) {
+                        userMenuArrow.style.transform = 'rotate(0deg)';
+                    }
+                }
+            }
+        });
+    }
+    </script>
 </head>
 
 <body class="bg-dark-bg text-text-white min-h-screen">

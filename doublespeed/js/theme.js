@@ -348,6 +348,7 @@
         const userMenuArrow = document.getElementById('user-menu-arrow');
         
         if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.setAttribute('data-menu-initialized', 'true');
             mobileMenuButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -364,6 +365,7 @@
         }
         
         if (userMenuButton && userMenu) {
+            userMenuButton.setAttribute('data-menu-initialized', 'true');
             userMenuButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -419,9 +421,17 @@
         });
     }
 
-    // Initialize enhanced menu functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        initMenus();
-    });
+    // Initialize enhanced menu functionality - robust initialization
+    function ensureMenuInit() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMenus);
+        } else {
+            // DOM is already loaded
+            initMenus();
+        }
+    }
+    
+    // Call initialization immediately
+    ensureMenuInit();
 
 })();
