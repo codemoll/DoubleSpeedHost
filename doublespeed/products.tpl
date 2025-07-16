@@ -38,29 +38,39 @@
                     </div>
                     
                     {if isset($productgroup.products) && is_array($productgroup.products) && count($productgroup.products) > 0}
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                             {foreach from=$productgroup.products item=product}
-                                <div class="card-dark hover:border-neon-green transition-all duration-300 group flex flex-col">
-                                    <div class="text-center mb-6">
-                                        <h3 class="text-xl font-orbitron font-semibold text-white mb-2">
-                                            {if isset($product.name) && $product.name}
-                                                {$product.name}
-                                            {elseif isset($product.productname) && $product.productname}
-                                                {$product.productname}
-                                            {else}
-                                                Hosting Plan
-                                            {/if}
-                                        </h3>
+                                <div class="card-dark hover:border-neon-green transition-all duration-300 group flex flex-col h-full relative overflow-hidden">
+                                    <!-- Product Header -->
+                                    <div class="text-center mb-6 relative z-10">
+                                        <div class="mb-4">
+                                            <div class="w-16 h-16 mx-auto bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-4">
+                                                <svg class="w-8 h-8 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                                </svg>
+                                            </div>
+                                            <h3 class="text-xl font-orbitron font-semibold text-white mb-3 min-h-[2.5rem] flex items-center justify-center">
+                                                {if isset($product.name) && $product.name}
+                                                    {$product.name}
+                                                {elseif isset($product.productname) && $product.productname}
+                                                    {$product.productname}
+                                                {else}
+                                                    Hosting Plan
+                                                {/if}
+                                            </h3>
+                                        </div>
                                         {if isset($product.description) && $product.description}
-                                            <p class="text-text-light text-sm">{$product.description|strip_tags|truncate:120}</p>
+                                            <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">{$product.description|strip_tags|truncate:150}</p>
                                         {elseif isset($product.desc) && $product.desc}
-                                            <p class="text-text-light text-sm">{$product.desc|strip_tags|truncate:120}</p>
+                                            <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">{$product.desc|strip_tags|truncate:150}</p>
+                                        {else}
+                                            <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">Professional hosting solution for your website</p>
                                         {/if}
                                     </div>
                                     
-                                    {* Enhanced pricing display with multiple fallback options *}
-                                    <div class="text-center mb-6">
-                                        <div class="text-3xl font-bold text-neon-green mb-2">
+                                    {* Enhanced pricing display with better formatting *}
+                                    <div class="text-center mb-6 p-4 bg-dark-bg/50 rounded-lg border border-gray-700/50">
+                                        <div class="text-3xl lg:text-4xl font-bold text-neon-green mb-2">
                                             {if isset($product.pricing) && is_array($product.pricing)}
                                                 {if isset($product.pricing.monthly) && $product.pricing.monthly}
                                                     {$product.pricing.monthly}
@@ -78,6 +88,37 @@
                                             {elseif isset($product.monthly) && $product.monthly}
                                                 {$product.monthly}
                                             {elseif isset($product.annually) && $product.annually}
+                                                {$product.annually}
+                                            {else}
+                                                Contact Us
+                                            {/if}
+                                        </div>
+                                        <div class="text-text-light text-sm font-medium">
+                                            {if isset($product.pricing) && is_array($product.pricing)}
+                                                {if isset($product.pricing.monthly) && $product.pricing.monthly}
+                                                    per month
+                                                {elseif isset($product.pricing.annually) && $product.pricing.annually}
+                                                    per year
+                                                {elseif isset($product.pricing.oneoff) && $product.pricing.oneoff}
+                                                    one-time
+                                                {/if}
+                                            {elseif isset($product.billingcycle) && $product.billingcycle}
+                                                {if $product.billingcycle eq 'monthly'}per month{/if}
+                                                {if $product.billingcycle eq 'annually'}per year{/if}
+                                                {if $product.billingcycle eq 'quarterly'}per quarter{/if}
+                                                {if $product.billingcycle eq 'onetime'}one-time{/if}
+                                            {elseif isset($product.monthly) && $product.monthly}
+                                                per month
+                                            {elseif isset($product.annually) && $product.annually}
+                                                per year
+                                            {else}
+                                                for pricing info
+                                            {/if}
+                                        </div>
+                                        {if isset($product.pricing) && is_array($product.pricing) && isset($product.pricing.setup) && $product.pricing.setup && $product.pricing.setup neq "0.00" && $product.pricing.setup neq "Free"}
+                                            <div class="text-xs text-gray-400 mt-1">+ {$product.pricing.setup} setup</div>
+                                        {/if}
+                                    </div>
                                                 {$product.annually}
                                             {else}
                                                 Contact Us
@@ -102,61 +143,120 @@
                                         </div>
                                     </div>
                                     
-                                    {* Enhanced features display *}
+                                    {* Enhanced features display with better layout *}
                                     {if isset($product.features) && is_array($product.features) && count($product.features) > 0}
-                                        <div class="space-y-3 mb-6 flex-grow">
-                                            {foreach from=$product.features item=feature name=features}
-                                                {if $smarty.foreach.features.index < 5}
-                                                    <div class="flex items-start space-x-3">
-                                                        <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                        </svg>
-                                                        <span class="text-white text-sm">
-                                                            {if is_array($feature)}
-                                                                {if isset($feature.feature)}{$feature.feature}{elseif isset($feature.name)}{$feature.name}{else}Feature{/if}
-                                                            {else}
-                                                                {$feature}
-                                                            {/if}
-                                                        </span>
+                                        <div class="flex-grow mb-6">
+                                            <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Features Include:</h4>
+                                            <div class="space-y-3">
+                                                {foreach from=$product.features item=feature name=features}
+                                                    {if $smarty.foreach.features.index < 6}
+                                                        <div class="flex items-start space-x-3">
+                                                            <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                            <span class="text-white text-sm leading-relaxed">
+                                                                {if is_array($feature)}
+                                                                    {if isset($feature.feature)}{$feature.feature}{elseif isset($feature.name)}{$feature.name}{else}Feature{/if}
+                                                                {else}
+                                                                    {$feature}
+                                                                {/if}
+                                                            </span>
+                                                        </div>
+                                                    {/if}
+                                                {/foreach}
+                                                {if count($product.features) > 6}
+                                                    <div class="text-text-light text-xs italic pt-2 border-t border-gray-700">
+                                                        +{count($product.features) - 6} more features included
                                                     </div>
                                                 {/if}
-                                            {/foreach}
-                                            {if count($product.features) > 5}
-                                                <div class="text-text-light text-xs italic">
-                                                    +{count($product.features) - 5} more features
-                                                </div>
-                                            {/if}
+                                            </div>
                                         </div>
                                     {elseif isset($product.configoptions) && is_array($product.configoptions) && count($product.configoptions) > 0}
-                                        <div class="space-y-3 mb-6 flex-grow">
-                                            {foreach from=$product.configoptions item=config name=configs}
-                                                {if $smarty.foreach.configs.index < 5}
-                                                    <div class="flex items-start space-x-3">
-                                                        <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                        </svg>
-                                                        <span class="text-white text-sm">
-                                                            {if isset($config.optionname)}{$config.optionname}{elseif isset($config.name)}{$config.name}{else}Configuration Option{/if}
-                                                        </span>
+                                        <div class="flex-grow mb-6">
+                                            <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Configuration Options:</h4>
+                                            <div class="space-y-3">
+                                                {foreach from=$product.configoptions item=config name=configs}
+                                                    {if $smarty.foreach.configs.index < 5}
+                                                        <div class="flex items-start space-x-3">
+                                                            <svg class="w-5 h-5 text-electric-blue flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                            <span class="text-white text-sm leading-relaxed">
+                                                                {if isset($config.optionname)}{$config.optionname}{elseif isset($config.name)}{$config.name}{else}Configuration Option{/if}
+                                                            </span>
+                                                        </div>
+                                                    {/if}
+                                                {/foreach}
+                                                {if count($product.configoptions) > 5}
+                                                    <div class="text-text-light text-xs italic pt-2 border-t border-gray-700">
+                                                        +{count($product.configoptions) - 5} more options available
                                                     </div>
                                                 {/if}
-                                            {/foreach}
+                                            </div>
+                                        </div>
+                                    {else}
+                                        <div class="flex-grow mb-6">
+                                            <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Features Include:</h4>
+                                            <div class="space-y-3">
+                                                <div class="flex items-start space-x-3">
+                                                    <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span class="text-white text-sm">24/7 Expert Support</span>
+                                                </div>
+                                                <div class="flex items-start space-x-3">
+                                                    <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span class="text-white text-sm">99.9% Uptime Guarantee</span>
+                                                </div>
+                                                <div class="flex items-start space-x-3">
+                                                    <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span class="text-white text-sm">Free SSL Certificate</span>
+                                                </div>
+                                                <div class="flex items-start space-x-3">
+                                                    <svg class="w-5 h-5 text-neon-green flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span class="text-white text-sm">Easy Setup & Management</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     {/if}
                                     
-                                    <div class="space-y-3 mt-auto">
+                                    <!-- Action Buttons -->
+                                    <div class="mt-auto space-y-3">
                                         {assign var="product_id" value="{if isset($product.pid) && $product.pid}{$product.pid}{elseif isset($product.id) && $product.id}{$product.id}{else}1{/if}"}
                                         <a href="{$WEB_ROOT}/cart.php?a=add&pid={$product_id}" 
-                                           class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-neon-green group-hover:to-electric-blue">
+                                           class="btn-primary w-full group-hover:bg-gradient-to-r group-hover:from-neon-green group-hover:to-electric-blue hover:scale-105 transition-all duration-300 text-center">
+                                            <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                            </svg>
                                             Order Now
                                         </a>
                                         {if (isset($product.configoptions) && $product.configoptions) || (isset($product.customfields) && $product.customfields)}
                                             <a href="{$WEB_ROOT}/cart.php?a=confproduct&i={$product_id}" 
-                                               class="btn-outline w-full">
-                                                Configure
+                                               class="btn-outline w-full text-center hover:scale-105 transition-all duration-300">
+                                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                                Configure Options
                                             </a>
+                                        {else}
+                                            <button class="btn-outline w-full text-center hover:scale-105 transition-all duration-300" onclick="showProductDetails('{$product_id}')">
+                                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                Learn More
+                                            </button>
                                         {/if}
                                     </div>
+                                    
+                                    <!-- Background glow effect -->
+                                    <div class="absolute inset-0 bg-gradient-to-br from-neon-green/5 to-electric-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                                 </div>
                             {/foreach}
                         </div>
@@ -391,3 +491,141 @@
 </div>
 
 {include file="$template/footer.tpl"}
+
+<script>
+// Enhanced product showcase functionality
+function showProductDetails(productId) {
+    // Create modal with product details
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4';
+    modal.innerHTML = `
+        <div class="card-dark max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-orbitron font-bold text-white">Product Details</h3>
+                <button class="close-modal text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div class="space-y-6">
+                <div class="bg-dark-bg-alt rounded-lg p-6">
+                    <h4 class="text-white font-semibold mb-4">Why Choose This Plan?</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-neon-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-white">Enterprise-grade security</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-electric-blue" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-white">Lightning-fast performance</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-cyber-purple" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-white">24/7 expert support</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-white">30-day money back guarantee</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="/cart.php?a=add&pid=${productId}" class="btn-primary flex-1 text-center">
+                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Order Now
+                    </a>
+                    <a href="/contact.php" class="btn-outline flex-1 text-center">
+                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Handle modal close
+    modal.querySelector('.close-modal').addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+
+    // Close on backdrop click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const openModal = document.querySelector('.fixed.inset-0');
+            if (openModal) {
+                document.body.removeChild(openModal);
+            }
+        }
+    });
+}
+
+// Enhanced scroll animations for product cards
+document.addEventListener('DOMContentLoaded', function() {
+    const productCards = document.querySelectorAll('.card-dark');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100); // Stagger animation
+            }
+        });
+    }, observerOptions);
+
+    productCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Enhanced hover effects for product cards
+    productCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+            this.style.zIndex = '10';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.zIndex = '1';
+        });
+    });
+});
+
+// Smooth scrolling for product navigation
+function scrollToProducts() {
+    const productsSection = document.querySelector('.max-w-6xl');
+    if (productsSection) {
+        productsSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }
+}
+</script>
