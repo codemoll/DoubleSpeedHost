@@ -1,268 +1,199 @@
 # DoubleSpeed Host WHMCS Template
 
-A dark, tech-inspired WHMCS template designed for modern hosting providers. Features cutting-edge design with neon accents, smooth animations, and a fully responsive layout.
+A modern, dark-themed WHMCS template with cyberpunk aesthetics and advanced CSS architecture.
 
-## 🎨 Design Features
+## ✨ Features
 
-### Theme Colors
-- **Background**: Dark gray/black (#121212, #1A1A1A)
-- **Accents**: Neon green (#00FF88), Electric blue (#007BFF), Cyberpunk purple (#9B59B6)
-- **Text**: White (#FFFFFF) and Light gray (#BFBFBF)
-- **Effects**: Glow effects for buttons, borders, and interactive elements
+- **Dark Theme**: Sleek cyberpunk-inspired design with neon accents
+- **Modular CSS**: Organized architecture for better maintainability
+- **Responsive Design**: Mobile-first approach with touch optimizations
+- **Tailwind Integration**: Scoped utilities for modern component development
+- **WHMCS Compatible**: Full compatibility with existing WHMCS systems
+- **Performance Optimized**: Efficient loading and caching strategies
 
-### Typography
-- **Headings**: Orbitron (futuristic, tech-inspired)
-- **Body**: Roboto (clean, readable sans-serif)
+## 🎨 CSS Architecture
 
-### Visual Effects
-- Animated background particles
-- Glow effects on hover
-- Smooth transitions and animations
-- Gradient backgrounds
-- Tech-inspired borders and cards
+This template features a revolutionary **modular CSS architecture** that combines the best of both worlds:
 
-## 📋 Features
+### Legacy WHMCS Compatibility + Modern Development
 
-### Homepage
-- **Hero Section**: Dark gradient background with animated elements
-- **Features Section**: Three-column layout with glowing icons
-- **Pricing Table**: Three plans with hover effects and animations
-- **Testimonials**: Customer reviews with star ratings
-- **Statistics**: Animated counters for key metrics
+- **`doublespeed.css`** - Core theme styles with WHMCS compatibility
+- **`doublespeed-tailwind.css`** - Scoped Tailwind utilities under `.ds-tailwind`
+- **`doublespeed-custom.css`** - Advanced UI enhancements and customizations  
+- **`doublespeed-responsive.css`** - Progressive responsive design
 
-### Client Area
-- **Dashboard**: Card-based layout for services, invoices, and tickets
-- **Quick Actions**: Easy access to common functions
-- **Status Indicators**: Color-coded service status
-- **Responsive Design**: Optimized for all screen sizes
+### Benefits
 
-### Support System
-- **FAQ Section**: Expandable panels with smooth animations
-- **Contact Form**: Styled form with validation
-- **Multiple Contact Methods**: Phone, email, live chat options
-- **Ticket System**: Integrated support ticket management
+✅ **Backward Compatible** - Existing WHMCS templates work unchanged  
+✅ **Modern Development** - Use Tailwind utilities for new components  
+✅ **Maintainable** - Clear separation of concerns  
+✅ **Scalable** - Add new modules without conflicts  
+✅ **Performance** - Load only what you need  
 
-### Authentication
-- **Login Form**: Dark-themed with glow effects
-- **Registration**: Multi-step form with validation
-- **Password Reset**: Integrated forgot password functionality
-- **Social Login**: Support for third-party authentication
+## 📚 Documentation
 
-## 🛠️ Technical Specifications
-
-### Built With
-- **Tailwind CSS**: Utility-first CSS framework
-- **Custom CSS**: Additional styling for glow effects and animations
-- **Vanilla JavaScript**: Enhanced interactivity and animations
-- **Smarty Templates**: WHMCS-compatible template files
-
-### Browser Compatibility
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
-### Performance
-- Optimized CSS (minified)
-- Efficient animations (GPU-accelerated)
-- Responsive images
-- Clean, semantic HTML
-
-## 📦 Installation
-
-### Requirements
-- WHMCS 8.0 or higher
-- PHP 7.4 or higher
-- Modern web browser
-
-### Steps
-
-1. **Download and Extract**
-   ```bash
-   # Clone or download the template files
-   git clone https://github.com/codemoll/DoubleSpeedHost.git
-   ```
-
-2. **Upload Template**
-   ```bash
-   # Upload the 'doublespeed' folder to your WHMCS templates directory
-   /path/to/whmcs/templates/doublespeed/
-   ```
-
-3. **Install Dependencies (for development)**
-   ```bash
-   npm install
-   npm run build
-   ```
-
-4. **Activate Template**
-   - Login to WHMCS Admin Area
-   - Go to Setup > General Settings > General > Template
-   - Select "DoubleSpeed Host" from the dropdown
-   - Save Changes
-
-5. **Configure Template**
-   - Navigate to Setup > General Settings > General > Template
-   - Configure template options (colors, logo, text)
-   - Save your settings
-
-## 🎛️ Configuration Options
-
-### Template Settings
-- **Primary Color**: Choose between Neon Green, Electric Blue, or Cyber Purple
-- **Logo URL**: Upload your company logo
-- **Hero Title/Subtitle**: Customize homepage hero section text
-- **Footer Text**: Customize footer copyright text
-- **Contact Information**: Set support phone and email
-
-### Customization Files
-- `template.php`: Main configuration file
-- `src/input.css`: Tailwind CSS source file
-- `js/theme.js`: JavaScript for interactions
-- `css/style.css`: Compiled CSS (generated)
-
-## 🎨 Customization
-
-### Changing Colors
-Edit `tailwind.config.js` to modify the color scheme:
-
-```javascript
-theme: {
-  extend: {
-    colors: {
-      'dark-bg': '#121212',        // Main background
-      'neon-green': '#00FF88',     // Primary accent
-      'electric-blue': '#007BFF',  // Secondary accent
-      'cyber-purple': '#9B59B6',   // Tertiary accent
-    }
-  }
-}
+### Quick Start
+```html
+<!-- Basic setup - load in this order -->
+<link rel="stylesheet" href="doublespeed/css/doublespeed.css">
+<link rel="stylesheet" href="doublespeed/css/doublespeed-tailwind.css">
+<link rel="stylesheet" href="doublespeed/css/doublespeed-custom.css">
+<link rel="stylesheet" href="doublespeed/css/doublespeed-responsive.css">
 ```
 
-### Adding Custom Styles
-Add custom CSS to `src/input.css`:
-
-```css
-@layer components {
-  .my-custom-class {
-    @apply bg-dark-surface border border-neon-green rounded-lg p-4;
-  }
-}
+### Using Legacy WHMCS Components
+```html
+<!-- Traditional WHMCS styling -->
+<div class="card-dark">
+    <h3>Hosting Plans</h3>
+    <button class="btn-primary">Order Now</button>
+</div>
 ```
 
-### Modifying Templates
-Template files are located in `/doublespeed/`:
-- `header.tpl` - Navigation and header
-- `footer.tpl` - Footer and scripts
-- `homepage.tpl` - Homepage content
-- `clientareahome.tpl` - Client dashboard
-- `login.tpl` - Login form
-- `register.tpl` - Registration form
-- `supporttickets.tpl` - Support page
+### Using Modern Tailwind Components
+```html
+<!-- Scoped Tailwind utilities -->
+<div class="ds-tailwind">
+    <div class="ds-card ds-hover-lift">
+        <h3 class="text-xl font-bold text-neon-green">Modern Card</h3>
+        <button class="ds-btn-primary w-full">Get Started</button>
+    </div>
+</div>
+```
 
-## 🔧 Development
+### Complete Documentation
 
-### Build Process
+📖 **[CSS Architecture Guide](docs/CSS_ARCHITECTURE.md)** - Complete modular CSS documentation  
+🎯 **[Live Examples](docs/examples/)** - Working examples with source code  
+🔧 **[Development Guide](docs/examples/README.md)** - Implementation patterns and best practices  
+
+## 🚀 Quick Start
+
+### Installation
+
+1. **Download** the template files
+2. **Upload** to your WHMCS templates directory
+3. **Activate** in WHMCS admin (System Settings > General > Template)
+4. **Build** CSS files (optional, for customization)
+
+### Development Setup
+
 ```bash
 # Install dependencies
 npm install
 
-# Development (watch mode)
-npm run build-css
-
-# Production build
+# Build all CSS modules
 npm run build
+
+# Watch for changes during development
+npm run watch
+
+# Build specific modules
+npm run build-core        # Core WHMCS styles
+npm run build-tailwind    # Scoped Tailwind utilities
+npm run build-custom      # Custom enhancements
+npm run build-responsive  # Responsive adjustments
 ```
 
-### File Structure
+## 🎯 Live Examples
+
+Explore working examples that demonstrate the modular architecture:
+
+### [Product Cards Example](docs/examples/product-cards.html)
+- Legacy WHMCS pricing tables
+- Modern Tailwind product grids  
+- Hybrid layout combinations
+- Interactive hover effects
+
+### [Checkout Widgets Example](docs/examples/checkout-widgets.html)
+- Multi-step checkout flow
+- Payment method selection
+- Order summary calculations
+- Security indicators
+
+### [Domain Search Example](docs/examples/domain-search.html)
+- Domain availability checking
+- Category-based browsing
+- Bulk domain search
+- Pricing tables
+
+## 🛠️ Customization
+
+### Modifying Colors
+Edit CSS variables in `src/doublespeed-core.css`:
+```css
+:root {
+  --ds-dark-bg: #121212;
+  --ds-neon-green: #00FF88;
+  --ds-electric-blue: #007BFF;
+  --ds-cyber-purple: #9B59B6;
+}
 ```
-doublespeed/
-├── css/
-│   └── style.css          # Compiled CSS
-├── js/
-│   └── theme.js           # JavaScript functionality
-├── images/
-│   ├── favicon.svg        # Site favicon
-│   └── logo.svg           # Company logo
-├── template.php           # WHMCS configuration
-├── header.tpl             # Header template
-├── footer.tpl             # Footer template
-├── homepage.tpl           # Homepage template
-├── clientareahome.tpl     # Client dashboard
-├── login.tpl              # Login form
-├── register.tpl           # Registration form
-└── supporttickets.tpl     # Support page
+
+### Adding New Components
+
+**Legacy Approach** (for WHMCS compatibility):
+```css
+.my-custom-component {
+  background: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  padding: 24px;
+}
 ```
 
-## 🚀 Features in Detail
+**Modern Approach** (scoped Tailwind):
+```html
+<div class="ds-tailwind">
+    <div class="bg-dark-surface border border-gray-700 rounded-lg p-6">
+        <!-- Custom content -->
+    </div>
+</div>
+```
 
-### Interactive Elements
-- **Hover Effects**: Buttons and cards have glow effects on hover
-- **Animations**: Smooth transitions and floating elements
-- **Particle Background**: Animated particle system
-- **Form Validation**: Real-time form validation with visual feedback
+## 📱 Browser Support
 
-### Responsive Design
-- **Mobile-First**: Optimized for mobile devices
-- **Tablet Support**: Perfect layout for tablets
-- **Desktop**: Full-featured desktop experience
-- **Touch-Friendly**: Large touch targets for mobile users
+- **Modern Browsers**: Full support with all modules
+- **Legacy Browsers**: Graceful degradation with core CSS
+- **Mobile Devices**: Optimized touch interfaces
+- **Screen Readers**: Enhanced accessibility features
 
-### Accessibility
-- **WCAG Compliant**: Follows web accessibility guidelines
-- **Keyboard Navigation**: Full keyboard support
-- **Screen Reader Friendly**: Proper ARIA labels and semantic HTML
-- **High Contrast**: Dark theme with sufficient color contrast
+## 🔧 Build System
 
-## 🐛 Troubleshooting
+The template uses a sophisticated build system for CSS generation:
 
-### Common Issues
+```json
+{
+  "scripts": {
+    "build": "npm run build-css",
+    "build-core": "cat ./src/doublespeed-core.css > ./doublespeed/css/doublespeed.css",
+    "build-tailwind": "tailwindcss -i ./src/doublespeed-tailwind.css -o ./doublespeed/css/doublespeed-tailwind.css --minify",
+    "build-custom": "cat ./src/doublespeed-custom.css > ./doublespeed/css/doublespeed-custom.css",
+    "build-responsive": "cat ./src/doublespeed-responsive.css > ./doublespeed/css/doublespeed-responsive.css"
+  }
+}
+```
 
-**Template not appearing in WHMCS**
-- Ensure the template folder is in the correct location
-- Check file permissions (755 for folders, 644 for files)
-- Verify template.php exists and is properly formatted
+## 🤝 Contributing
 
-**Styles not loading**
-- Run `npm run build` to regenerate CSS
-- Check that style.css exists in the css/ folder
-- Clear browser cache and WHMCS template cache
+We welcome contributions! Please:
 
-**JavaScript not working**
-- Ensure theme.js is included in footer.tpl
-- Check browser console for JavaScript errors
-- Verify browser compatibility
-
-**Responsive issues**
-- Check viewport meta tag in header.tpl
-- Test with browser developer tools
-- Verify Tailwind CSS responsive classes
-
-## 📞 Support
-
-### Getting Help
-- **Documentation**: Check this README for configuration help
-- **Issues**: Report bugs via GitHub Issues
-- **Feature Requests**: Submit enhancement requests
-
-### Contributing
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+1. **Follow** the established CSS architecture
+2. **Test** across different screen sizes
+3. **Document** new components and patterns
+4. **Maintain** backward compatibility with WHMCS
 
 ## 📄 License
 
-This template is released under the MIT License. See the LICENSE file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
-## 🙏 Credits
+## 🆘 Support
 
-- **Design**: Inspired by modern tech and cyberpunk aesthetics
-- **Fonts**: Google Fonts (Orbitron, Roboto)
-- **Framework**: Tailwind CSS for utility-first styling
-- **Icons**: SVG icons for better performance and scalability
+- **Documentation**: Check the [CSS Architecture Guide](docs/CSS_ARCHITECTURE.md)
+- **Examples**: Review [working examples](docs/examples/)
+- **Issues**: Report bugs or request features via GitHub Issues
+- **WHMCS**: Ensure you're using a supported WHMCS version
 
 ---
 
-**DoubleSpeed Host Template** - Bringing the future of hosting to your WHMCS installation.
+**Built with ❤️ for the WHMCS community**

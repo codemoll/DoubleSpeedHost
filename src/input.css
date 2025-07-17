@@ -159,7 +159,22 @@
 
   /* Product Cards Enhanced */
   .product-card {
-    @apply relative bg-dark-surface border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-neon-green hover:shadow-glow-green group overflow-hidden;
+    @apply relative bg-dark-surface border border-gray-700 rounded-xl p-6 transition-all duration-300 hover:border-neon-green hover:shadow-glow-green overflow-hidden;
+  }
+
+  .product-card {
+    position: relative;
+    background-color: var(--tw-bg-dark-surface);
+    border: 1px solid var(--tw-border-gray-700);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .product-card:hover {
+    border-color: var(--tw-border-neon-green);
+    box-shadow: var(--tw-shadow-glow-green);
   }
 
   .product-card::before {
@@ -449,7 +464,7 @@
 
   /* Promotion panel tile enhancements */
   .promotion-panel-tile {
-    @apply relative bg-dark-surface border border-gray-700 rounded-lg overflow-hidden transition-all duration-300 group;
+    @apply relative bg-dark-surface border border-gray-700 rounded-lg overflow-hidden transition-all duration-300;
   }
 
   .promotion-panel-tile:hover {

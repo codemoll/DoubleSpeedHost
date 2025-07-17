@@ -1,0 +1,339 @@
+/* ===================================================================
+   DoubleSpeed Host - Scoped Tailwind CSS Utilities
+   
+   Usage: Wrap elements with `.ds-tailwind` class to apply Tailwind utilities
+   Example: <div class="ds-tailwind bg-blue-500 text-white p-4">...</div>
+   =================================================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scope all Tailwind utilities under .ds-tailwind class */
+.ds-tailwind {
+  /* Reset some base styles within scoped area */
+  & * {
+    box-sizing: border-box;
+  }
+
+  /* Ensure proper inheritance */
+  color: inherit;
+  font-family: inherit;
+  
+  /* Apply Tailwind's base layer styles only within scoped area */
+  & h1, & h2, & h3, & h4, & h5, & h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+  }
+  
+  & p {
+    margin: 0;
+  }
+  
+  & button, & input, & select, & textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+  }
+  
+  & input, & select, & textarea {
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+  }
+  
+  & ul, & ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom component classes for modern UI elements */
+@layer components {
+  .ds-tailwind .ds-card {
+    @apply bg-dark-surface border border-gray-700 rounded-xl p-6 transition-all duration-300;
+  }
+  
+  .ds-tailwind .ds-card:hover {
+    @apply border-neon-green shadow-glow-green;
+  }
+  
+  .ds-tailwind .ds-btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .ds-tailwind .ds-btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-neon-green text-dark-bg hover:shadow-glow-green hover:scale-105 focus:ring-neon-green;
+  }
+  
+  .ds-tailwind .ds-btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-electric-blue text-white hover:shadow-glow-blue hover:scale-105 focus:ring-electric-blue;
+  }
+  
+  .ds-tailwind .ds-btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 border-2 border-neon-green text-neon-green bg-transparent hover:bg-neon-green hover:text-dark-bg hover:shadow-glow-green focus:ring-neon-green;
+  }
+  
+  .ds-tailwind .ds-input {
+    @apply block w-full px-4 py-3 bg-dark-surface border border-gray-600 rounded-lg text-white placeholder-text-light focus:border-neon-green focus:ring-2 focus:ring-neon-green focus:ring-opacity-50 transition-all duration-300;
+  }
+  
+  .ds-tailwind .ds-select {
+    @apply block w-full px-4 py-3 bg-dark-surface border border-gray-600 rounded-lg text-white focus:border-neon-green focus:ring-2 focus:ring-neon-green focus:ring-opacity-50 transition-all duration-300;
+  }
+  
+  .ds-tailwind .ds-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .ds-tailwind .ds-badge-success {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-neon-green bg-opacity-20 text-neon-green border border-neon-green;
+  }
+  
+  .ds-tailwind .ds-badge-warning {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-500 bg-opacity-20 text-yellow-400 border border-yellow-500;
+  }
+  
+  .ds-tailwind .ds-badge-danger {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-500 bg-opacity-20 text-red-400 border border-red-500;
+  }
+  
+  .ds-tailwind .ds-badge-info {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-electric-blue bg-opacity-20 text-electric-blue border border-electric-blue;
+  }
+  
+  .ds-tailwind .ds-modal {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  }
+  
+  .ds-tailwind .ds-modal-backdrop {
+    @apply absolute inset-0 bg-black bg-opacity-75 transition-opacity;
+  }
+  
+  .ds-tailwind .ds-modal-content {
+    @apply relative bg-dark-surface border border-gray-700 rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto;
+  }
+  
+  .ds-tailwind .ds-modal-header {
+    @apply flex items-center justify-between p-6 border-b border-gray-700;
+  }
+  
+  .ds-tailwind .ds-modal-title {
+    @apply text-lg font-semibold text-white;
+  }
+  
+  .ds-tailwind .ds-modal-close {
+    @apply text-gray-400 hover:text-white text-2xl font-bold bg-transparent border-0 cursor-pointer transition-colors;
+  }
+  
+  .ds-tailwind .ds-modal-body {
+    @apply p-6;
+  }
+  
+  .ds-tailwind .ds-alert {
+    @apply p-4 rounded-lg border text-sm;
+  }
+  
+  .ds-tailwind .ds-alert-success {
+    @apply p-4 rounded-lg border text-sm bg-neon-green bg-opacity-10 border-neon-green text-neon-green;
+  }
+  
+  .ds-tailwind .ds-alert-danger {
+    @apply p-4 rounded-lg border text-sm bg-red-500 bg-opacity-10 border-red-500 text-red-400;
+  }
+  
+  .ds-tailwind .ds-alert-warning {
+    @apply p-4 rounded-lg border text-sm bg-yellow-500 bg-opacity-10 border-yellow-500 text-yellow-400;
+  }
+  
+  .ds-tailwind .ds-alert-info {
+    @apply p-4 rounded-lg border text-sm bg-electric-blue bg-opacity-10 border-electric-blue text-electric-blue;
+  }
+  
+  .ds-tailwind .ds-table {
+    @apply w-full border-collapse bg-dark-surface rounded-lg overflow-hidden;
+  }
+  
+  .ds-tailwind .ds-table th {
+    @apply px-6 py-3 bg-dark-bg-alt text-left text-xs font-medium text-neon-green uppercase tracking-wider;
+  }
+  
+  .ds-tailwind .ds-table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-white border-b border-gray-700;
+  }
+  
+  .ds-tailwind .ds-table tr:hover {
+    @apply bg-neon-green bg-opacity-5;
+  }
+  
+  .ds-tailwind .ds-loading {
+    @apply inline-block w-5 h-5 border-2 border-neon-green border-t-transparent rounded-full animate-spin;
+  }
+  
+  .ds-tailwind .ds-tooltip {
+    @apply relative inline-block;
+  }
+  
+  .ds-tailwind .ds-tooltip .ds-tooltip-text {
+    @apply invisible absolute z-10 w-32 p-2 text-xs text-white bg-gray-900 rounded-lg bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 opacity-0 transition-opacity duration-300;
+  }
+  
+  .ds-tailwind .ds-tooltip:hover .ds-tooltip-text {
+    @apply visible opacity-100;
+  }
+  
+  .ds-tailwind .ds-progress {
+    @apply w-full bg-gray-700 rounded-full h-2 overflow-hidden;
+  }
+  
+  .ds-tailwind .ds-progress-bar {
+    @apply h-full bg-neon-green transition-all duration-500 ease-out;
+  }
+  
+  .ds-tailwind .ds-progress-bar-blue {
+    @apply bg-electric-blue;
+  }
+  
+  .ds-tailwind .ds-progress-bar-purple {
+    @apply bg-cyber-purple;
+  }
+  
+  .ds-tailwind .ds-spinner {
+    @apply animate-spin rounded-full h-8 w-8 border-b-2 border-neon-green;
+  }
+  
+  .ds-tailwind .ds-nav-link {
+    @apply text-text-light hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 relative;
+  }
+  
+  .ds-tailwind .ds-nav-link:hover {
+    @apply shadow-glow-green;
+  }
+  
+  .ds-tailwind .ds-nav-link.active {
+    @apply text-neon-green;
+  }
+  
+  /* Enhanced grid system for modern layouts */
+  .ds-tailwind .ds-grid {
+    @apply grid gap-6;
+  }
+  
+  .ds-tailwind .ds-grid-cols-1 {
+    @apply grid-cols-1;
+  }
+  
+  .ds-tailwind .ds-grid-cols-2 {
+    @apply grid-cols-1 md:grid-cols-2;
+  }
+  
+  .ds-tailwind .ds-grid-cols-3 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
+  
+  .ds-tailwind .ds-grid-cols-4 {
+    @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+  }
+  
+  .ds-tailwind .ds-flex-center {
+    @apply flex items-center justify-center;
+  }
+  
+  .ds-tailwind .ds-flex-between {
+    @apply flex items-center justify-between;
+  }
+  
+  .ds-tailwind .ds-flex-start {
+    @apply flex items-center justify-start;
+  }
+  
+  /* Animations and effects */
+  .ds-tailwind .ds-fade-in {
+    @apply opacity-0;
+    animation: ds-fadeIn 0.5s ease-out forwards;
+  }
+  
+  .ds-tailwind .ds-slide-up {
+    @apply transform translate-y-4 opacity-0;
+    animation: ds-slideUp 0.6s ease-out forwards;
+  }
+  
+  .ds-tailwind .ds-hover-glow:hover {
+    @apply shadow-glow-green;
+  }
+  
+  .ds-tailwind .ds-hover-scale:hover {
+    @apply transform scale-105;
+  }
+  
+  .ds-tailwind .ds-hover-lift:hover {
+    @apply transform -translate-y-1;
+  }
+}
+
+/* Keyframes for animations */
+@keyframes ds-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ds-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive utilities scoped to ds-tailwind */
+@media (max-width: 640px) {
+  .ds-tailwind .ds-responsive-text {
+    @apply text-sm;
+  }
+  
+  .ds-tailwind .ds-responsive-padding {
+    @apply p-4;
+  }
+  
+  .ds-tailwind .ds-responsive-margin {
+    @apply m-2;
+  }
+}
+
+@media (min-width: 768px) {
+  .ds-tailwind .ds-responsive-text {
+    @apply text-base;
+  }
+  
+  .ds-tailwind .ds-responsive-padding {
+    @apply p-6;
+  }
+  
+  .ds-tailwind .ds-responsive-margin {
+    @apply m-4;
+  }
+}
+
+/* Print styles for scoped area */
+@media print {
+  .ds-tailwind .ds-no-print {
+    display: none !important;
+  }
+  
+  .ds-tailwind .ds-print-full-width {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}

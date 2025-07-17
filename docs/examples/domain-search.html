@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoubleSpeed Host - Domain Search Example</title>
+    
+    <!-- Load CSS modules in proper order -->
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-tailwind.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-custom.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-responsive.css">
+</head>
+<body>
+    <header class="hero-gradient py-20">
+        <div class="container text-center">
+            <h1 class="glow-text text-6xl font-orbitron font-bold mb-6">Find Your Perfect Domain</h1>
+            <p class="text-xl text-text-light mb-12">Search for available domains and register instantly</p>
+            
+            <!-- Main Domain Search (Legacy WHMCS Style) -->
+            <div class="card-dark" style="max-width: 600px; margin: 0 auto;">
+                <form class="search-enhanced">
+                    <div class="row">
+                        <div class="col-8">
+                            <input type="text" 
+                                   class="input-dark w-100" 
+                                   placeholder="Enter your domain name" 
+                                   id="domain-search"
+                                   style="border-radius: 8px 0 0 8px; border-right: none;">
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" 
+                                    class="btn-primary w-100" 
+                                    style="border-radius: 0 8px 8px 0;">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="mt-4 text-center">
+                    <p class="text-text-light text-sm">Popular extensions: .com, .net, .org, .io, .ai, .tech</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-16">
+        <!-- Domain Search Results (Modern Tailwind Style) -->
+        <section class="mb-16">
+            <div class="ds-tailwind">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-white mb-4">Search Results for "myawesomesite"</h2>
+                    <p class="text-text-light">Found 8 available domains for you to choose from</p>
+                </div>
+                
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <!-- Available Domain -->
+                    <div class="ds-card border-neon-green/50 bg-gradient-to-r from-green-500/10 to-transparent ds-hover-lift">
+                        <div class="ds-flex-between items-center">
+                            <div class="flex-1">
+                                <div class="ds-flex-start items-center">
+                                    <div class="text-xl font-bold text-white">myawesomesite.com</div>
+                                    <span class="ds-badge-success ml-4">Available</span>
+                                </div>
+                                <p class="text-text-light text-sm mt-1">Most popular extension worldwide</p>
+                            </div>
+                            <div class="ds-flex-center space-x-6">
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">$12.99</div>
+                                    <div class="text-text-light text-sm">per year</div>
+                                </div>
+                                <button class="ds-btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Unavailable Domain -->
+                    <div class="ds-card border-red-500/50 bg-gradient-to-r from-red-500/10 to-transparent">
+                        <div class="ds-flex-between items-center">
+                            <div class="flex-1">
+                                <div class="ds-flex-start items-center">
+                                    <div class="text-xl font-bold text-white">myawesomesite.net</div>
+                                    <span class="ds-badge-danger ml-4">Taken</span>
+                                </div>
+                                <p class="text-text-light text-sm mt-1">This domain is already registered</p>
+                            </div>
+                            <div class="ds-flex-center space-x-6">
+                                <div class="text-right">
+                                    <div class="text-gray-400">Not available</div>
+                                </div>
+                                <button class="ds-btn-secondary opacity-50 cursor-not-allowed" disabled>
+                                    Unavailable
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Premium Domain -->
+                    <div class="ds-card border-yellow-500/50 bg-gradient-to-r from-yellow-500/10 to-transparent ds-hover-lift">
+                        <div class="ds-flex-between items-center">
+                            <div class="flex-1">
+                                <div class="ds-flex-start items-center">
+                                    <div class="text-xl font-bold text-white">myawesomesite.org</div>
+                                    <span class="ds-badge-warning ml-4">Premium</span>
+                                </div>
+                                <p class="text-text-light text-sm mt-1">Great for organizations and non-profits</p>
+                            </div>
+                            <div class="ds-flex-center space-x-6">
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">$15.99</div>
+                                    <div class="text-text-light text-sm">per year</div>
+                                </div>
+                                <button class="ds-btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tech Domain -->
+                    <div class="ds-card border-electric-blue/50 bg-gradient-to-r from-electric-blue/10 to-transparent ds-hover-lift">
+                        <div class="ds-flex-between items-center">
+                            <div class="flex-1">
+                                <div class="ds-flex-start items-center">
+                                    <div class="text-xl font-bold text-white">myawesomesite.io</div>
+                                    <span class="ds-badge-info ml-4">Tech</span>
+                                </div>
+                                <p class="text-text-light text-sm mt-1">Perfect for tech startups and developers</p>
+                            </div>
+                            <div class="ds-flex-center space-x-6">
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">$39.99</div>
+                                    <div class="text-text-light text-sm">per year</div>
+                                </div>
+                                <button class="ds-btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Domain -->
+                    <div class="ds-card border-cyber-purple/50 bg-gradient-to-r from-cyber-purple/10 to-transparent ds-hover-lift">
+                        <div class="ds-flex-between items-center">
+                            <div class="flex-1">
+                                <div class="ds-flex-start items-center">
+                                    <div class="text-xl font-bold text-white">myawesomesite.ai</div>
+                                    <span class="ds-badge-warning ml-4">Hot</span>
+                                </div>
+                                <p class="text-text-light text-sm mt-1">Trending extension for AI and tech companies</p>
+                            </div>
+                            <div class="ds-flex-center space-x-6">
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">$89.99</div>
+                                    <div class="text-text-light text-sm">per year</div>
+                                </div>
+                                <button class="ds-btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Domain Categories Section -->
+        <section class="mb-16">
+            <div class="row">
+                <div class="col-8">
+                    <h2 class="text-3xl font-orbitron font-bold text-neon-green mb-8">Browse by Category</h2>
+                    
+                    <!-- Category Grid (Mixed Legacy/Modern) -->
+                    <div class="ds-tailwind">
+                        <div class="ds-grid ds-grid-cols-2 gap-6">
+                            <div class="ds-card ds-hover-scale group cursor-pointer">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-4">💼</div>
+                                    <h3 class="text-xl font-bold text-white mb-2">Business</h3>
+                                    <p class="text-text-light text-sm mb-4">Professional domains for businesses</p>
+                                    <div class="space-y-2">
+                                        <div class="text-neon-green">.com - $12.99</div>
+                                        <div class="text-neon-green">.biz - $15.99</div>
+                                        <div class="text-neon-green">.company - $19.99</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ds-card ds-hover-scale group cursor-pointer">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-4">💻</div>
+                                    <h3 class="text-xl font-bold text-white mb-2">Technology</h3>
+                                    <p class="text-text-light text-sm mb-4">Perfect for tech companies</p>
+                                    <div class="space-y-2">
+                                        <div class="text-electric-blue">.io - $39.99</div>
+                                        <div class="text-electric-blue">.tech - $29.99</div>
+                                        <div class="text-electric-blue">.dev - $25.99</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ds-card ds-hover-scale group cursor-pointer">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-4">🎨</div>
+                                    <h3 class="text-xl font-bold text-white mb-2">Creative</h3>
+                                    <p class="text-text-light text-sm mb-4">For artists and creatives</p>
+                                    <div class="space-y-2">
+                                        <div class="text-cyber-purple">.art - $34.99</div>
+                                        <div class="text-cyber-purple">.design - $44.99</div>
+                                        <div class="text-cyber-purple">.studio - $24.99</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ds-card ds-hover-scale group cursor-pointer">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-4">🏪</div>
+                                    <h3 class="text-xl font-bold text-white mb-2">E-commerce</h3>
+                                    <p class="text-text-light text-sm mb-4">Online stores and shops</p>
+                                    <div class="space-y-2">
+                                        <div class="text-yellow-400">.shop - $29.99</div>
+                                        <div class="text-yellow-400">.store - $39.99</div>
+                                        <div class="text-yellow-400">.online - $19.99</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar with Domain Tools (Legacy Style) -->
+                <div class="col-4">
+                    <div class="card-dark mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">Domain Tools</h3>
+                        
+                        <div class="mb-4">
+                            <button class="btn-outline w-100 mb-3">WHOIS Lookup</button>
+                            <button class="btn-outline w-100 mb-3">Domain Generator</button>
+                            <button class="btn-outline w-100">Transfer Domain</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-dark mb-6">
+                        <h3 class="text-xl font-bold text-white mb-4">Why Choose Us?</h3>
+                        
+                        <div class="ds-tailwind">
+                            <div class="space-y-4">
+                                <div class="ds-flex-start">
+                                    <span class="text-neon-green mr-3">✓</span>
+                                    <div>
+                                        <div class="text-white font-semibold">Free DNS Management</div>
+                                        <div class="text-text-light text-sm">Complete control over your DNS records</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ds-flex-start">
+                                    <span class="text-neon-green mr-3">✓</span>
+                                    <div>
+                                        <div class="text-white font-semibold">Free Domain Privacy</div>
+                                        <div class="text-text-light text-sm">Protect your personal information</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ds-flex-start">
+                                    <span class="text-neon-green mr-3">✓</span>
+                                    <div>
+                                        <div class="text-white font-semibold">Auto-Renewal</div>
+                                        <div class="text-text-light text-sm">Never lose your domain again</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ds-flex-start">
+                                    <span class="text-neon-green mr-3">✓</span>
+                                    <div>
+                                        <div class="text-white font-semibold">24/7 Support</div>
+                                        <div class="text-text-light text-sm">Expert help when you need it</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Domain Pricing Table -->
+                    <div class="ds-tailwind">
+                        <div class="ds-card">
+                            <h3 class="text-xl font-bold text-white mb-4">Popular Extensions</h3>
+                            
+                            <div class="space-y-3">
+                                <div class="ds-flex-between py-2 border-b border-gray-700">
+                                    <span class="text-white">.com</span>
+                                    <span class="text-neon-green font-bold">$12.99</span>
+                                </div>
+                                <div class="ds-flex-between py-2 border-b border-gray-700">
+                                    <span class="text-white">.net</span>
+                                    <span class="text-neon-green font-bold">$14.99</span>
+                                </div>
+                                <div class="ds-flex-between py-2 border-b border-gray-700">
+                                    <span class="text-white">.org</span>
+                                    <span class="text-neon-green font-bold">$15.99</span>
+                                </div>
+                                <div class="ds-flex-between py-2 border-b border-gray-700">
+                                    <span class="text-white">.io</span>
+                                    <span class="text-electric-blue font-bold">$39.99</span>
+                                </div>
+                                <div class="ds-flex-between py-2">
+                                    <span class="text-white">.ai</span>
+                                    <span class="text-cyber-purple font-bold">$89.99</span>
+                                </div>
+                            </div>
+                            
+                            <button class="ds-btn-outline w-full mt-4">View All Prices</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bulk Domain Search -->
+        <section class="mb-16">
+            <div class="ds-tailwind">
+                <div class="ds-card max-w-4xl mx-auto">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">Bulk Domain Search</h2>
+                    <p class="text-text-light text-center mb-8">Search multiple domains at once - perfect for securing brand variations</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-white mb-2">Domain Names (one per line)</label>
+                            <textarea class="ds-input w-full h-32 resize-none" 
+                                      placeholder="myawesomesite&#10;mybrand&#10;mycompany&#10;awesome-site"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-white mb-2">Extensions to Check</label>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" checked class="mr-2"> .com
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" checked class="mr-2"> .net
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2"> .org
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2"> .io
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2"> .ai
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2"> .tech
+                                </label>
+                            </div>
+                            
+                            <button class="ds-btn-primary w-full">Search All Domains</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark-bg-alt py-8">
+        <div class="container text-center">
+            <p class="text-text-light">© 2024 DoubleSpeed Host. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple demo script for domain search
+        document.getElementById('domain-search').addEventListener('input', function(e) {
+            const value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+            e.target.value = value;
+        });
+        
+        // Add to cart functionality demo
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.includes('Add to Cart')) {
+                button.addEventListener('click', function() {
+                    const originalText = this.textContent;
+                    this.textContent = 'Added!';
+                    this.classList.add('ds-btn-success');
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.classList.remove('ds-btn-success');
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
