@@ -1,6 +1,6 @@
 /* ===================================================================
    DoubleSpeed Host - Core Theme Styles
-   Compatible with WHMCS legacy templates
+   Compatible with WHMCS Six and Bootstrap 5
    =================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap');
@@ -36,68 +36,213 @@ body {
   line-height: 1.6;
 }
 
-/* Legacy WHMCS component compatibility */
+/* Homepage Hero Section */
+.hero-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--ds-dark-bg) 0%, var(--ds-dark-bg-alt) 100%);
+  overflow: hidden;
+}
+
+.hero-bg-effects::before,
+.hero-bg-effects::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-bg-effects::before {
+  top: 80px;
+  left: 40px;
+  width: 256px;
+  height: 256px;
+  background: var(--ds-neon-green);
+  opacity: 0.1;
+}
+
+.hero-bg-effects::after {
+  bottom: 80px;
+  right: 40px;
+  width: 384px;
+  height: 384px;
+  background: var(--ds-electric-blue);
+  opacity: 0.1;
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+.hero-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 3.5rem;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-actions .btn {
+  padding: 12px 32px;
+  font-size: 1.125rem;
+}
+
+.stat-number {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--ds-text-light);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+/* Features Section */
+.feature-card {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--ds-neon-green);
+  box-shadow: var(--ds-glow-green);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--ds-neon-green), var(--ds-electric-blue));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--ds-dark-bg);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+}
+
+/* Bootstrap theme customizations */
+.bg-secondary {
+  background-color: var(--ds-dark-bg-alt) !important;
+}
+
+.text-primary {
+  color: var(--ds-neon-green) !important;
+}
+
+.text-info {
+  color: var(--ds-electric-blue) !important;
+}
+
+.text-warning {
+  color: var(--ds-cyber-purple) !important;
+}
+
+.text-light {
+  color: var(--ds-text-light) !important;
+}
+
+/* Button styles */
 .btn-primary {
   background-color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
   color: var(--ds-dark-bg);
   font-weight: 500;
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: none;
   transition: all 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
 }
 
 .btn-primary:hover {
+  background-color: #00e67a;
+  border-color: #00e67a;
+  color: var(--ds-dark-bg);
   box-shadow: var(--ds-glow-green);
-  transform: scale(1.05);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background-color: var(--ds-electric-blue);
+  border-color: var(--ds-electric-blue);
   color: var(--ds-text-white);
   font-weight: 500;
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: none;
   transition: all 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
 }
 
 .btn-secondary:hover {
+  background-color: #0056cc;
+  border-color: #0056cc;
+  color: var(--ds-text-white);
   box-shadow: var(--ds-glow-blue);
-  transform: scale(1.05);
+  transform: translateY(-1px);
 }
 
-.btn-outline {
-  border: 2px solid var(--ds-neon-green);
+.btn-outline-primary {
+  border-color: var(--ds-neon-green);
   color: var(--ds-neon-green);
-  background: transparent;
+  background-color: transparent;
   font-weight: 500;
-  padding: 10px 22px;
-  border-radius: 8px;
   transition: all 0.3s ease;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
 }
 
-.btn-outline:hover {
+.btn-outline-primary:hover {
   background-color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
   color: var(--ds-dark-bg);
   box-shadow: var(--ds-glow-green);
 }
 
 /* Card components */
-.card-dark {
+.card {
   background-color: var(--ds-dark-surface);
   border: 1px solid var(--ds-gray-700);
-  border-radius: 8px;
-  padding: 24px;
+  color: var(--ds-text-light);
+}
+
+.card-header {
+  background-color: var(--ds-dark-bg-alt);
+  border-bottom: 1px solid var(--ds-gray-700);
+  color: var(--ds-text-white);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .hero-bg-effects::before,
+  .hero-bg-effects::after {
+    display: none;
+  }
+}
   transition: all 0.3s ease;
 }
 
