@@ -1,0 +1,613 @@
+/* ===================================================================
+   DoubleSpeed Host - Responsive Design Adjustments
+   
+   This file contains all responsive design rules, mobile optimizations,
+   tablet adjustments, and progressive enhancement styles.
+   =================================================================== */
+
+/* Base responsive setup */
+html {
+  font-size: 16px;
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding: 0 12px;
+  }
+  
+  /* Button adjustments */
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline {
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  
+  /* Card adjustments */
+  .card-dark {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  /* Form adjustments */
+  .input-dark,
+  .select-dark,
+  .form-control {
+    padding: 10px 12px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Typography adjustments */
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.3rem; }
+  h4 { font-size: 1.1rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.9rem; }
+  
+  /* Navigation adjustments */
+  .nav-link {
+    padding: 12px 16px;
+    display: block;
+    border-bottom: 1px solid var(--ds-gray-700);
+  }
+  
+  /* Modal adjustments */
+  .modal-content {
+    margin: 10px;
+    width: calc(100% - 20px);
+    max-height: calc(100vh - 20px);
+  }
+  
+  /* Table responsiveness */
+  .table {
+    font-size: 12px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 4px;
+  }
+  
+  /* Hide certain columns on mobile */
+  .table .mobile-hide {
+    display: none;
+  }
+  
+  /* Status badges smaller */
+  .status {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+  
+  /* Grid adjustments */
+  .row {
+    margin: 0 -8px;
+  }
+  
+  .col {
+    padding: 0 8px;
+  }
+  
+  .col-6,
+  .col-4,
+  .col-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  /* Domain results mobile layout */
+  .domain-result {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+  
+  .domain-action {
+    width: 100%;
+  }
+  
+  .domain-action .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Product cards mobile layout */
+  .product-card {
+    margin-bottom: 20px;
+  }
+  
+  .responsive-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Progress bars thicker on mobile */
+  .progress {
+    height: 12px;
+  }
+  
+  /* Notification adjustments */
+  .notification-stack {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .notification-item {
+    margin-bottom: 8px;
+    padding: 12px;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  /* Two-column layout for certain elements */
+  .col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  /* Button groups can be horizontal */
+  .btn-group {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .btn-group .btn-primary,
+  .btn-group .btn-secondary,
+  .btn-group .btn-outline {
+    flex: 1;
+    width: auto;
+  }
+  
+  /* Cards can be in two columns */
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  /* Domain results can show price inline */
+  .domain-result {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .domain-action {
+    width: auto;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  /* Three-column layout available */
+  .col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  /* Modal can be larger */
+  .modal-content {
+    max-width: 600px;
+  }
+  
+  /* Navigation can be horizontal */
+  .nav-horizontal {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .nav-horizontal .nav-link {
+    border-bottom: none;
+    padding: 8px 16px;
+  }
+  
+  /* Tables can show more columns */
+  .table .tablet-show {
+    display: table-cell;
+  }
+  
+  /* Three-column grid for products */
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  
+  /* Form layouts can be more complex */
+  .form-row {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  /* Tooltip can be larger */
+  .tooltip-enhanced::before {
+    font-size: 14px;
+    padding: 10px 14px;
+    white-space: normal;
+    max-width: 200px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .container {
+    max-width: 960px;
+    padding: 0 24px;
+  }
+  
+  /* Four-column layout available */
+  .col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  
+  /* Larger modal */
+  .modal-content {
+    max-width: 800px;
+  }
+  
+  /* Full table functionality */
+  .table .desktop-show {
+    display: table-cell;
+  }
+  
+  /* Four-column grid for products */
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+  
+  /* Side navigation possible */
+  .sidebar {
+    width: 250px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+  }
+  
+  /* Advanced form layouts */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .form-grid-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+    padding: 0 30px;
+  }
+  
+  /* Six-column layout for specific use cases */
+  .col-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+  
+  /* Even larger modals */
+  .modal-content {
+    max-width: 1000px;
+  }
+  
+  /* Six-column grid for products */
+  .responsive-grid.grid-6 {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 32px;
+  }
+  
+  /* Advanced sidebar */
+  .sidebar {
+    width: 300px;
+  }
+  
+  .main-content {
+    margin-left: 300px;
+  }
+  
+  /* Complex form layouts */
+  .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Advanced tooltip positioning */
+  .tooltip-enhanced::before {
+    max-width: 300px;
+    font-size: 14px;
+  }
+}
+
+/* Ultra-wide screens (1400px and up) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
+  }
+  
+  /* Eight-column grid for very wide screens */
+  .responsive-grid.grid-8 {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  
+  /* Larger text for readability on large screens */
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+  /* Larger touch targets */
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .nav-link {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  
+  /* Larger checkboxes and radios */
+  .custom-checkbox .checkmark,
+  .custom-radio .checkmark {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Larger switch toggles */
+  .switch-toggle {
+    width: 60px;
+    height: 32px;
+  }
+  
+  .switch-slider::before {
+    height: 28px;
+    width: 28px;
+  }
+  
+  .switch-toggle input:checked + .switch-slider::before {
+    transform: translateX(28px);
+  }
+  
+  /* Remove hover effects on touch */
+  .card-dark:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-outline:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* But keep focus effects */
+  .card-dark:focus,
+  .btn-primary:focus,
+  .btn-secondary:focus,
+  .btn-outline:focus {
+    outline: 2px solid var(--ds-neon-green);
+    outline-offset: 2px;
+  }
+}
+
+/* High DPI / Retina display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp borders */
+  .card-dark,
+  .input-dark,
+  .select-dark {
+    border-width: 0.5px;
+  }
+  
+  /* Optimize text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Remove transforms that might cause motion */
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-outline:hover,
+  .card-dark:hover {
+    transform: none;
+  }
+}
+
+/* Dark mode adjustments (for systems that prefer dark) */
+@media (prefers-color-scheme: dark) {
+  /* Already using dark theme, but ensure consistency */
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --ds-neon-green: #00FF00;
+    --ds-electric-blue: #0080FF;
+    --ds-text-light: #FFFFFF;
+  }
+  
+  .btn-outline {
+    border-width: 3px;
+  }
+  
+  .card-dark {
+    border-width: 2px;
+  }
+  
+  .input-dark:focus,
+  .select-dark:focus {
+    border-width: 3px;
+  }
+}
+
+/* Print styles - responsive to page size */
+@media print {
+  @page {
+    margin: 1in;
+    size: auto;
+  }
+  
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+  
+  .row {
+    margin: 0;
+  }
+  
+  .col {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  /* Force single column on print */
+  .col-6,
+  .col-4,
+  .col-3,
+  .col-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  /* Hide interactive elements */
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .nav-link,
+  .modal,
+  .notification-stack {
+    display: none !important;
+  }
+  
+  /* Ensure good contrast for printing */
+  * {
+    color: black !important;
+    background: white !important;
+    border-color: black !important;
+  }
+  
+  .card-dark {
+    border: 1px solid black !important;
+    page-break-inside: avoid;
+  }
+  
+  /* Optimize typography for print */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  p, li {
+    orphans: 2;
+    widows: 2;
+  }
+  
+  .table {
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid black !important;
+    padding: 8px;
+  }
+}
+
+/* Landscape orientation optimizations for mobile */
+@media (max-width: 767.98px) and (orientation: landscape) {
+  /* Reduce vertical padding in landscape */
+  .card-dark {
+    padding: 12px 16px;
+  }
+  
+  /* Horizontal layout for forms */
+  .form-landscape {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+  }
+  
+  .form-landscape .form-group {
+    flex: 1;
+    margin-bottom: 0;
+  }
+  
+  /* Compact navigation */
+  .nav-landscape {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  
+  .nav-landscape .nav-link {
+    padding: 6px 12px;
+    white-space: nowrap;
+    border-bottom: none;
+  }
+}
+
+/* Foldable device support */
+@media (spanning: single-fold-vertical) {
+  .container {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (spanning: single-fold-horizontal) {
+  .main-content {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px;
+  }
+}
