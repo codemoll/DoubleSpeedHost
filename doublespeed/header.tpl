@@ -4,7 +4,7 @@
     <meta charset="{$charset}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{if $kbarticle.title}{$kbarticle.title} - {/if}{$pagetitle} - {$companyname}</title>
+    <title>{if isset($kbarticle) && is_array($kbarticle) && !empty($kbarticle.title)}{$kbarticle.title} - {/if}{$pagetitle|default:"Page"} - {$companyname|default:"DoubleSpeed Host"}</title>
     
     {if $systemsslurl}
         <base href="{$systemsslurl}" />
@@ -41,10 +41,10 @@
 </head>
 
 <body class="bg-dark">
-    {if isset($templatefile) && $templatefile.shownavbar !== false}
+    {if isset($templatefile) && is_array($templatefile) && (!isset($templatefile.shownavbar) || $templatefile.shownavbar !== false)}
         {include file="$template/includes/navbar.tpl"}
     {/if}
     
-    <main class="main-content {if isset($templatefile) && $templatefile.shownavbar !== false}pt-5{/if}">
+    <main class="main-content {if isset($templatefile) && is_array($templatefile) && (!isset($templatefile.shownavbar) || $templatefile.shownavbar !== false)}pt-5{/if}">
 
         
