@@ -1,56 +1,48 @@
 {include file="$template/header.tpl"}
 
 <!-- Hero Section -->
-<section class="ds-header" style="position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+<section class="hero-section d-flex align-items-center justify-content-center position-relative">
     <!-- Animated Background Elements -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
-        <div style="position: absolute; top: 80px; left: 40px; width: 256px; height: 256px; background: var(--ds-neon-green); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite;"></div>
-        <div style="position: absolute; bottom: 80px; right: 40px; width: 384px; height: 384px; background: var(--ds-electric-blue); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite 1s;"></div>
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 192px; height: 192px; background: var(--ds-cyber-purple); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite 2s;"></div>
-    </div>
+    <div class="hero-bg-effects position-absolute w-100 h-100"></div>
     
-    <div class="container" style="position: relative; z-index: 10;">
-        <div class="text-center">
-            <h1 class="ds-hero-title">
-                <span style="color: var(--ds-neon-green); text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);">DoubleSpeed</span>
-                <span class="text-white">Host</span>
-            </h1>
-            <p class="ds-hero-subtitle" style="max-width: 48rem; margin: 0 auto 2rem;">
-                {if isset($templatefile) && is_array($templatefile) && $templatefile.herosubtitle}
-                    {$templatefile.herosubtitle}
-                {else}
-                    Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support.
-                {/if}
-            </p>
-            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center mb-5">
-                <a href="{$WEB_ROOT}/cart.php" class="btn btn-primary btn-lg me-sm-3 mb-3 mb-sm-0" style="padding: 12px 32px; font-size: 1.125rem;">
-                    Get Started Now
-                    <svg style="width: 20px; height: 20px; margin-left: 8px; display: inline;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                    </svg>
-                </a>
-                <a href="#features" class="btn btn-outline-primary btn-lg" style="padding: 12px 32px; font-size: 1.125rem;">
-                    Learn More
-                </a>
-            </div>
-            
-            <!-- Stats -->
-            <div class="row mt-5">
-                <div class="col-6 col-md-3 text-center">
-                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-neon-green); margin-bottom: 8px;">99.9%</div>
-                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Uptime Guarantee</div>
+    <div class="container position-relative">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-10 col-xl-8">
+                <h1 class="hero-title mb-4">
+                    <span class="text-primary glow-text">DoubleSpeed</span>
+                    <span class="text-white">Host</span>
+                </h1>
+                <p class="hero-subtitle text-light mb-5">
+                    {if isset($templatefile) && is_array($templatefile) && $templatefile.herosubtitle}
+                        {$templatefile.herosubtitle}
+                    {else}
+                        Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support.
+                    {/if}
+                </p>
+                <div class="hero-actions mb-5">
+                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-primary btn-lg me-3 mb-3">
+                        Get Started Now
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="#features" class="btn btn-outline-primary btn-lg mb-3">
+                        Learn More
+                    </a>
                 </div>
-                <div class="col-6 col-md-3 text-center">
-                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-electric-blue); margin-bottom: 8px;">24/7</div>
-                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Expert Support</div>
-                </div>
-                <div class="col-6 col-md-3 text-center">
-                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-cyber-purple); margin-bottom: 8px;">50K+</div>
-                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Happy Clients</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-orbitron font-bold text-neon-green mb-2">&lt;100ms</div>
-                    <div class="text-text-light text-sm">Response Time</div>
+                
+                <!-- Stats -->
+                <div class="row hero-stats mt-5">
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="stat-number text-primary">99.9%</div>
+                        <div class="stat-label text-light">Uptime Guarantee</div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="stat-number text-info">24/7</div>
+                        <div class="stat-label text-light">Expert Support</div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="stat-number text-warning">15+</div>
+                        <div class="stat-label text-light">Years Experience</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,30 +50,67 @@
 </section>
 
 <!-- Features Section -->
-<section id="features" class="py-20 bg-dark-bg-alt">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-orbitron font-bold mb-4">
-                <span class="glow-text">Cutting-Edge</span> Features
-            </h2>
-            <p class="text-xl text-text-light max-w-3xl mx-auto">
-                Discover why thousands of businesses trust DoubleSpeed Host for their web hosting needs.
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Feature 1 -->
-            <div class="card-dark text-center group">
-                <div class="w-16 h-16 bg-gradient-to-br from-neon-green to-electric-blue rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <svg class="w-8 h-8 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-orbitron font-semibold text-white mb-4">Lightning Fast</h3>
-                <p class="text-text-light">
-                    SSD storage, CDN integration, and optimized servers ensure your website loads in milliseconds.
+<section id="features" class="py-5 bg-secondary">
+    <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-8">
+                <h2 class="display-4 fw-bold mb-4">
+                    <span class="text-primary glow-text">Cutting-Edge</span> Features
+                </h2>
+                <p class="lead text-light">
+                    Discover why thousands of businesses trust DoubleSpeed Host for their web hosting needs.
                 </p>
             </div>
+        </div>
+        
+        <div class="row">
+            <!-- Feature 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 text-center feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-4">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4 class="card-title fw-bold text-white mb-3">Lightning Fast</h4>
+                        <p class="card-text text-light">
+                            SSD storage, CDN integration, and optimized servers ensure your website loads in milliseconds.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 text-center feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="card-title fw-bold text-white mb-3">Secure & Reliable</h4>
+                        <p class="card-text text-light">
+                            Advanced security measures, daily backups, and 99.9% uptime guarantee keep your data safe.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 text-center feature-card">
+                    <div class="card-body">
+                        <div class="feature-icon mx-auto mb-4">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4 class="card-title fw-bold text-white mb-3">Expert Support</h4>
+                        <p class="card-text text-light">
+                            24/7 technical support from hosting experts who actually know what they're talking about.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
             
             <!-- Feature 2 -->
             <div class="card-dark text-center group">
