@@ -1,20 +1,20 @@
 {include file="$template/header.tpl"}
 
-<div class="min-h-screen bg-dark-bg py-20 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+<div class="container-fluid" style="min-height: 100vh; background-color: var(--ds-dark-bg); padding: 80px 0 40px;">
+    <div class="container">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-orbitron font-bold text-white mb-4">Checkout</h1>
-            <p class="text-text-light">Complete your order and start your hosting journey</p>
+        <div class="text-center mb-4">
+            <h1 class="ds-hero-title">Checkout</h1>
+            <p class="ds-hero-subtitle">Complete your order and start your hosting journey</p>
         </div>
 
         {if $errormessage}
-            <div class="bg-red-900 border border-red-700 rounded-lg p-4 mb-6">
-                <div class="flex">
-                    <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <div class="alert alert-danger mb-4">
+                <div class="d-flex">
+                    <svg class="me-3 mt-1" style="width: 20px; height: 20px; color: #dc3545;" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                     </svg>
-                    <div class="text-red-200 text-sm">
+                    <div style="color: #f87171; font-size: 0.875rem;">
                         {$errormessage}
                     </div>
                 </div>
@@ -22,74 +22,94 @@
         {/if}
 
         <form method="post" action="{$smarty.server.PHP_SELF}">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="row">
                 <!-- Main Content -->
-                <div class="lg:col-span-2 space-y-8">
+                <div class="col-lg-8">
                     
                     <!-- Account Information -->
                     {if !$loggedin}
-                        <div class="card-dark">
-                            <h2 class="text-xl font-orbitron font-semibold text-white mb-6">Account Information</h2>
-                            
-                            <div class="mb-6">
-                                <div class="flex space-x-4">
-                                    <label class="flex items-center">
-                                        <input type="radio" name="account" value="existing" class="mr-3" onchange="toggleAccountFields('existing')">
-                                        <span class="text-white">I have an existing account</span>
-                                    </label>
-                                    <label class="flex items-center">
-                                        <input type="radio" name="account" value="new" checked class="mr-3" onchange="toggleAccountFields('new')">
-                                        <span class="text-white">Create new account</span>
-                                    </label>
-                                </div>
+                        <div class="panel panel-default ds-glow">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Account Information</h3>
                             </div>
-                            
-                            <!-- Existing Account -->
-                            <div id="existing-account" style="display: none;" class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Email Address</label>
-                                        <input type="email" name="loginemail" class="input-dark">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Password</label>
-                                        <input type="password" name="loginpassword" class="input-dark">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- New Account -->
-                            <div id="new-account" class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">First Name <span class="text-red-400">*</span></label>
-                                        <input type="text" name="firstname" value="{if isset($clientsdetails.firstname)}{$clientsdetails.firstname}{/if}" required class="input-dark">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Last Name <span class="text-red-400">*</span></label>
-                                        <input type="text" name="lastname" value="{if isset($clientsdetails.lastname)}{$clientsdetails.lastname}{/if}" required class="input-dark">
+                            <div class="panel-body">
+                                
+                                <div class="form-group mb-4">
+                                    <div class="d-flex">
+                                        <div class="form-check me-4">
+                                            <input type="radio" name="account" value="existing" class="form-check-input" onchange="toggleAccountFields('existing')">
+                                            <label class="form-check-label text-white">I have an existing account</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="radio" name="account" value="new" checked class="form-check-input" onchange="toggleAccountFields('new')">
+                                            <label class="form-check-label text-white">Create new account</label>
+                                        </div>
                                     </div>
                                 </div>
                                 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Email Address <span class="text-red-400">*</span></label>
-                                        <input type="email" name="email" value="{if isset($clientsdetails.email)}{$clientsdetails.email}{/if}" required class="input-dark">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Phone Number</label>
-                                        <input type="tel" name="phonenumber" value="{if isset($clientsdetails.phonenumber)}{$clientsdetails.phonenumber}{/if}" class="input-dark">
+                                <!-- Existing Account -->
+                                <div id="existing-account" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Email Address</label>
+                                                <input type="email" name="loginemail" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" name="loginpassword" class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Password <span class="text-red-400">*</span></label>
-                                        <input type="password" name="password" required class="input-dark">
+                                <!-- New Account -->
+                                <div id="new-account">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                                <input type="text" name="firstname" value="{if isset($clientsdetails.firstname)}{$clientsdetails.firstname}{/if}" required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                                <input type="text" name="lastname" value="{if isset($clientsdetails.lastname)}{$clientsdetails.lastname}{/if}" required class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-text-light mb-2">Confirm Password <span class="text-red-400">*</span></label>
-                                        <input type="password" name="password2" required class="input-dark">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                                                <input type="email" name="email" value="{if isset($clientsdetails.email)}{$clientsdetails.email}{/if}" required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Phone Number</label>
+                                                <input type="tel" name="phonenumber" value="{if isset($clientsdetails.phonenumber)}{$clientsdetails.phonenumber}{/if}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                                <input type="password" name="password" required class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                                <input type="password" name="password2" required class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

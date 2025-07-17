@@ -1,28 +1,24 @@
 {
   "name": "doublespeed-whmcs-template",
   "version": "1.0.0",
-  "description": "Dark tech-inspired WHMCS template for DoubleSpeed Host",
+  "description": "Dark tech-inspired WHMCS template for DoubleSpeed Host - WHMCS Six Compatible",
   "scripts": {
-    "build-css": "npm run build-core && npm run build-tailwind && npm run build-custom && npm run build-responsive && npm run build-legacy",
+    "build-css": "npm run build-core && npm run build-custom && npm run build-responsive && npm run build-six",
     "build": "npm run build-css",
     "build-core": "cat ./src/doublespeed-core.css > ./doublespeed/css/doublespeed.css",
-    "build-tailwind": "tailwindcss -i ./src/doublespeed-tailwind.css -o ./doublespeed/css/doublespeed-tailwind.css --minify",
     "build-custom": "cat ./src/doublespeed-custom.css > ./doublespeed/css/doublespeed-custom.css",
     "build-responsive": "cat ./src/doublespeed-responsive.css > ./doublespeed/css/doublespeed-responsive.css",
-    "build-legacy": "tailwindcss -i ./src/input.css -o ./doublespeed/css/style.css --minify",
-    "watch": "npm run watch-core & npm run watch-tailwind & npm run watch-custom & npm run watch-responsive & npm run watch-legacy",
+    "build-six": "cat ./src/doublespeed-six.css > ./doublespeed/css/doublespeed-six.css",
+    "watch": "npm run watch-core & npm run watch-custom & npm run watch-responsive & npm run watch-six",
     "watch-core": "nodemon --watch src/doublespeed-core.css --exec \"npm run build-core\"",
-    "watch-tailwind": "tailwindcss -i ./src/doublespeed-tailwind.css -o ./doublespeed/css/doublespeed-tailwind.css --watch",
     "watch-custom": "nodemon --watch src/doublespeed-custom.css --exec \"npm run build-custom\"",
     "watch-responsive": "nodemon --watch src/doublespeed-responsive.css --exec \"npm run build-responsive\"",
-    "watch-legacy": "tailwindcss -i ./src/input.css -o ./doublespeed/css/style.css --watch"
+    "watch-six": "nodemon --watch src/doublespeed-six.css --exec \"npm run build-six\""
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.0",
-    "@tailwindcss/forms": "^0.5.7",
     "nodemon": "^3.0.0"
   },
-  "keywords": ["whmcs", "template", "hosting", "dark-theme"],
+  "keywords": ["whmcs", "template", "hosting", "dark-theme", "six-theme"],
   "author": "DoubleSpeed Host",
   "license": "MIT"
 }

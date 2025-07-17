@@ -5,184 +5,227 @@
 {assign var="isTransparent" value=$transparent|default:false}
 {assign var="isFixed" value=$fixed|default:true}
 
-<nav class="bg-dark-bg-alt border-b border-gray-800 {if $isFixed}fixed w-full z-50{/if} {if $navPosition == 'top'}top-0{elseif $navPosition == 'bottom'}bottom-0{/if} {if $isTransparent}bg-opacity-90 backdrop-blur-sm{/if}">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
+<nav class="navbar navbar-expand-lg navbar-dark {if $isFixed}fixed-top{/if} {if $navPosition == 'bottom'}fixed-bottom{/if} {if $isTransparent}navbar-transparent{/if}" style="background-color: var(--ds-dark-bg-alt); border-bottom: 1px solid var(--ds-gray-700);">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center w-100">
             
             {* Logo/Brand *}
-            <div class="flex items-center">
-                <a href="{$WEB_ROOT}/index.php" class="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
+            <div class="navbar-brand">
+                <a href="{$WEB_ROOT}/index.php" class="d-flex align-items-center text-decoration-none" style="transition: opacity 0.2s ease;">
                     {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
-                        <img src="{$templatefile.logourl}" alt="{$companyname}" class="h-8 w-auto">
+                        <img src="{$templatefile.logourl}" alt="{$companyname}" class="me-3" style="height: 32px; width: auto;">
                     {else}
-                        <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded glow-sm"></div>
+                        <div class="me-3 ds-glow" style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--ds-neon-green), var(--ds-electric-blue)); border-radius: 4px;"></div>
                     {/if}
-                    <span class="font-orbitron font-bold text-xl text-white glow-text hidden sm:block">{$companyname}</span>
+                    <span class="font-orbitron fw-bold text-white d-none d-sm-block" style="font-size: 1.25rem; text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);">{$companyname}</span>
                 </a>
             </div>
             
             {* Desktop Navigation Links *}
-            <div class="hidden md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
+            <div class="d-none d-md-block">
+                <ul class="nav navbar-nav">
                     {if !$loggedin}
-                        <a href="{$WEB_ROOT}/index.php" class="nav-link {if $filename == 'index'}nav-link-active{/if}">
-                            <i class="fas fa-home mr-1"></i> Home
-                        </a>
-                        <a href="{$WEB_ROOT}/domainchecker.php" class="nav-link {if $filename == 'domainchecker'}nav-link-active{/if}">
-                            <i class="fas fa-search mr-1"></i> Domains
-                        </a>
-                        <a href="{$WEB_ROOT}/cart.php" class="nav-link {if $filename == 'products' || $filename == 'cart'}nav-link-active{/if}">
-                            <i class="fas fa-server mr-1"></i> Hosting
-                        </a>
-                        <a href="{$WEB_ROOT}/knowledgebase.php" class="nav-link {if $filename == 'knowledgebase'}nav-link-active{/if}">
-                            <i class="fas fa-book mr-1"></i> Knowledge Base
-                        </a>
-                        <a href="{$WEB_ROOT}/submitticket.php" class="nav-link {if $filename == 'submitticket'}nav-link-active{/if}">
-                            <i class="fas fa-life-ring mr-1"></i> Support
-                        </a>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/index.php" class="nav-link {if $filename == 'index'}active{/if}">
+                                <i class="fas fa-home me-1"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/domainchecker.php" class="nav-link {if $filename == 'domainchecker'}active{/if}">
+                                <i class="fas fa-search me-1"></i> Domains
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/cart.php" class="nav-link {if $filename == 'products' || $filename == 'cart'}active{/if}">
+                                <i class="fas fa-server me-1"></i> Hosting
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/knowledgebase.php" class="nav-link {if $filename == 'knowledgebase'}active{/if}">
+                                <i class="fas fa-book me-1"></i> Knowledge Base
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/submitticket.php" class="nav-link {if $filename == 'submitticket'}active{/if}">
+                                <i class="fas fa-life-ring me-1"></i> Support
+                            </a>
+                        </li>
                     {else}
-                        <a href="{$WEB_ROOT}/clientarea.php" class="nav-link {if $filename == 'clientareahome'}nav-link-active{/if}">
-                            <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
-                        </a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=products" class="nav-link {if $filename == 'clientareaproducts'}nav-link-active{/if}">
-                            <i class="fas fa-server mr-1"></i> My Services
-                        </a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=domains" class="nav-link {if $filename == 'clientareadomains'}nav-link-active{/if}">
-                            <i class="fas fa-globe mr-1"></i> My Domains
-                        </a>
-                        <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="nav-link {if $filename == 'clientareainvoices'}nav-link-active{/if}">
-                            <i class="fas fa-file-invoice-dollar mr-1"></i> Invoices
-                        </a>
-                        <a href="{$WEB_ROOT}/supporttickets.php" class="nav-link {if $filename == 'supporttickets'}nav-link-active{/if}">
-                            <i class="fas fa-ticket-alt mr-1"></i> Support
-                        </a>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/clientarea.php" class="nav-link {if $filename == 'clientareahome'}active{/if}">
+                                <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/clientarea.php?action=products" class="nav-link {if $filename == 'clientareaproducts'}active{/if}">
+                                <i class="fas fa-server me-1"></i> My Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/clientarea.php?action=domains" class="nav-link {if $filename == 'clientareadomains'}active{/if}">
+                                <i class="fas fa-globe me-1"></i> My Domains
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="nav-link {if $filename == 'clientareainvoices'}active{/if}">
+                                <i class="fas fa-file-invoice-dollar me-1"></i> Invoices
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{$WEB_ROOT}/supporttickets.php" class="nav-link {if $filename == 'supporttickets'}active{/if}">
+                                <i class="fas fa-ticket-alt me-1"></i> Support
+                            </a>
+                        </li>
                     {/if}
-                </div>
+                </ul>
             </div>
             
             {* User Menu / Auth Buttons *}
-            <div class="flex items-center space-x-4">
+            <div class="d-flex align-items-center">
                 {if $loggedin}
                     {* User Dropdown *}
-                    <div class="relative">
-                        <button type="button" class="flex items-center space-x-2 text-gray-300 hover:text-white focus:outline-none focus:text-white transition-colors duration-200" onclick="toggleDropdown('userDropdown')">
-                            <div class="w-8 h-8 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center text-dark-bg font-bold text-sm">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-link dropdown-toggle d-flex align-items-center text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--ds-text-light); border: none; background: transparent;">
+                            <div class="me-2 d-flex align-items-center justify-content-center text-center fw-bold" style="width: 32px; height: 32px; background: linear-gradient(135deg, var(--ds-neon-green), var(--ds-electric-blue)); border-radius: 50%; color: var(--ds-dark-bg); font-size: 0.875rem;">
                                 {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
                                     {$clientsdetails.firstname|substr:0:1}{if isset($clientsdetails.lastname)}{$clientsdetails.lastname|substr:0:1}{/if}
                                 {else}
                                     U
                                 {/if}
                             </div>
-                            <span class="hidden sm:block">
+                            <span class="d-none d-sm-block me-1">
                                 {if isset($clientsdetails) && is_array($clientsdetails) && isset($clientsdetails.firstname)}
                                     {$clientsdetails.firstname}
                                 {else}
                                     Account
                                 {/if}
                             </span>
-                            <i class="fas fa-chevron-down text-xs"></i>
+                            <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
                         </button>
                         
                         {* Dropdown Menu *}
-                        <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-dark-surface border border-gray-700 rounded-lg shadow-lg hidden z-50">
-                            <div class="py-1">
-                                <a href="{$WEB_ROOT}/clientarea.php?action=details" class="dropdown-link">
-                                    <i class="fas fa-user mr-2"></i> My Account
+                        <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--ds-dark-surface); border: 1px solid var(--ds-gray-700); border-radius: 8px;">
+                            <li>
+                                <a href="{$WEB_ROOT}/clientarea.php?action=details" class="dropdown-item" style="color: var(--ds-text-light); padding: 10px 20px;">
+                                    <i class="fas fa-user me-2"></i> My Account
                                 </a>
-                                <a href="{$WEB_ROOT}/clientarea.php?action=security" class="dropdown-link">
-                                    <i class="fas fa-shield-alt mr-2"></i> Security
+                            </li>
+                            <li>
+                                <a href="{$WEB_ROOT}/clientarea.php?action=security" class="dropdown-item" style="color: var(--ds-text-light); padding: 10px 20px;">
+                                    <i class="fas fa-shield-alt me-2"></i> Security
                                 </a>
-                                <div class="border-t border-gray-700 my-1"></div>
-                                <a href="{$WEB_ROOT}/logout.php" class="dropdown-link text-red-400 hover:bg-red-900/20">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            </li>
+                            <li><hr class="dropdown-divider" style="border-color: var(--ds-gray-700);"></li>
+                            <li>
+                                <a href="{$WEB_ROOT}/logout.php" class="dropdown-item" style="color: #dc3545; padding: 10px 20px;">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
                                 </a>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                 {else}
                     {* Login/Register Buttons *}
-                    <a href="{$WEB_ROOT}/login.php" class="btn-secondary text-sm">
-                        <i class="fas fa-sign-in-alt mr-1"></i> Login
+                    <a href="{$WEB_ROOT}/login.php" class="btn btn-secondary btn-sm me-2">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
                     </a>
-                    <a href="{$WEB_ROOT}/register.php" class="btn-primary text-sm">
-                        <i class="fas fa-user-plus mr-1"></i> Register
+                    <a href="{$WEB_ROOT}/register.php" class="btn btn-primary btn-sm">
+                        <i class="fas fa-user-plus me-1"></i> Register
                     </a>
                 {/if}
                 
                 {* Mobile menu button *}
-                <button type="button" class="md:hidden text-gray-300 hover:text-white focus:outline-none focus:text-white" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars text-lg"></i>
+                <button type="button" class="btn btn-link d-md-none" onclick="toggleMobileMenu()" style="color: var(--ds-text-light); border: none; background: transparent; padding: 8px;">
+                    <i class="fas fa-bars" style="font-size: 1.125rem;"></i>
                 </button>
             </div>
         </div>
         
         {* Mobile Navigation Menu *}
-        <div id="mobileMenu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-700">
-                {if !$loggedin}
-                    <a href="{$WEB_ROOT}/index.php" class="mobile-nav-link {if $filename == 'index'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-home mr-2"></i> Home
-                    </a>
-                    <a href="{$WEB_ROOT}/domainchecker.php" class="mobile-nav-link {if $filename == 'domainchecker'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-search mr-2"></i> Domains
-                    </a>
-                    <a href="{$WEB_ROOT}/cart.php" class="mobile-nav-link {if $filename == 'products' || $filename == 'cart'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-server mr-2"></i> Hosting
-                    </a>
-                    <a href="{$WEB_ROOT}/knowledgebase.php" class="mobile-nav-link {if $filename == 'knowledgebase'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-book mr-2"></i> Knowledge Base
-                    </a>
-                    <a href="{$WEB_ROOT}/submitticket.php" class="mobile-nav-link {if $filename == 'submitticket'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-life-ring mr-2"></i> Support
-                    </a>
-                {else}
-                    <a href="{$WEB_ROOT}/clientarea.php" class="mobile-nav-link {if $filename == 'clientareahome'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                    </a>
-                    <a href="{$WEB_ROOT}/clientarea.php?action=products" class="mobile-nav-link {if $filename == 'clientareaproducts'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-server mr-2"></i> My Services
-                    </a>
-                    <a href="{$WEB_ROOT}/clientarea.php?action=domains" class="mobile-nav-link {if $filename == 'clientareadomains'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-globe mr-2"></i> My Domains
-                    </a>
-                    <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="mobile-nav-link {if $filename == 'clientareainvoices'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-file-invoice-dollar mr-2"></i> Invoices
-                    </a>
-                    <a href="{$WEB_ROOT}/supporttickets.php" class="mobile-nav-link {if $filename == 'supporttickets'}mobile-nav-link-active{/if}">
-                        <i class="fas fa-ticket-alt mr-2"></i> Support
-                    </a>
-                {/if}
+        <div id="mobileMenu" class="d-md-none" style="display: none;">
+            <div class="container">
+                <div style="padding: 10px 0; border-top: 1px solid var(--ds-gray-700);">
+                    {if !$loggedin}
+                        <a href="{$WEB_ROOT}/index.php" class="nav-link d-block py-2 {if $filename == 'index'}active{/if}">
+                            <i class="fas fa-home me-2"></i> Home
+                        </a>
+                        <a href="{$WEB_ROOT}/domainchecker.php" class="nav-link d-block py-2 {if $filename == 'domainchecker'}active{/if}">
+                            <i class="fas fa-search me-2"></i> Domains
+                        </a>
+                        <a href="{$WEB_ROOT}/cart.php" class="nav-link d-block py-2 {if $filename == 'products' || $filename == 'cart'}active{/if}">
+                            <i class="fas fa-server me-2"></i> Hosting
+                        </a>
+                        <a href="{$WEB_ROOT}/knowledgebase.php" class="nav-link d-block py-2 {if $filename == 'knowledgebase'}active{/if}">
+                            <i class="fas fa-book me-2"></i> Knowledge Base
+                        </a>
+                        <a href="{$WEB_ROOT}/submitticket.php" class="nav-link d-block py-2 {if $filename == 'submitticket'}active{/if}">
+                            <i class="fas fa-life-ring me-2"></i> Support
+                        </a>
+                    {else}
+                        <a href="{$WEB_ROOT}/clientarea.php" class="nav-link d-block py-2 {if $filename == 'clientareahome'}active{/if}">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=products" class="nav-link d-block py-2 {if $filename == 'clientareaproducts'}active{/if}">
+                            <i class="fas fa-server me-2"></i> My Services
+                        </a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=domains" class="nav-link d-block py-2 {if $filename == 'clientareadomains'}active{/if}">
+                            <i class="fas fa-globe me-2"></i> My Domains
+                        </a>
+                        <a href="{$WEB_ROOT}/clientarea.php?action=invoices" class="nav-link d-block py-2 {if $filename == 'clientareainvoices'}active{/if}">
+                            <i class="fas fa-file-invoice-dollar me-2"></i> Invoices
+                        </a>
+                        <a href="{$WEB_ROOT}/supporttickets.php" class="nav-link d-block py-2 {if $filename == 'supporttickets'}active{/if}">
+                            <i class="fas fa-ticket-alt me-2"></i> Support
+                        </a>
+                    {/if}
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-{* JavaScript for navbar functionality *}
-<script>
-function toggleDropdown(dropdownId) {
-    const dropdown = document.getElementById(dropdownId);
-    dropdown.classList.toggle('hidden');
-    
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest(`#${dropdownId}`) && !event.target.closest('button')) {
-            dropdown.classList.add('hidden');
-        }
-    });
+<style>
+/* Custom styles for this navbar */
+.navbar-transparent {
+    background-color: rgba(26, 26, 26, 0.9) !important;
+    backdrop-filter: blur(10px);
 }
 
-function toggleMobileMenu() {
-    const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenu.classList.toggle('hidden');
+.dropdown-item:hover {
+    background-color: rgba(0, 255, 136, 0.1) !important;
+    color: var(--ds-neon-green) !important;
 }
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(event) {
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuButton = event.target.closest('[onclick="toggleMobileMenu()"]');
-    
-    if (!menuButton && !mobileMenu.contains(event.target)) {
-        mobileMenu.classList.add('hidden');
+.nav-link.active {
+    color: var(--ds-neon-green) !important;
+}
+
+.nav-link:hover {
+    color: var(--ds-neon-green) !important;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        height: 64px;
     }
-});
+    
+    .navbar .nav {
+        margin-left: 40px;
+    }
+    
+    .nav-item {
+        margin-right: 15px;
+    }
+}
+</style>
+
+<script>
+function toggleMobileMenu() {
+    var menu = document.getElementById('mobileMenu');
+    if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+    } else {
+        menu.style.display = 'none';
+    }
+}
 </script>
