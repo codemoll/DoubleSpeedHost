@@ -1,52 +1,52 @@
 {include file="$template/header.tpl"}
 
 <!-- Hero Section -->
-<section class="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden">
+<section class="ds-header" style="position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
     <!-- Animated Background Elements -->
-    <div class="absolute inset-0">
-        <div class="absolute top-20 left-10 w-64 h-64 bg-neon-green opacity-10 rounded-full blur-3xl animate-float"></div>
-        <div class="absolute bottom-20 right-10 w-96 h-96 bg-electric-blue opacity-10 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
-        <div class="absolute top-1/2 left-1/2 w-48 h-48 bg-cyber-purple opacity-10 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+        <div style="position: absolute; top: 80px; left: 40px; width: 256px; height: 256px; background: var(--ds-neon-green); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite;"></div>
+        <div style="position: absolute; bottom: 80px; right: 40px; width: 384px; height: 384px; background: var(--ds-electric-blue); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite 1s;"></div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 192px; height: 192px; background: var(--ds-cyber-purple); opacity: 0.1; border-radius: 50%; filter: blur(64px); animation: float 3s ease-in-out infinite 2s;"></div>
     </div>
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="container" style="position: relative; z-index: 10;">
         <div class="text-center">
-            <h1 class="text-5xl md:text-7xl font-orbitron font-bold mb-6">
-                <span class="glow-text">DoubleSpeed</span>
+            <h1 class="ds-hero-title">
+                <span style="color: var(--ds-neon-green); text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);">DoubleSpeed</span>
                 <span class="text-white">Host</span>
             </h1>
-            <p class="text-xl md:text-2xl text-text-light mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p class="ds-hero-subtitle" style="max-width: 48rem; margin: 0 auto 2rem;">
                 {if isset($templatefile) && is_array($templatefile) && $templatefile.herosubtitle}
                     {$templatefile.herosubtitle}
                 {else}
                     Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support.
                 {/if}
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="{$WEB_ROOT}/cart.php" class="btn-primary text-lg px-8 py-4 font-semibold">
+            <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center mb-5">
+                <a href="{$WEB_ROOT}/cart.php" class="btn btn-primary btn-lg me-sm-3 mb-3 mb-sm-0" style="padding: 12px 32px; font-size: 1.125rem;">
                     Get Started Now
-                    <svg class="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style="width: 20px; height: 20px; margin-left: 8px; display: inline;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
                 </a>
-                <a href="#features" class="btn-outline text-lg px-8 py-4 font-semibold">
+                <a href="#features" class="btn btn-outline-primary btn-lg" style="padding: 12px 32px; font-size: 1.125rem;">
                     Learn More
                 </a>
             </div>
             
             <!-- Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-                <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-orbitron font-bold text-neon-green mb-2">99.9%</div>
-                    <div class="text-text-light text-sm">Uptime Guarantee</div>
+            <div class="row mt-5">
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-neon-green); margin-bottom: 8px;">99.9%</div>
+                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Uptime Guarantee</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-orbitron font-bold text-electric-blue mb-2">24/7</div>
-                    <div class="text-text-light text-sm">Expert Support</div>
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-electric-blue); margin-bottom: 8px;">24/7</div>
+                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Expert Support</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl md:text-4xl font-orbitron font-bold text-cyber-purple mb-2">50K+</div>
-                    <div class="text-text-light text-sm">Happy Clients</div>
+                <div class="col-6 col-md-3 text-center">
+                    <div style="font-size: 2.5rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-cyber-purple); margin-bottom: 8px;">50K+</div>
+                    <div style="color: var(--ds-text-light); font-size: 0.875rem;">Happy Clients</div>
                 </div>
                 <div class="text-center">
                     <div class="text-3xl md:text-4xl font-orbitron font-bold text-neon-green mb-2">&lt;100ms</div>

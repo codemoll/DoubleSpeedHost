@@ -1,33 +1,34 @@
 {include file="$template/header.tpl"}
 
-<div class="min-h-screen flex items-center justify-center bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div class="text-center">
-            <div class="mx-auto w-20 h-20 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-6">
-                <svg class="w-10 h-10 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
+<div class="container-fluid d-flex align-items-center justify-content-center" style="min-height: 100vh; background-color: var(--ds-dark-bg); padding: 40px 15px;">
+    <div style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+            <div class="mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--ds-neon-green), var(--ds-electric-blue)); border-radius: 50%;">
+                <svg style="width: 40px; height: 40px; color: var(--ds-dark-bg);" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
                 </svg>
             </div>
-            <h2 class="text-3xl font-orbitron font-bold text-white">
+            <h2 style="font-size: 2rem; font-family: 'Orbitron', monospace; font-weight: 700; color: var(--ds-text-white); margin-bottom: 10px;">
                 Sign in to your account
             </h2>
-            <p class="mt-2 text-sm text-text-light">
+            <p style="color: var(--ds-text-light); font-size: 0.875rem;">
                 Or
-                <a href="{$WEB_ROOT}/register.php" class="font-medium text-neon-green hover:text-electric-blue transition-colors duration-300">
+                <a href="{$WEB_ROOT}/register.php" style="color: var(--ds-neon-green); text-decoration: none; font-weight: 500; transition: color 0.3s ease;">
                     create a new account
                 </a>
             </p>
         </div>
         
-        <div class="card-dark">
-            <form class="space-y-6" method="post" action="{$WEB_ROOT}/dologin.php">
-                {if $incorrect}
-                    <div class="bg-red-900 border border-red-700 rounded-lg p-4">
-                        <div class="flex">
-                            <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                            </svg>
-                            <div class="text-red-200 text-sm">
+        <div class="panel panel-default ds-glow">
+            <div class="panel-body">
+                <form method="post" action="{$WEB_ROOT}/dologin.php">
+                    {if $incorrect}
+                        <div class="alert alert-danger mb-4">
+                            <div class="d-flex">
+                                <svg style="width: 20px; height: 20px; color: #dc3545; margin-right: 12px; margin-top: 2px;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                <div style="color: #f87171; font-size: 0.875rem;">
                                 {$errormessage}
                             </div>
                         </div>

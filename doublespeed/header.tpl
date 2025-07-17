@@ -17,8 +17,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$WEB_ROOT}/templates/{$template}/css/style.css" />
+    <!-- CSS - WHMCS Six Compatible Modular Styles -->
+    <link rel="stylesheet" type="text/css" href="{$WEB_ROOT}/templates/{$template}/css/doublespeed.css" />
+    <link rel="stylesheet" type="text/css" href="{$WEB_ROOT}/templates/{$template}/css/doublespeed-six.css" />
+    <link rel="stylesheet" type="text/css" href="{$WEB_ROOT}/templates/{$template}/css/doublespeed-custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$WEB_ROOT}/templates/{$template}/css/doublespeed-responsive.css" />
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="{$WEB_ROOT}/templates/{$template}/images/favicon.ico" type="image/x-icon" />

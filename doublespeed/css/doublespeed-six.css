@@ -1,0 +1,785 @@
+/* ===================================================================
+   DoubleSpeed Host - WHMCS Six Theme Compatible Styles
+   
+   This CSS file provides WHMCS Six theme compatible classes and styles
+   specifically designed for DoubleSpeed Host template
+   =================================================================== */
+
+/* WHMCS Six Base Component Overrides */
+
+/* Container and Layout */
+.container-fluid {
+  background-color: var(--ds-dark-bg);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Panel Components (WHMCS Six Standard) */
+.panel {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.panel-default {
+  border-color: var(--ds-gray-700);
+}
+
+.panel-heading {
+  background-color: var(--ds-dark-bg-alt);
+  border-bottom: 1px solid var(--ds-gray-700);
+  padding: 15px;
+  border-radius: 7px 7px 0 0;
+}
+
+.panel-title {
+  color: var(--ds-text-white);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.panel-body {
+  padding: 20px;
+  color: var(--ds-text-light);
+}
+
+/* Card Components (Bootstrap/Six Style) */
+.card {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--ds-neon-green);
+  box-shadow: var(--ds-glow-green);
+}
+
+.card-header {
+  background-color: var(--ds-dark-bg-alt);
+  border-bottom: 1px solid var(--ds-gray-700);
+  padding: 15px 20px;
+  font-weight: 600;
+  color: var(--ds-text-white);
+}
+
+.card-body {
+  padding: 20px;
+  color: var(--ds-text-light);
+}
+
+.card-footer {
+  background-color: var(--ds-dark-bg-alt);
+  border-top: 1px solid var(--ds-gray-700);
+  padding: 15px 20px;
+}
+
+/* Button Components (WHMCS Six Standard) */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
+  color: var(--ds-dark-bg);
+}
+
+.btn-primary:hover {
+  background-color: #00e67a;
+  border-color: #00e67a;
+  color: var(--ds-dark-bg);
+  box-shadow: var(--ds-glow-green);
+}
+
+.btn-secondary {
+  background-color: var(--ds-electric-blue);
+  border-color: var(--ds-electric-blue);
+  color: var(--ds-text-white);
+}
+
+.btn-secondary:hover {
+  background-color: #0056cc;
+  border-color: #0056cc;
+  color: var(--ds-text-white);
+  box-shadow: var(--ds-glow-blue);
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: var(--ds-text-white);
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  color: var(--ds-text-white);
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: var(--ds-text-white);
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  color: var(--ds-text-white);
+}
+
+.btn-outline-primary {
+  color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
+  color: var(--ds-dark-bg);
+  box-shadow: var(--ds-glow-green);
+}
+
+.btn-link {
+  color: var(--ds-electric-blue);
+  background-color: transparent;
+  border-color: transparent;
+  text-decoration: underline;
+}
+
+.btn-link:hover {
+  color: var(--ds-neon-green);
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* Form Components (WHMCS Six Standard) */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ds-text-white);
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-600);
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--ds-neon-green);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.25);
+}
+
+.form-control::placeholder {
+  color: var(--ds-text-light);
+  opacity: 0.7;
+}
+
+.form-control[readonly] {
+  background-color: var(--ds-dark-bg-alt);
+  opacity: 1;
+}
+
+.form-control[disabled] {
+  background-color: var(--ds-dark-bg-alt);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ds-text-white);
+  background-color: var(--ds-dark-surface);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 12px;
+  border: 1px solid var(--ds-gray-600);
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+}
+
+.form-select:focus {
+  border-color: var(--ds-neon-green);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.25);
+}
+
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 24px;
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 2px solid var(--ds-gray-600);
+  border-radius: 3px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-check-input:checked {
+  background-color: var(--ds-neon-green);
+  border-color: var(--ds-neon-green);
+}
+
+.form-check-input[type="radio"] {
+  border-radius: 50%;
+}
+
+.form-check-label {
+  color: var(--ds-text-light);
+  cursor: pointer;
+}
+
+.form-label {
+  color: var(--ds-text-white);
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: var(--ds-text-light);
+  background-color: var(--ds-dark-bg-alt);
+  border: 1px solid var(--ds-gray-600);
+  border-radius: 6px;
+}
+
+/* Table Components (WHMCS Six Standard) */
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+  color: var(--ds-text-light);
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--ds-gray-700);
+}
+
+.table th {
+  background-color: var(--ds-dark-bg-alt);
+  color: var(--ds-text-white);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 255, 136, 0.05);
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--ds-dark-surface);
+  border-radius: 8px;
+  border: 1px solid var(--ds-gray-700);
+}
+
+/* Alert Components (WHMCS Six Standard) */
+.alert {
+  position: relative;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.alert-success {
+  color: #0f5132;
+  background-color: rgba(0, 255, 136, 0.1);
+  border-color: var(--ds-neon-green);
+}
+
+.alert-info {
+  color: #055160;
+  background-color: rgba(0, 123, 255, 0.1);
+  border-color: var(--ds-electric-blue);
+}
+
+.alert-warning {
+  color: #664d03;
+  background-color: rgba(255, 193, 7, 0.1);
+  border-color: #ffc107;
+}
+
+.alert-danger {
+  color: #842029;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: #dc3545;
+}
+
+.alert-dismissible {
+  padding-right: 50px;
+}
+
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px 20px;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Navigation Components */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px 15px;
+  color: var(--ds-text-light);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--ds-neon-green);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: var(--ds-neon-green);
+}
+
+.nav-tabs {
+  border-bottom: 1px solid var(--ds-gray-700);
+}
+
+.nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: var(--ds-gray-700) var(--ds-gray-700) var(--ds-gray-700);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--ds-dark-surface);
+  border-color: var(--ds-gray-700) var(--ds-gray-700) transparent;
+}
+
+/* Bootstrap Grid System */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, 
+.col-7, .col-8, .col-9, .col-10, .col-11, .col-12,
+.col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6,
+.col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12,
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6,
+.col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12,
+.col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6,
+.col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+.col-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+.col-3 { flex: 0 0 25%; max-width: 25%; }
+.col-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+.col-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+.col-6 { flex: 0 0 50%; max-width: 50%; }
+.col-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+.col-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+.col-9 { flex: 0 0 75%; max-width: 75%; }
+.col-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+.col-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+.col-12 { flex: 0 0 100%; max-width: 100%; }
+
+/* Responsive Grid */
+@media (min-width: 576px) {
+  .col-sm-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+  .col-sm-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .col-sm-3 { flex: 0 0 25%; max-width: 25%; }
+  .col-sm-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .col-sm-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+  .col-sm-6 { flex: 0 0 50%; max-width: 50%; }
+  .col-sm-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+  .col-sm-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .col-sm-9 { flex: 0 0 75%; max-width: 75%; }
+  .col-sm-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+  .col-sm-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+  .col-sm-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+@media (min-width: 768px) {
+  .col-md-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+  .col-md-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+  .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .col-md-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+  .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+  .col-md-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+  .col-md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .col-md-9 { flex: 0 0 75%; max-width: 75%; }
+  .col-md-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+  .col-md-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+  .col-md-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+@media (min-width: 992px) {
+  .col-lg-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+  .col-lg-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+  .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+  .col-lg-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+  .col-lg-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+  .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+  .col-lg-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+  .col-lg-8 { flex: 0 0 66.666667%; max-width: 66.666667%; }
+  .col-lg-9 { flex: 0 0 75%; max-width: 75%; }
+  .col-lg-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+  .col-lg-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+  .col-lg-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* Utility Classes for Spacing and Layout */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.d-none { display: none; }
+.d-block { display: block; }
+.d-inline { display: inline; }
+.d-inline-block { display: inline-block; }
+.d-flex { display: flex; }
+
+.justify-content-start { justify-content: flex-start; }
+.justify-content-center { justify-content: center; }
+.justify-content-end { justify-content: flex-end; }
+.justify-content-between { justify-content: space-between; }
+
+.align-items-start { align-items: flex-start; }
+.align-items-center { align-items: center; }
+.align-items-end { align-items: flex-end; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 5px; }
+.mb-2 { margin-bottom: 10px; }
+.mb-3 { margin-bottom: 15px; }
+.mb-4 { margin-bottom: 20px; }
+.mb-5 { margin-bottom: 25px; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 5px; }
+.mt-2 { margin-top: 10px; }
+.mt-3 { margin-top: 15px; }
+.mt-4 { margin-top: 20px; }
+.mt-5 { margin-top: 25px; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: 5px; }
+.p-2 { padding: 10px; }
+.p-3 { padding: 15px; }
+.p-4 { padding: 20px; }
+.p-5 { padding: 25px; }
+
+/* Text Colors */
+.text-white { color: var(--ds-text-white); }
+.text-light { color: var(--ds-text-light); }
+.text-primary { color: var(--ds-neon-green); }
+.text-secondary { color: var(--ds-electric-blue); }
+.text-success { color: #28a745; }
+.text-warning { color: #ffc107; }
+.text-danger { color: #dc3545; }
+.text-info { color: var(--ds-electric-blue); }
+
+/* Custom DoubleSpeed Components */
+.ds-glow {
+  transition: all 0.3s ease;
+}
+
+.ds-glow:hover {
+  box-shadow: var(--ds-glow-green);
+}
+
+.ds-header {
+  background: linear-gradient(135deg, var(--ds-dark-bg-alt) 0%, var(--ds-dark-bg) 100%);
+  padding: 60px 0;
+  text-align: center;
+}
+
+.ds-hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--ds-text-white);
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.ds-hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--ds-text-light);
+  margin-bottom: 30px;
+}
+
+/* Animation keyframes for compatibility */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* WHMCS Six specific enhancements */
+.whmcs-six-panel {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.whmcs-six-panel:hover {
+  border-color: var(--ds-neon-green);
+  box-shadow: var(--ds-glow-green);
+}
+
+/* Domain checker specific styles */
+.domain-result {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--ds-gray-700);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--ds-dark-surface);
+  transition: all 0.3s ease;
+}
+
+.domain-result:hover {
+  background-color: rgba(0, 255, 136, 0.05);
+}
+
+.domain-result.available {
+  border-color: var(--ds-neon-green);
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
+.domain-result.unavailable {
+  border-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Order form enhancements */
+.order-summary {
+  background-color: var(--ds-dark-bg-alt);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.order-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ds-gray-700);
+}
+
+.order-summary-item:last-child {
+  border-bottom: none;
+  font-weight: 600;
+  color: var(--ds-neon-green);
+}
+
+/* Custom dropdown styling for WHMCS Six */
+.dropdown-menu {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  color: var(--ds-text-light);
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 255, 136, 0.1);
+  color: var(--ds-neon-green);
+}
+
+/* Loading states */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--ds-gray-600);
+  border-radius: 50%;
+  border-top-color: var(--ds-neon-green);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mobile enhancements */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .ds-hero-title {
+    font-size: 2rem;
+  }
+  
+  .panel-body {
+    padding: 15px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .navbar {
+    padding: 10px 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar, .ds-glow, .animate-float {
+    display: none !important;
+  }
+  
+  .panel, .card {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}
