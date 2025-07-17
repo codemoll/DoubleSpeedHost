@@ -17,7 +17,7 @@
                 </h1>
             </div>
             <p class="text-text-light">
-                Ticket #{$ticket.tid} - {$ticket.subject}
+                Ticket #{if isset($ticket) && is_array($ticket) && isset($ticket.tid)}{$ticket.tid}{else}Unknown{/if} - {if isset($ticket) && is_array($ticket) && isset($ticket.subject)}{$ticket.subject}{else}No Subject{/if}
             </p>
         </div>
         
@@ -25,38 +25,38 @@
         <div class="card-dark mb-8">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <div class="mb-6 lg:mb-0">
-                    <h2 class="text-2xl font-semibold text-white mb-4">{$ticket.subject}</h2>
+                    <h2 class="text-2xl font-semibold text-white mb-4">{if isset($ticket) && is_array($ticket) && isset($ticket.subject)}{$ticket.subject}{else}Support Ticket{/if}</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span class="text-text-light">Ticket ID:</span>
-                                <span class="text-electric-blue font-mono">#{$ticket.tid}</span>
+                                <span class="text-electric-blue font-mono">#{if isset($ticket) && is_array($ticket) && isset($ticket.tid)}{$ticket.tid}{else}Unknown{/if}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-text-light">Department:</span>
-                                <span class="text-white">{$ticket.department}</span>
+                                <span class="text-white">{if isset($ticket) && is_array($ticket) && isset($ticket.department)}{$ticket.department}{else}General{/if}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-text-light">Priority:</span>
-                                <span class="text-{if $ticket.urgency == 'High'}red-400{elseif $ticket.urgency == 'Medium'}yellow-400{else}green-400{/if}">
-                                    {$ticket.urgency}
+                                <span class="text-{if isset($ticket) && is_array($ticket) && isset($ticket.urgency) && $ticket.urgency == 'High'}red-400{elseif isset($ticket) && is_array($ticket) && isset($ticket.urgency) && $ticket.urgency == 'Medium'}yellow-400{else}green-400{/if}">
+                                    {if isset($ticket) && is_array($ticket) && isset($ticket.urgency)}{$ticket.urgency}{else}Normal{/if}
                                 </span>
                             </div>
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span class="text-text-light">Status:</span>
-                                <span class="text-{if $ticket.status == 'Open'}orange-400{elseif $ticket.status == 'Answered'}blue-400{elseif $ticket.status == 'Closed'}green-400{else}purple-400{/if}">
-                                    {$ticket.status}
+                                <span class="text-{if isset($ticket) && is_array($ticket) && isset($ticket.status) && $ticket.status == 'Open'}orange-400{elseif isset($ticket) && is_array($ticket) && isset($ticket.status) && $ticket.status == 'Answered'}blue-400{elseif isset($ticket) && is_array($ticket) && isset($ticket.status) && $ticket.status == 'Closed'}green-400{else}purple-400{/if}">
+                                    {if isset($ticket) && is_array($ticket) && isset($ticket.status)}{$ticket.status}{else}Unknown{/if}
                                 </span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-text-light">Created:</span>
-                                <span class="text-white">{$ticket.date}</span>
+                                <span class="text-white">{if isset($ticket) && is_array($ticket) && isset($ticket.date)}{$ticket.date}{else}Unknown{/if}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-text-light">Last Reply:</span>
-                                <span class="text-white">{$ticket.lastreply}</span>
+                                <span class="text-white">{if isset($ticket) && is_array($ticket) && isset($ticket.lastreply)}{$ticket.lastreply}{else}No replies{/if}</span>
                             </div>
                         </div>
                     </div>

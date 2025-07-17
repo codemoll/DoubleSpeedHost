@@ -222,20 +222,20 @@
                     <div class="space-y-4">
                         {assign var="activeCount" value=0}
                         {foreach from=$products item=service name=services}
-                            {if $service.status eq 'Active' && $activeCount < 3}
+                            {if isset($service) && is_array($service) && isset($service.status) && $service.status eq 'Active' && $activeCount < 3}
                                 {assign var="activeCount" value=$activeCount+1}
-                                <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
+                                <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={if isset($service.id)}{$service.id}{else}0{/if}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">{$service.product}</h3>
-                                            <p class="text-text-light text-sm">{$service.domain}</p>
+                                            <h3 class="text-white font-medium">{if isset($service.product)}{$service.product}{else}Unknown Service{/if}</h3>
+                                            <p class="text-text-light text-sm">{if isset($service.domain)}{$service.domain}{else}No domain{/if}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-neon-green text-dark-bg">
-                                                {$service.status}
+                                                {if isset($service.status)}{$service.status}{else}Unknown{/if}
                                             </span>
                                             <div class="text-text-light text-sm mt-1">
-                                                Next Due: {$service.nextduedate}
+                                                Next Due: {if isset($service.nextduedate)}{$service.nextduedate}{else}Unknown{/if}
                                             </div>
                                         </div>
                                     </div>
@@ -247,21 +247,23 @@
                         {if $activeCount eq 0}
                             {foreach from=$products item=service name=services}
                                 {if $smarty.foreach.services.index < 3}
-                                    <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={$service.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
+                                    <a href="{$WEB_ROOT}/clientarea.php?action=productdetails&id={if isset($service) && is_array($service) && isset($service.id)}{$service.id}{else}0{/if}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300 cursor-pointer">
                                         <div class="flex items-center justify-between">
                                             <div>
-                                                <h3 class="text-white font-medium">{$service.product}</h3>
-                                                <p class="text-text-light text-sm">{$service.domain}</p>
+                                                <h3 class="text-white font-medium">{if isset($service) && is_array($service) && isset($service.product)}{$service.product}{else}Unknown Service{/if}</h3>
+                                                <p class="text-text-light text-sm">{if isset($service) && is_array($service) && isset($service.domain)}{$service.domain}{else}No domain{/if}</p>
                                             </div>
                                             <div class="text-right">
                                                 <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
-                                                    {if $service.status eq 'Active'}bg-neon-green text-dark-bg
-                                                    {elseif $service.status eq 'Suspended'}bg-red-500 text-white
-                                                    {else}bg-yellow-500 text-dark-bg{/if}">
-                                                    {$service.status}
+                                                    {if isset($service) && is_array($service) && isset($service.status)}
+                                                        {if $service.status eq 'Active'}bg-neon-green text-dark-bg
+                                                        {elseif $service.status eq 'Suspended'}bg-red-500 text-white
+                                                        {else}bg-yellow-500 text-dark-bg{/if}
+                                                    {else}bg-gray-500 text-white{/if}">
+                                                    {if isset($service) && is_array($service) && isset($service.status)}{$service.status}{else}Unknown{/if}
                                                 </span>
                                                 <div class="text-text-light text-sm mt-1">
-                                                    Next Due: {$service.nextduedate}
+                                                    Next Due: {if isset($service) && is_array($service) && isset($service.nextduedate)}{$service.nextduedate}{else}Unknown{/if}
                                                 </div>
                                             </div>
                                         </div>
@@ -295,7 +297,7 @@
                     {assign var="overdueCount" value=0}
                     {assign var="overdueTotal" value=0}
                     {foreach from=$invoices item=invoice}
-                        {if $invoice.status eq 'Unpaid' && $invoice.overdue}
+                        {if isset($invoice) && is_array($invoice) && isset($invoice.status) && isset($invoice.overdue) && $invoice.status eq 'Unpaid' && $invoice.overdue}
                             {assign var="overdueCount" value=$overdueCount+1}
                             {assign var="overdueTotal" value=$overdueTotal+$invoice.rawbalance}
                         {/if}
@@ -309,7 +311,7 @@
                                 </svg>
                                 <div class="flex-1">
                                     <p class="text-red-200 text-sm">
-                                        You have <strong>({$overdueCount})</strong> Overdue invoice{if $overdueCount > 1}s{/if} with a total balance due of <strong>{$currency.prefix}{$overdueTotal|string_format:"%.2f"} {$currency.code}</strong>. Pay them now to avoid any interruptions in service.
+                                        You have <strong>({$overdueCount})</strong> Overdue invoice{if $overdueCount > 1}s{/if} with a total balance due of <strong>{if isset($currency) && is_array($currency) && isset($currency.prefix)}{$currency.prefix}{else}${/if}{$overdueTotal|string_format:"%.2f"} {if isset($currency) && is_array($currency) && isset($currency.code)}{$currency.code}{else}USD{/if}</strong>. Pay them now to avoid any interruptions in service.
                                     </p>
                                 </div>
                                 <a href="{$WEB_ROOT}/clientarea.php?action=invoices&status=Unpaid" class="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Pay Now</a>
@@ -321,18 +323,18 @@
                         {assign var="displayCount" value=0}
                         {* First, show unpaid invoices *}
                         {foreach from=$invoices item=invoice name=invoices}
-                            {if $invoice.status eq 'Unpaid' && $displayCount < 3}
+                            {if isset($invoice) && is_array($invoice) && isset($invoice.status) && $invoice.status eq 'Unpaid' && $displayCount < 3}
                                 {assign var="displayCount" value=$displayCount+1}
-                                <a href="{$WEB_ROOT}/viewinvoice.php?id={$invoice.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/viewinvoice.php?id={if isset($invoice.id)}{$invoice.id}{else}0{/if}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">Invoice #{$invoice.invoicenum}</h3>
-                                            <p class="text-text-light text-sm">Due: {$invoice.datedue}</p>
+                                            <h3 class="text-white font-medium">Invoice #{if isset($invoice.invoicenum)}{$invoice.invoicenum}{else}Unknown{/if}</h3>
+                                            <p class="text-text-light text-sm">Due: {if isset($invoice.datedue)}{$invoice.datedue}{else}Unknown{/if}</p>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-white font-medium">{$invoice.total}</div>
+                                            <div class="text-white font-medium">{if isset($invoice.total)}{$invoice.total}{else}$0.00{/if}</div>
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium bg-red-500 text-white">
-                                                {$invoice.status}
+                                                {if isset($invoice.status)}{$invoice.status}{else}Unknown{/if}
                                             </span>
                                         </div>
                                     </div>
@@ -342,21 +344,23 @@
                         
                         {* Then, fill remaining slots with other recent invoices *}
                         {foreach from=$invoices item=invoice name=invoices}
-                            {if $invoice.status neq 'Unpaid' && $displayCount < 3}
+                            {if isset($invoice) && is_array($invoice) && isset($invoice.status) && $invoice.status neq 'Unpaid' && $displayCount < 3}
                                 {assign var="displayCount" value=$displayCount+1}
-                                <a href="{$WEB_ROOT}/viewinvoice.php?id={$invoice.id}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/viewinvoice.php?id={if isset($invoice.id)}{$invoice.id}{else}0{/if}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">Invoice #{$invoice.invoicenum}</h3>
-                                            <p class="text-text-light text-sm">Due: {$invoice.datedue}</p>
+                                            <h3 class="text-white font-medium">Invoice #{if isset($invoice.invoicenum)}{$invoice.invoicenum}{else}Unknown{/if}</h3>
+                                            <p class="text-text-light text-sm">Due: {if isset($invoice.datedue)}{$invoice.datedue}{else}Unknown{/if}</p>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-white font-medium">{$invoice.total}</div>
+                                            <div class="text-white font-medium">{if isset($invoice.total)}{$invoice.total}{else}$0.00{/if}</div>
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
-                                                {if $invoice.status eq 'Paid'}bg-neon-green text-dark-bg
-                                                {elseif $invoice.status eq 'Cancelled'}bg-gray-500 text-white
-                                                {else}bg-yellow-500 text-dark-bg{/if}">
-                                                {$invoice.status}
+                                                {if isset($invoice.status)}
+                                                    {if $invoice.status eq 'Paid'}bg-neon-green text-dark-bg
+                                                    {elseif $invoice.status eq 'Cancelled'}bg-gray-500 text-white
+                                                    {else}bg-yellow-500 text-dark-bg{/if}
+                                                {else}bg-gray-500 text-white{/if}">
+                                                {if isset($invoice.status)}{$invoice.status}{else}Unknown{/if}
                                             </span>
                                         </div>
                                     </div>
@@ -387,20 +391,22 @@
                     <div class="space-y-4">
                         {foreach from=$tickets item=ticket name=tickets}
                             {if $smarty.foreach.tickets.index < 3}
-                                <a href="{$WEB_ROOT}/viewticket.php?tid={$ticket.tid}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
+                                <a href="{$WEB_ROOT}/viewticket.php?tid={if isset($ticket) && is_array($ticket) && isset($ticket.tid)}{$ticket.tid}{else}0{/if}" class="block bg-dark-bg border border-gray-700 rounded-lg p-4 hover:border-neon-green transition-all duration-300">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <h3 class="text-white font-medium">#{$ticket.tid} - {$ticket.subject}</h3>
-                                            <p class="text-text-light text-sm">Last Reply: {$ticket.lastreply}</p>
+                                            <h3 class="text-white font-medium">#{if isset($ticket) && is_array($ticket) && isset($ticket.tid)}{$ticket.tid}{else}Unknown{/if} - {if isset($ticket) && is_array($ticket) && isset($ticket.subject)}{$ticket.subject}{else}No Subject{/if}</h3>
+                                            <p class="text-text-light text-sm">Last Reply: {if isset($ticket) && is_array($ticket) && isset($ticket.lastreply)}{$ticket.lastreply}{else}Unknown{/if}</p>
                                         </div>
                                         <div class="text-right">
                                             <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
-                                                {if $ticket.status eq 'Open'}bg-neon-green text-dark-bg
-                                                {elseif $ticket.status eq 'Customer-Reply'}bg-electric-blue text-white
-                                                {elseif $ticket.status eq 'Answered'}bg-cyber-purple text-white
-                                                {elseif $ticket.status eq 'Closed'}bg-gray-500 text-white
-                                                {else}bg-yellow-500 text-dark-bg{/if}">
-                                                {$ticket.status}
+                                                {if isset($ticket) && is_array($ticket) && isset($ticket.status)}
+                                                    {if $ticket.status eq 'Open'}bg-neon-green text-dark-bg
+                                                    {elseif $ticket.status eq 'Customer-Reply'}bg-electric-blue text-white
+                                                    {elseif $ticket.status eq 'Answered'}bg-cyber-purple text-white
+                                                    {elseif $ticket.status eq 'Closed'}bg-gray-500 text-white
+                                                    {else}bg-yellow-500 text-dark-bg{/if}
+                                                {else}bg-gray-500 text-white{/if}">
+                                                {if isset($ticket) && is_array($ticket) && isset($ticket.status)}{$ticket.status}{else}Unknown{/if}
                                             </span>
                                         </div>
                                     </div>

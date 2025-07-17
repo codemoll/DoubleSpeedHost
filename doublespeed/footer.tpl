@@ -8,15 +8,15 @@
                 <!-- Company Info -->
                 <div class="col-md-6 col-lg-6 mb-4">
                     <div class="d-flex align-items-center mb-3">
-                        {if isset($templatefile) && is_array($templatefile) && $templatefile.logourl}
-                            <img src="{$templatefile.logourl}" alt="{$companyname}" class="footer-logo me-3">
+                        {if isset($templatefile) && is_array($templatefile) && !empty($templatefile.logourl)}
+                            <img src="{$templatefile.logourl}" alt="{$companyname|default:'DoubleSpeed Host'}" class="footer-logo me-3">
                         {else}
                             {* Check for logo.png in images folder *}
-                            <img src="{$WEB_ROOT}/templates/{$template}/images/logo.png" alt="{$companyname}" class="footer-logo me-3" 
+                            <img src="{$WEB_ROOT}/templates/{$template}/images/logo.png" alt="{$companyname|default:'DoubleSpeed Host'}" class="footer-logo me-3" 
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="footer-logo-fallback me-3" style="display:none;"></div>
                         {/if}
-                        <span class="footer-brand-text">{$companyname}</span>
+                        <span class="footer-brand-text">{$companyname|default:"DoubleSpeed Host"}</span>
                     </div>
                     <p class="footer-description mb-4">
                         Experience lightning-fast hosting with cutting-edge technology and 24/7 expert support. 
@@ -72,10 +72,10 @@
                 <div class="row align-items-center">
                     <div class="col-md-8 mb-3 mb-md-0">
                         <p class="footer-copyright mb-0">
-                            {if isset($templatefile) && is_array($templatefile) && $templatefile.footertext}
+                            {if isset($templatefile) && is_array($templatefile) && !empty($templatefile.footertext)}
                                 {$templatefile.footertext}
                             {else}
-                                © {$date_year} {$companyname}. All rights reserved. Powered by cutting-edge technology.
+                                © {$date_year|default:"2024"} {$companyname|default:"DoubleSpeed Host"}. All rights reserved. Powered by cutting-edge technology.
                             {/if}
                         </p>
                     </div>
@@ -93,13 +93,13 @@
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <div class="d-flex flex-column flex-md-row">
-                                {if isset($templatefile) && is_array($templatefile) && $templatefile.supportphone}
+                                {if isset($templatefile) && is_array($templatefile) && !empty($templatefile.supportphone)}
                                     <div class="d-flex align-items-center me-md-4 mb-2 mb-md-0">
                                         <i class="fas fa-phone me-2 text-primary"></i>
                                         <span class="footer-contact-text">{$templatefile.supportphone}</span>
                                     </div>
                                 {/if}
-                                {if isset($templatefile) && is_array($templatefile) && $templatefile.supportemail}
+                                {if isset($templatefile) && is_array($templatefile) && !empty($templatefile.supportemail)}
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-envelope me-2 text-primary"></i>
                                         <span class="footer-contact-text">{$templatefile.supportemail}</span>

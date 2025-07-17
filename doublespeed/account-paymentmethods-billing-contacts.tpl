@@ -23,32 +23,32 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-text-light mb-2">First Name</label>
-                            <input type="text" name="firstname" value="{$contactinfo.firstname}" class="input-dark w-full">
+                            <input type="text" name="firstname" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.firstname)}{$contactinfo.firstname}{/if}" class="input-dark w-full">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-text-light mb-2">Last Name</label>
-                            <input type="text" name="lastname" value="{$contactinfo.lastname}" class="input-dark w-full">
+                            <input type="text" name="lastname" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.lastname)}{$contactinfo.lastname}{/if}" class="input-dark w-full">
                         </div>
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-text-light mb-2">Company</label>
-                        <input type="text" name="company" value="{$contactinfo.company}" class="input-dark w-full">
+                        <input type="text" name="company" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.company)}{$contactinfo.company}{/if}" class="input-dark w-full">
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-text-light mb-2">Email Address</label>
-                        <input type="email" name="email" value="{$contactinfo.email}" class="input-dark w-full">
+                        <input type="email" name="email" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.email)}{$contactinfo.email}{/if}" class="input-dark w-full">
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-text-light mb-2">Address</label>
-                            <input type="text" name="address1" value="{$contactinfo.address1}" class="input-dark w-full">
+                            <input type="text" name="address1" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.address1)}{$contactinfo.address1}{/if}" class="input-dark w-full">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-text-light mb-2">City</label>
-                            <input type="text" name="city" value="{$contactinfo.city}" class="input-dark w-full">
+                            <input type="text" name="city" value="{if isset($contactinfo) && is_array($contactinfo) && !empty($contactinfo.city)}{$contactinfo.city}{/if}" class="input-dark w-full">
                         </div>
                     </div>
                     
