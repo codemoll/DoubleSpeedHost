@@ -639,3 +639,147 @@
   color: var(--ds-text-light);
   margin-bottom: 30px;
 }
+
+/* Animation keyframes for compatibility */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* WHMCS Six specific enhancements */
+.whmcs-six-panel {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.whmcs-six-panel:hover {
+  border-color: var(--ds-neon-green);
+  box-shadow: var(--ds-glow-green);
+}
+
+/* Domain checker specific styles */
+.domain-result {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--ds-gray-700);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--ds-dark-surface);
+  transition: all 0.3s ease;
+}
+
+.domain-result:hover {
+  background-color: rgba(0, 255, 136, 0.05);
+}
+
+.domain-result.available {
+  border-color: var(--ds-neon-green);
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
+.domain-result.unavailable {
+  border-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Order form enhancements */
+.order-summary {
+  background-color: var(--ds-dark-bg-alt);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.order-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ds-gray-700);
+}
+
+.order-summary-item:last-child {
+  border-bottom: none;
+  font-weight: 600;
+  color: var(--ds-neon-green);
+}
+
+/* Custom dropdown styling for WHMCS Six */
+.dropdown-menu {
+  background-color: var(--ds-dark-surface);
+  border: 1px solid var(--ds-gray-700);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-item {
+  color: var(--ds-text-light);
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0, 255, 136, 0.1);
+  color: var(--ds-neon-green);
+}
+
+/* Loading states */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--ds-gray-600);
+  border-radius: 50%;
+  border-top-color: var(--ds-neon-green);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mobile enhancements */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .ds-hero-title {
+    font-size: 2rem;
+  }
+  
+  .panel-body {
+    padding: 15px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .navbar {
+    padding: 10px 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar, .ds-glow, .animate-float {
+    display: none !important;
+  }
+  
+  .panel, .card {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}

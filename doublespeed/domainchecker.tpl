@@ -1,53 +1,57 @@
 {include file="$template/header.tpl"}
 
-<div class="min-h-screen bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
-    <div class="layout-container">
+<div class="container-fluid" style="min-height: 100vh; background-color: var(--ds-dark-bg); padding: 80px 0 40px;">
+    <div class="container">
         
         <!-- Page Header -->
-        <div class="text-center mb-12">
-            <div class="mx-auto w-20 h-20 bg-gradient-to-br from-neon-green to-electric-blue rounded-full flex items-center justify-center mb-6">
-                <svg class="w-10 h-10 text-dark-bg" fill="currentColor" viewBox="0 0 20 20">
+        <div class="text-center mb-5">
+            <div class="mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--ds-neon-green), var(--ds-electric-blue)); border-radius: 50%;">
+                <svg style="width: 40px; height: 40px; color: var(--ds-dark-bg);" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
             </div>
-            <h1 class="text-4xl font-orbitron font-bold text-white mb-4">Domain Search</h1>
-            <p class="text-xl text-text-light max-w-2xl mx-auto">
+            <h1 class="ds-hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Domain Search</h1>
+            <p class="ds-hero-subtitle" style="max-width: 42rem; margin: 0 auto;">
                 Find the perfect domain name for your website. Search across hundreds of domain extensions.
             </p>
         </div>
 
         <!-- Domain Search Form -->
-        <div class="order-form-container mb-8">
-            <div class="card-dark">
-                <form method="post" action="{$WEB_ROOT}/domainchecker.php" class="space-y-6" id="domain-search-form">
-                    <div>
-                        <label for="domain" class="block text-lg font-orbitron font-semibold text-white mb-4">
-                            Enter your desired domain name
-                        </label>
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <div class="flex-1 relative">
-                                <input type="text" 
-                                       name="domain" 
-                                       id="domain"
-                                       value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
-                                       placeholder="yourdomain"
-                                       class="input-dark w-full text-lg py-4 pr-12"
-                                       required
-                                       autocomplete="off"
-                                       spellcheck="false">
-                                <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-light">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="md:w-48 w-full">
-                                <select name="ext" class="input-dark w-full py-4 text-lg">
-                                    {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
-                                        {foreach $domainextensions as $extension}
-                                            {assign var="ext_value" value="{if isset($extension.extension)}{$extension.extension}{elseif isset($extension.tld)}{$extension.tld}{elseif is_string($extension)}{$extension}{else}com{/if}"}
-                                            <option value=".{$ext_value}" 
-                                                    {if isset($selectedext) && ($selectedext eq $ext_value || $selectedext eq ".{$ext_value}")}selected{/if}>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+                <div class="panel panel-default ds-glow">
+                    <div class="panel-body">
+                        <form method="post" action="{$WEB_ROOT}/domainchecker.php" id="domain-search-form">
+                            <div class="form-group mb-4">
+                                <label for="domain" class="form-label" style="font-size: 1.125rem; font-family: 'Orbitron', monospace; font-weight: 600;">
+                                    Enter your desired domain name
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" 
+                                                   name="domain" 
+                                                   id="domain"
+                                                   value="{if isset($searchterm) && $searchterm}{$searchterm}{/if}"
+                                                   placeholder="yourdomain"
+                                                   class="form-control form-control-lg"
+                                                   required
+                                                   autocomplete="off"
+                                                   spellcheck="false">
+                                            <span class="input-group-text">
+                                                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select name="ext" class="form-select form-select-lg">
+                                            {if isset($domainextensions) && is_array($domainextensions) && count($domainextensions) > 0}
+                                                {foreach $domainextensions as $extension}
+                                                    {assign var="ext_value" value="{if isset($extension.extension)}{$extension.extension}{elseif isset($extension.tld)}{$extension.tld}{elseif is_string($extension)}{$extension}{else}com{/if}"}
+                                                    <option value=".{$ext_value}" 
+                                                            {if isset($selectedext) && ($selectedext eq $ext_value || $selectedext eq ".{$ext_value}")}selected{/if}>
                                                 .{$ext_value}
                                             </option>
                                         {/foreach}
