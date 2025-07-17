@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoubleSpeed Host - Product Cards Example</title>
+    
+    <!-- Load CSS modules in proper order -->
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-tailwind.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-custom.css">
+    <link rel="stylesheet" href="../doublespeed/css/doublespeed-responsive.css">
+</head>
+<body>
+    <header class="hero-gradient py-20 mb-16">
+        <div class="container text-center">
+            <h1 class="glow-text text-6xl font-orbitron font-bold mb-6">DoubleSpeed Host</h1>
+            <p class="text-xl text-text-light mb-8">Choose Your Perfect Hosting Plan</p>
+        </div>
+    </header>
+
+    <main class="container mb-16">
+        <section class="mb-16">
+            <h2 class="text-4xl font-orbitron font-bold text-center text-neon-green mb-12">Legacy WHMCS Style</h2>
+            
+            <!-- Traditional WHMCS grid layout -->
+            <div class="row">
+                <div class="col-4">
+                    <div class="pricing-card">
+                        <h3 class="text-2xl font-bold text-neon-green mb-4">Starter</h3>
+                        <div class="text-4xl font-bold text-white mb-2">$9.99<span class="text-lg text-text-light">/mo</span></div>
+                        <p class="text-text-light mb-6">Perfect for personal websites and blogs</p>
+                        
+                        <ul class="mb-8 space-y-2">
+                            <li class="text-white">✓ 10GB SSD Storage</li>
+                            <li class="text-white">✓ 100GB Bandwidth</li>
+                            <li class="text-white">✓ 1 Domain Included</li>
+                            <li class="text-white">✓ Email Accounts</li>
+                            <li class="text-white">✓ 24/7 Support</li>
+                        </ul>
+                        
+                        <button class="btn-primary w-100">Order Now</button>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <div class="pricing-card">
+                        <h3 class="text-2xl font-bold text-electric-blue mb-4">Professional</h3>
+                        <div class="text-4xl font-bold text-white mb-2">$19.99<span class="text-lg text-text-light">/mo</span></div>
+                        <p class="text-text-light mb-6">Great for small to medium businesses</p>
+                        
+                        <ul class="mb-8 space-y-2">
+                            <li class="text-white">✓ 50GB SSD Storage</li>
+                            <li class="text-white">✓ 500GB Bandwidth</li>
+                            <li class="text-white">✓ 5 Domains Included</li>
+                            <li class="text-white">✓ Email Accounts</li>
+                            <li class="text-white">✓ SSL Certificate</li>
+                            <li class="text-white">✓ Daily Backups</li>
+                        </ul>
+                        
+                        <button class="btn-secondary w-100">Order Now</button>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <div class="pricing-card">
+                        <h3 class="text-2xl font-bold text-cyber-purple mb-4">Enterprise</h3>
+                        <div class="text-4xl font-bold text-white mb-2">$39.99<span class="text-lg text-text-light">/mo</span></div>
+                        <p class="text-text-light mb-6">Ultimate performance for large projects</p>
+                        
+                        <ul class="mb-8 space-y-2">
+                            <li class="text-white">✓ 200GB SSD Storage</li>
+                            <li class="text-white">✓ Unlimited Bandwidth</li>
+                            <li class="text-white">✓ Unlimited Domains</li>
+                            <li class="text-white">✓ Email Accounts</li>
+                            <li class="text-white">✓ SSL Certificate</li>
+                            <li class="text-white">✓ Daily Backups</li>
+                            <li class="text-white">✓ CDN Included</li>
+                            <li class="text-white">✓ Priority Support</li>
+                        </ul>
+                        
+                        <button class="btn-outline w-100">Order Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-4xl font-orbitron font-bold text-center text-neon-green mb-12">Modern Tailwind Style</h2>
+            
+            <!-- Modern scoped Tailwind layout -->
+            <div class="ds-tailwind">
+                <div class="ds-grid ds-grid-cols-3 gap-8">
+                    <div class="ds-card ds-hover-lift">
+                        <div class="ds-flex-between mb-6">
+                            <h3 class="text-2xl font-bold text-neon-green">Starter</h3>
+                            <span class="ds-badge-success">Popular</span>
+                        </div>
+                        
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-white">$9.99</div>
+                            <div class="text-text-light">per month</div>
+                        </div>
+                        
+                        <p class="text-text-light mb-6">Perfect for personal websites and blogs with everything you need to get started.</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-neon-green rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-dark-bg text-xs">✓</span>
+                                </div>
+                                <span class="text-white">10GB SSD Storage</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-neon-green rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-dark-bg text-xs">✓</span>
+                                </div>
+                                <span class="text-white">100GB Bandwidth</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-neon-green rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-dark-bg text-xs">✓</span>
+                                </div>
+                                <span class="text-white">1 Domain Included</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-neon-green rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-dark-bg text-xs">✓</span>
+                                </div>
+                                <span class="text-white">24/7 Support</span>
+                            </div>
+                        </div>
+                        
+                        <button class="ds-btn-primary w-full">Get Started</button>
+                    </div>
+                    
+                    <div class="ds-card ds-hover-lift border-2 border-electric-blue">
+                        <div class="ds-flex-between mb-6">
+                            <h3 class="text-2xl font-bold text-electric-blue">Professional</h3>
+                            <span class="ds-badge-info">Recommended</span>
+                        </div>
+                        
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-white">$19.99</div>
+                            <div class="text-text-light">per month</div>
+                        </div>
+                        
+                        <p class="text-text-light mb-6">Great for small to medium businesses that need more resources and features.</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-electric-blue rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">50GB SSD Storage</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-electric-blue rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">500GB Bandwidth</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-electric-blue rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">5 Domains Included</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-electric-blue rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">SSL & Daily Backups</span>
+                            </div>
+                        </div>
+                        
+                        <button class="ds-btn-secondary w-full">Get Started</button>
+                    </div>
+                    
+                    <div class="ds-card ds-hover-lift">
+                        <div class="ds-flex-between mb-6">
+                            <h3 class="text-2xl font-bold text-cyber-purple">Enterprise</h3>
+                            <span class="ds-badge-warning">Best Value</span>
+                        </div>
+                        
+                        <div class="text-center mb-6">
+                            <div class="text-4xl font-bold text-white">$39.99</div>
+                            <div class="text-text-light">per month</div>
+                        </div>
+                        
+                        <p class="text-text-light mb-6">Ultimate performance solution for large projects and high-traffic websites.</p>
+                        
+                        <div class="space-y-3 mb-8">
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-cyber-purple rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">200GB SSD Storage</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-cyber-purple rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">Unlimited Bandwidth</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-cyber-purple rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">Unlimited Domains</span>
+                            </div>
+                            <div class="ds-flex-start">
+                                <div class="w-5 h-5 bg-cyber-purple rounded-full flex items-center justify-center mr-3">
+                                    <span class="text-white text-xs">✓</span>
+                                </div>
+                                <span class="text-white">CDN & Priority Support</span>
+                            </div>
+                        </div>
+                        
+                        <button class="ds-btn-outline w-full">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-4xl font-orbitron font-bold text-center text-neon-green mb-12">Hybrid Layout Example</h2>
+            
+            <!-- Mixing both systems -->
+            <div class="row">
+                <div class="col-8">
+                    <!-- Legacy WHMCS form -->
+                    <div class="card-dark">
+                        <h3 class="text-2xl font-bold text-white mb-6">Domain Search</h3>
+                        <form class="space-y-4">
+                            <div class="row">
+                                <div class="col-8">
+                                    <input type="text" class="input-dark w-100" placeholder="Enter your domain name" value="myawesomesite">
+                                </div>
+                                <div class="col-4">
+                                    <select class="select-dark w-100">
+                                        <option>.com</option>
+                                        <option>.net</option>
+                                        <option>.org</option>
+                                        <option>.io</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Search Domain</button>
+                        </form>
+                        
+                        <!-- Domain results using modern Tailwind styling -->
+                        <div class="ds-tailwind mt-8">
+                            <div class="space-y-4">
+                                <div class="ds-alert-success">
+                                    <strong>Great news!</strong> Some domains are available for registration.
+                                </div>
+                                
+                                <div class="ds-card border-neon-green/50 bg-gradient-to-r from-green-500/10 to-transparent">
+                                    <div class="ds-flex-between">
+                                        <div>
+                                            <div class="font-semibold text-white">myawesomesite.com</div>
+                                            <div class="text-sm text-neon-green">Available</div>
+                                        </div>
+                                        <div class="ds-flex-center space-x-4">
+                                            <div class="text-white font-semibold">$12.99/year</div>
+                                            <button class="ds-btn-primary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ds-card border-red-500/50 bg-gradient-to-r from-red-500/10 to-transparent">
+                                    <div class="ds-flex-between">
+                                        <div>
+                                            <div class="font-semibold text-white">myawesomesite.net</div>
+                                            <div class="text-sm text-red-400">Unavailable</div>
+                                        </div>
+                                        <div class="ds-flex-center space-x-4">
+                                            <div class="text-gray-400">Not available</div>
+                                            <button class="ds-btn-secondary" disabled>Unavailable</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="ds-card border-neon-green/50 bg-gradient-to-r from-green-500/10 to-transparent">
+                                    <div class="ds-flex-between">
+                                        <div>
+                                            <div class="font-semibold text-white">myawesomesite.io</div>
+                                            <div class="text-sm text-neon-green">Available</div>
+                                        </div>
+                                        <div class="ds-flex-center space-x-4">
+                                            <div class="text-white font-semibold">$39.99/year</div>
+                                            <button class="ds-btn-primary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-4">
+                    <!-- Modern Tailwind sidebar -->
+                    <div class="ds-tailwind">
+                        <div class="ds-card mb-6">
+                            <h3 class="ds-modal-title mb-4">Account Summary</h3>
+                            <div class="space-y-4">
+                                <div class="ds-flex-between">
+                                    <span class="text-text-light">Active Services</span>
+                                    <span class="ds-badge-success">3</span>
+                                </div>
+                                <div class="ds-flex-between">
+                                    <span class="text-text-light">Pending Orders</span>
+                                    <span class="ds-badge-warning">1</span>
+                                </div>
+                                <div class="ds-flex-between">
+                                    <span class="text-text-light">Support Tickets</span>
+                                    <span class="ds-badge-info">0</span>
+                                </div>
+                                <hr class="border-gray-700">
+                                <div class="ds-flex-between">
+                                    <span class="text-white font-semibold">Account Balance</span>
+                                    <span class="text-neon-green font-bold">$45.67</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ds-card">
+                            <h3 class="ds-modal-title mb-4">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button class="ds-btn-primary w-full">Renew Services</button>
+                                <button class="ds-btn-secondary w-full">Open Ticket</button>
+                                <button class="ds-btn-outline w-full">View Invoices</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark-bg-alt py-8 mt-16">
+        <div class="container text-center">
+            <p class="text-text-light">© 2024 DoubleSpeed Host. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
