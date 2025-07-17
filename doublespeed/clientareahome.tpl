@@ -1,51 +1,42 @@
 {include file="$template/header.tpl"}
 
-{* Function to render MarketConnect promotion panels *}
+{* Function to render MarketConnect promotion panels with Bootstrap classes *}
 {function name=outputHomePanels}
-    <div menuItemName="{$item->getName()}" class="relative bg-dark-surface border border-gray-700 rounded-lg overflow-hidden transition-all duration-300 hover:border-{if $item->getExtra('color') eq 'green'}neon-green hover:shadow-glow-green{elseif $item->getExtra('color') eq 'blue'}electric-blue hover:shadow-glow-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple hover:shadow-glow-purple{else}neon-green hover:shadow-glow-green{/if} group{if $item->getClass()} {$item->getClass()}{/if}"{if $item->getAttribute('id')} id="{$item->getAttribute('id')}"{/if}>
-        
-        {* Accent bar *}
-        <div class="h-1 bg-gradient-to-r {if $item->getExtra('color') eq 'green'}from-neon-green to-electric-blue{elseif $item->getExtra('color') eq 'blue'}from-electric-blue to-cyber-purple{elseif $item->getExtra('color') eq 'purple'}from-cyber-purple to-neon-green{else}from-neon-green to-electric-blue{/if}"></div>
+    <div menuItemName="{$item->getName()}" class="card mb-4 panel-marketing{if $item->getClass()} {$item->getClass()}{/if}"{if $item->getAttribute('id')} id="{$item->getAttribute('id')}"{/if}>
         
         {* Header with title and button *}
-        <div class="p-6 border-b border-gray-700">
-            <div class="flex items-center justify-between">
-                <h3 class="text-xl font-orbitron font-semibold text-white flex items-center">
-                    {if $item->hasIcon()}<i class="{$item->getIcon()} mr-3 text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if}"></i>{/if}
-                    {$item->getLabel()}
-                    {if $item->hasBadge()}<span class="ml-2 px-2 py-1 rounded-full text-xs font-medium bg-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} text-dark-bg">{$item->getBadge()}</span>{/if}
-                </h3>
-                {if $item->getExtra('btn-link') && $item->getExtra('btn-text')}
-                    <a href="{$item->getExtra('btn-link')}" class="px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105
-                        {if $item->getExtra('color') eq 'green'}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green
-                        {elseif $item->getExtra('color') eq 'blue'}bg-electric-blue hover:bg-electric-blue/80 text-white hover:shadow-glow-blue
-                        {elseif $item->getExtra('color') eq 'purple'}bg-cyber-purple hover:bg-cyber-purple/80 text-white hover:shadow-glow-purple
-                        {else}bg-neon-green hover:bg-neon-green/80 text-dark-bg hover:shadow-glow-green{/if}">
-                        {if $item->getExtra('btn-icon')}<i class="{$item->getExtra('btn-icon')} mr-2"></i>{/if}
-                        {$item->getExtra('btn-text')}
-                    </a>
-                {/if}
-            </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0 d-flex align-items-center">
+                {if $item->hasIcon()}<i class="{$item->getIcon()} me-2 text-primary"></i>{/if}
+                {$item->getLabel()}
+                {if $item->hasBadge()}<span class="badge bg-primary ms-2">{$item->getBadge()}</span>{/if}
+            </h5>
+            {if $item->getExtra('btn-link') && $item->getExtra('btn-text')}
+                <a href="{$item->getExtra('btn-link')}" class="btn btn-primary btn-sm">
+                    {if $item->getExtra('btn-icon')}<i class="{$item->getExtra('btn-icon')} me-1"></i>{/if}
+                    {$item->getExtra('btn-text')}
+                </a>
+            {/if}
         </div>
         
         {* Body content *}
         {if $item->hasBodyHtml()}
-            <div class="p-6">
+            <div class="card-body">
                 {$item->getBodyHtml()}
             </div>
         {/if}
         
         {* Child items as list *}
         {if $item->hasChildren()}
-            <div class="border-t border-gray-700">
+            <div class="list-group list-group-flush">
                 {foreach $item->getChildren() as $childItem}
                     {if $childItem->getUri()}
-                        <a menuItemName="{$childItem->getName()}" href="{$childItem->getUri()}" class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0 hover:bg-dark-bg transition-all duration-300 group{if $childItem->getClass()} {$childItem->getClass()}{/if}{if $childItem->isCurrent()} bg-dark-bg{/if}"{if $childItem->getAttribute('dataToggleTab')} data-toggle="tab"{/if}{if $childItem->getAttribute('target')} target="{$childItem->getAttribute('target')}"{/if} id="{$childItem->getId()}">
-                            <div class="flex items-center">
-                                {if $childItem->hasIcon()}<i class="{$childItem->getIcon()} mr-3 text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if}"></i>{/if}
-                                <span class="text-white group-hover:text-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} transition-colors duration-300">{$childItem->getLabel()}</span>
+                        <a menuItemName="{$childItem->getName()}" href="{$childItem->getUri()}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center{if $childItem->getClass()} {$childItem->getClass()}{/if}{if $childItem->isCurrent()} active{/if}"{if $childItem->getAttribute('dataToggleTab')} data-toggle="tab"{/if}{if $childItem->getAttribute('target')} target="{$childItem->getAttribute('target')}"{/if} id="{$childItem->getId()}">
+                            <div class="d-flex align-items-center">
+                                {if $childItem->hasIcon()}<i class="{$childItem->getIcon()} me-2 text-primary"></i>{/if}
+                                <span>{$childItem->getLabel()}</span>
                             </div>
-                            {if $childItem->hasBadge()}<span class="px-2 py-1 rounded-full text-xs font-medium bg-gray-700 text-gray-300 group-hover:bg-{if $item->getExtra('color') eq 'green'}neon-green{elseif $item->getExtra('color') eq 'blue'}electric-blue{elseif $item->getExtra('color') eq 'purple'}cyber-purple{else}neon-green{/if} group-hover:text-dark-bg transition-all duration-300">{$childItem->getBadge()}</span>{/if}
+                            {if $childItem->hasBadge()}<span class="badge bg-secondary">{$childItem->getBadge()}</span>{/if}
                         </a>
                     {else}
                         <div menuItemName="{$childItem->getName()}" class="flex items-center justify-between p-4 border-b border-gray-700 last:border-b-0{if $childItem->getClass()} {$childItem->getClass()}{/if}" id="{$childItem->getId()}">
