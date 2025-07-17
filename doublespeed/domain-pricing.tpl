@@ -33,9 +33,9 @@
                                             <span class="text-lg md:text-xl font-bold text-white">
                                                 .{if isset($tld.extension) && $tld.extension}{$tld.extension}{elseif isset($tld.tld) && $tld.tld}{$tld.tld}{else}com{/if}
                                             </span>
-                                            {if isset($tld.description) && $tld.description}
+                                            {if isset($tld) && is_array($tld) && isset($tld.description) && !empty($tld.description)}
                                                 <p class="text-text-light text-xs md:text-sm hidden sm:block">{$tld.description}</p>
-                                            {elseif isset($tld.extension)}
+                                            {elseif isset($tld) && is_array($tld) && isset($tld.extension)}
                                                 <p class="text-text-light text-xs md:text-sm hidden sm:block">
                                                     {if $tld.extension eq 'com'}Most popular choice for businesses{/if}
                                                     {if $tld.extension eq 'net'}Great for networks and tech companies{/if}
@@ -47,9 +47,9 @@
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden sm:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-neon-green">
-                                                {if isset($tld.register) && $tld.register}
+                                                {if isset($tld) && is_array($tld) && isset($tld.register) && !empty($tld.register)}
                                                     {if $tld.register|strpos:'$' === false}${/if}{$tld.register}
-                                                {elseif isset($tld.pricing) && isset($tld.pricing.register)}
+                                                {elseif isset($tld) && is_array($tld) && isset($tld.pricing) && is_array($tld.pricing) && isset($tld.pricing.register)}
                                                     {if $tld.pricing.register|strpos:'$' === false}${/if}{$tld.pricing.register}
                                                 {else}
                                                     <span class="text-text-light">Contact Us</span>
@@ -59,9 +59,9 @@
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden md:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-electric-blue">
-                                                {if isset($tld.renew) && $tld.renew}
+                                                {if isset($tld) && is_array($tld) && isset($tld.renew) && !empty($tld.renew)}
                                                     {if $tld.renew|strpos:'$' === false}${/if}{$tld.renew}
-                                                {elseif isset($tld.pricing) && isset($tld.pricing.renew)}
+                                                {elseif isset($tld) && is_array($tld) && isset($tld.pricing) && is_array($tld.pricing) && isset($tld.pricing.renew)}
                                                     {if $tld.pricing.renew|strpos:'$' === false}${/if}{$tld.pricing.renew}
                                                 {else}
                                                     <span class="text-text-light">Contact Us</span>
@@ -71,9 +71,9 @@
                                         </td>
                                         <td class="py-4 px-2 md:px-4 text-center hidden lg:table-cell">
                                             <span class="text-sm md:text-lg font-semibold text-cyber-purple">
-                                                {if isset($tld.transfer) && $tld.transfer}
+                                                {if isset($tld) && is_array($tld) && isset($tld.transfer) && !empty($tld.transfer)}
                                                     {if $tld.transfer|strpos:'$' === false}${/if}{$tld.transfer}
-                                                {elseif isset($tld.pricing) && isset($tld.pricing.transfer)}
+                                                {elseif isset($tld) && is_array($tld) && isset($tld.pricing) && is_array($tld.pricing) && isset($tld.pricing.transfer)}
                                                     {if $tld.pricing.transfer|strpos:'$' === false}${/if}{$tld.pricing.transfer}
                                                 {else}
                                                     <span class="text-text-light">Contact Us</span>
