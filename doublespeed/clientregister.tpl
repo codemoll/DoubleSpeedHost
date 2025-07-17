@@ -269,13 +269,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {if $customfields}
                                 {foreach $customfields as $customfield}
-                                    <div class="{if $customfield.fieldtype eq 'textarea'}md:col-span-2{/if}">
-                                        <label for="customfield{$customfield.id}" class="block text-sm font-medium text-white mb-2">
-                                            {$customfield.name} {$customfield.required}
+                                    <div class="{if isset($customfield) && is_array($customfield) && isset($customfield.fieldtype) && $customfield.fieldtype eq 'textarea'}md:col-span-2{/if}">
+                                        <label for="customfield{if isset($customfield) && is_array($customfield) && isset($customfield.id)}{$customfield.id}{else}0{/if}" class="block text-sm font-medium text-white mb-2">
+                                            {if isset($customfield) && is_array($customfield) && isset($customfield.name)}{$customfield.name}{else}Field{/if} {if isset($customfield) && is_array($customfield) && isset($customfield.required)}{$customfield.required}{/if}
                                         </label>
                                         <div class="custom-field-input">
-                                            {$customfield.input}
-                                        {if $customfield.description}
+                                            {if isset($customfield) && is_array($customfield) && isset($customfield.input)}{$customfield.input}{/if}
+                                        {if isset($customfield) && is_array($customfield) && isset($customfield.description) && !empty($customfield.description)}
                                             <span class="block text-xs text-text-light mt-1">{$customfield.description}</span>
                                         {/if}
                                         </div>
@@ -293,7 +293,7 @@
                                         </div>
                                         <select id="inputCurrency" name="currency" class="input-dark w-full pl-10">
                                             {foreach from=$currencies item=curr}
-                                                <option value="{$curr.id}"{if !$smarty.post.currency && $curr.default || $smarty.post.currency eq $curr.id } selected{/if}>{$curr.code}</option>
+                                                <option value="{if isset($curr) && is_array($curr) && isset($curr.id)}{$curr.id}{else}1{/if}"{if !$smarty.post.currency && isset($curr) && is_array($curr) && isset($curr.default) && $curr.default || isset($smarty.post.currency) && isset($curr) && is_array($curr) && isset($curr.id) && $smarty.post.currency eq $curr.id } selected{/if}>{if isset($curr) && is_array($curr) && isset($curr.code)}{$curr.code}{else}USD{/if}</option>
                                             {/foreach}
                                         </select>
                                     </div>

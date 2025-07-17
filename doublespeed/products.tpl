@@ -22,17 +22,17 @@
                 <div class="mb-12">
                     <div class="text-center mb-8">
                         <h2 class="text-2xl font-orbitron font-bold text-white mb-4">
-                            {if isset($productgroup.name) && $productgroup.name}
+                            {if isset($productgroup) && is_array($productgroup) && isset($productgroup.name) && !empty($productgroup.name)}
                                 {$productgroup.name}
-                            {elseif isset($productgroup.groupname) && $productgroup.groupname}
+                            {elseif isset($productgroup) && is_array($productgroup) && isset($productgroup.groupname) && !empty($productgroup.groupname)}
                                 {$productgroup.groupname}
                             {else}
                                 Products & Services
                             {/if}
                         </h2>
-                        {if isset($productgroup.description) && $productgroup.description}
+                        {if isset($productgroup) && is_array($productgroup) && isset($productgroup.description) && !empty($productgroup.description)}
                             <p class="text-text-light max-w-3xl mx-auto">{$productgroup.description}</p>
-                        {elseif isset($productgroup.desc) && $productgroup.desc}
+                        {elseif isset($productgroup) && is_array($productgroup) && isset($productgroup.desc) && !empty($productgroup.desc)}
                             <p class="text-text-light max-w-3xl mx-auto">{$productgroup.desc}</p>
                         {/if}
                     </div>
@@ -51,18 +51,18 @@
                                                     </svg>
                                             </div>
                                             <h3 class="text-xl font-orbitron font-semibold text-white mb-3 min-h-[2.5rem] flex items-center justify-center">
-                                                {if isset($product.name) && $product.name}
+                                                {if isset($product) && is_array($product) && isset($product.name) && !empty($product.name)}
                                                     {$product.name}
-                                                {elseif isset($product.productname) && $product.productname}
+                                                {elseif isset($product) && is_array($product) && isset($product.productname) && !empty($product.productname)}
                                                     {$product.productname}
                                                 {else}
                                                     Hosting Plan
                                                 {/if}
                                             </h3>
                                         </div>
-                                        {if isset($product.description) && $product.description}
+                                        {if isset($product) && is_array($product) && isset($product.description) && !empty($product.description)}
                                             <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">{$product.description|strip_tags|truncate:150}</p>
-                                        {elseif isset($product.desc) && $product.desc}
+                                        {elseif isset($product) && is_array($product) && isset($product.desc) && !empty($product.desc)}
                                             <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">{$product.desc|strip_tags|truncate:150}</p>
                                         {else}
                                             <p class="text-text-light text-sm leading-relaxed min-h-[3rem]">Professional hosting solution for your website</p>
@@ -72,23 +72,23 @@
                                     {* Enhanced pricing display with better formatting *}
                                     <div class="text-center mb-6 p-4 bg-dark-bg/50 rounded-lg border border-gray-700/50">
                                         <div class="text-3xl lg:text-4xl font-bold text-neon-green mb-2">
-                                            {if isset($product.pricing) && is_array($product.pricing)}
-                                                {if isset($product.pricing.monthly) && $product.pricing.monthly}
+                                            {if isset($product) && is_array($product) && isset($product.pricing) && is_array($product.pricing)}
+                                                {if isset($product.pricing.monthly) && !empty($product.pricing.monthly)}
                                                     {$product.pricing.monthly}
-                                                {elseif isset($product.pricing.annually) && $product.pricing.annually}
+                                                {elseif isset($product.pricing.annually) && !empty($product.pricing.annually)}
                                                     {$product.pricing.annually}
-                                                {elseif isset($product.pricing.oneoff) && $product.pricing.oneoff}
+                                                {elseif isset($product.pricing.oneoff) && !empty($product.pricing.oneoff)}
                                                     {$product.pricing.oneoff}
-                                                {elseif isset($product.pricing.setup) && $product.pricing.setup}
+                                                {elseif isset($product.pricing.setup) && !empty($product.pricing.setup)}
                                                     {$product.pricing.setup}
                                                 {else}
                                                     Contact Us
                                                 {/if}
-                                            {elseif isset($product.price) && $product.price}
+                                            {elseif isset($product) && is_array($product) && isset($product.price) && !empty($product.price)}
                                                 {$product.price}
-                                            {elseif isset($product.monthly) && $product.monthly}
+                                            {elseif isset($product) && is_array($product) && isset($product.monthly) && !empty($product.monthly)}
                                                 {$product.monthly}
-                                            {elseif isset($product.annually) && $product.annually}
+                                            {elseif isset($product) && is_array($product) && isset($product.annually) && !empty($product.annually)}
                                                 {$product.annually}
                                             {else}
                                                 Contact Us
